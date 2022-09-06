@@ -3,3 +3,4 @@
 Aaron Csetter
 Austin Whittaker
 Morgan Glisson
+Johnathan Smith
