@@ -11,10 +11,10 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,11 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: FormWrapper(
           children: [
-            const FractionallySizedBox(
-                widthFactor: 0.6,
-                child: Image(
-                    image: AssetImage("assets/images/construction-sign.png")
-                )
+            const Image(
+              height: 350,
+                image: AssetImage("assets/images/construction-sign.png")
             ),
             FieldWrapper(
               child: Text("The Team:",

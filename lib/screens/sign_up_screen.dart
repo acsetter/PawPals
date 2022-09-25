@@ -10,7 +10,7 @@ class SignUpScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Sign Up"),
       ),
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Column(

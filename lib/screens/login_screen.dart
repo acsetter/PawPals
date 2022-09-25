@@ -16,10 +16,11 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context).translate("page-titles.login")),
-        ),
-        body: FormWrapper(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context).translate("page-titles.login")),
+      ),
+      body: SingleChildScrollView(
+        child: FormWrapper(
             children: [
               const LoginForm(),
               FieldWrapper(
@@ -27,24 +28,24 @@ class LoginScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
-                          child: TextButton(
-                            style: ButtonStyle(
-                                padding: MaterialStateProperty.all(
-                                    const EdgeInsets.symmetric(vertical: 18.0)
-                                ),
+                        child: TextButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(
+                                const EdgeInsets.symmetric(vertical: 18.0)
                             ),
-                            onPressed: () {
-                              // TODO: Implement password recovery.
-                              print("'Forgot password?' button pressed.");
-                            },
-                            child: Text(AppLocalizations.of(context).translate("btn-labels.forgot-password")),
                           ),
+                          onPressed: () {
+                            // TODO: Implement password recovery.
+                            print("'Forgot password?' button pressed.");
+                          },
+                          child: Text(AppLocalizations.of(context).translate("btn-labels.forgot-password")),
+                        ),
                       ),
                       Expanded(
                         child: OutlinedButton(
                           style: ButtonStyle(
                             side: MaterialStateProperty.all(
-                              BorderSide(color: Theme.of(context).colorScheme.primary, width: 2.0)
+                                BorderSide(color: Theme.of(context).colorScheme.primary, width: 2.0)
                             ),
                             padding: MaterialStateProperty.all(
                                 const EdgeInsets.symmetric(vertical: 18.0)
@@ -60,7 +61,8 @@ class LoginScreen extends StatelessWidget {
                   )
               )
             ]
-        )
+        ),
+      )
     );
   }
 }

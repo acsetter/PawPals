@@ -35,7 +35,7 @@ While developing, I suggest you install Google Chrome and use `CHROME (WEB)` as 
 
 After the app opens in chrome, press `F12`, then press `CTRL` + `Shift` + `M`'. 
 At the top-middle of the tab, you will see a dropdown selection to emeulate the screen dimensions of 
-any device; pick an Android phone is wise. You can hot reload changes within Android Studio by pressing
+any device. You can hot reload changes within Android Studio by pressing
 the lightning-icon or the refresh-icon in the console while the app is running. Any huge crashes or
 changes made outside the `lib` folder will require a full restart of the app.
 

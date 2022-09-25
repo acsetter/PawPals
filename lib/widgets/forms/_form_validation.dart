@@ -32,7 +32,7 @@ mixin FormValidation<T extends StatefulWidget> on State<T> {
   /// Validate password for signup.
   String? newPasswordValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return fetch("errors.empty-email");
+      return fetch("errors.empty-password");
     }
     if (!RegExpressions.eightChars.hasMatch(value)) {
       return fetch("errors.weak-password");
