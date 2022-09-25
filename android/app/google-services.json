@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "731063562821",
+    "project_id": "paw-pals-uncw",
+    "storage_bucket": "paw-pals-uncw.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:731063562821:android:39afce2999ba79d365292c",
+        "android_client_info": {
+          "package_name": "edu.uncw.paw_pals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "731063562821-5k5qce3f2uku4lglhlh7n93i4tsjbg5t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbvUYTUsl3YqWpgzB3gJ_REhmZ5iisWHQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "731063562821-5k5qce3f2uku4lglhlh7n93i4tsjbg5t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

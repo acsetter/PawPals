@@ -1,0 +1,47 @@
+{
+  "btn-labels": {
+    "code": "Enter Code",
+    "cancel": "Cancel",
+    "done": "Done",
+    "forgot-password": "Forgot password?",
+    "login": "Login",
+    "resend": "Resend",
+    "submit": "Submit",
+    "send-code": "Send Code",
+    "sign-up": "Sign Up",
+    "verify": "Verify"
+  },
+  "errors": {
+    "email-already-in-use": "Email already in use.",
+    "empty-email": "Please enter an email.",
+    "empty-first-name": "Please enter your first name.",
+    "empty-last-name": "Please enter your last name.",
+    "empty-password": "Please enter a password.",
+    "empty-retype": "Please retype your password.",
+    "expired-action-code": "Code has expired.",
+    "invalid-action-code": "Invalid code.",
+    "invalid-email": "Not a valid email.",
+    "invalid-email-or-password": "Invalid email or password.",
+    "invalid-name": "Name must only contain letters: A-z.",
+    "mismatched-password": "Password does not match.",
+    "no-lower-char-password": "Password must have a lower-case letter.",
+    "no-number-char-password": "Password must have a number.",
+    "no-special-char-password": "Must have a special-character: #?!@$%^&*|_-.",
+    "no-upper-char-password": "Password must have an upper-case letter.",
+    "unhandled-error": "An unknown error has occurred.",
+    "weak-password": "Password must have 8 characters."
+  },
+  "field-labels": {
+    "email": "Email",
+    "password": "Password",
+    "new-password": "New Password",
+    "retype-password": "Retype Password",
+    "first-name": "First Name",
+    "last-name": "Last Name"
+  },
+  "page-titles": {
+    "login": "Login",
+    "sign-up": "Sign Up",
+    "home": "Home"
+  }
+}
