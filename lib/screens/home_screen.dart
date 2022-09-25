@@ -42,7 +42,7 @@ class HomeScreenState extends State<HomeScreen> {
                   ),
                   TableRow(
                       children: [
-                        Text("")
+                        Text("Morgan Glisson")
                       ]
                   ),
                 ],
