@@ -25,7 +25,7 @@ class HomeScreenState extends State<HomeScreen> {
         child: FormWrapper(
           children: [
             const Image(
-              height: 350,
+              height: 300,
                 image: AssetImage("assets/images/construction-sign.png")
             ),
             FieldWrapper(
@@ -54,6 +54,11 @@ class HomeScreenState extends State<HomeScreen> {
                     children: [
                       Text("Johnathan Smith")
                     ]
+                  ),
+                  TableRow(
+                      children: [
+                        Text("Savannah Evonko")
+                      ]
                   ),
                 ],
               )
