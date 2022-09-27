@@ -49,6 +49,7 @@ class HomeScreenState extends State<HomeScreen> {
                     children: [
                       Text("Austin Whittaker")
                     ]
+                  ),
                 ],
               )
             ),
