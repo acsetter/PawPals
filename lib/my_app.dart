@@ -13,6 +13,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Test App',
+      // home: const AuthWrapper(
+      //     home: HomeScreen(),
+      //     login: LoginScreen()),
       home: const HomeScreen(),
       locale: const Locale("en", "US"),
       localizationsDelegates: const [

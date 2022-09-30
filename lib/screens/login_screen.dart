@@ -8,10 +8,8 @@ import '../widgets/forms/login_form.dart';
 import '../widgets/wrappers/form_wrapper.dart';
 
 class LoginScreen extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
 
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,13 +1,13 @@
 // ignore_for_file: unnecessary_null_comparison
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:paw_pals/screens/login_screen.dart';
-import 'package:paw_pals/screens/home_screen.dart';
 
 /// Directs user to login-screen or home-screen depending on auth status.
 class AuthWrapper extends StatelessWidget {
-  const AuthWrapper({super.key});
+  final Widget login;
+  final Widget home;
+
+  const AuthWrapper({super.key, required this.home, required this.login});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +15,10 @@ class AuthWrapper extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) { // means the user is not null (logged in)
-          return const HomeScreen();
+          return home;
         }
 
-        return LoginScreen(); // show login for null user (not logged in)
+        return login; // show login for null user (not logged in)
       }
     );
   }
