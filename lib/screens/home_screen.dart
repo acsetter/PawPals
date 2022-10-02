@@ -13,6 +13,8 @@ import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
 import 'package:paw_pals/utils/app_localizations.dart';
 
+import 'Feed/feed_screen.dart';
+
 /// The app's home screen. User should be directed here if authenticated
 /// and the contents should be the app's primary content (in this case a feed).
 class HomeScreen extends StatefulWidget {
@@ -118,6 +120,14 @@ class HomeScreenState extends State<HomeScreen> {
                   Get.to(() => const PostScreen());
                 },
                 label: "Posts",
+              ),
+            ),
+            FieldWrapper(
+              child: OurOutlinedButton(
+                onPressed: () {
+                  Get.to(() => const FeedScreen());
+                },
+                label: "Feed Example",
               ),
             ),
           ],
