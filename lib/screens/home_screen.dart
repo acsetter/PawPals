@@ -5,6 +5,9 @@ import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/screens/examples/example_screen.dart';
 import 'package:paw_pals/screens/login_screen.dart';
 import 'package:paw_pals/screens/profile/profile_screen.dart';
+import 'package:paw_pals/screens/post/create_post_screen.dart';
+import 'package:paw_pals/screens/post/liked_post_screen.dart';
+import 'package:paw_pals/screens/post/post_screen.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
@@ -91,6 +94,30 @@ class HomeScreenState extends State<HomeScreen> {
                   Get.to(() => const ProfileScreen());
               },
               label: "My Profile",
+              ),
+            ),
+            FieldWrapper(
+              child: OurOutlinedButton(
+                onPressed: () {
+                  Get.to(() => const CreatePostScreen());
+                },
+                label: "Create Post",
+              ),
+            ),
+            FieldWrapper(
+              child: OurOutlinedButton(
+                onPressed: () {
+                  Get.to(() => const LikedPostScreen());
+                },
+                label: "Liked Posts",
+              ),
+            ),
+            FieldWrapper(
+              child: OurOutlinedButton(
+                onPressed: () {
+                  Get.to(() => const PostScreen());
+                },
+                label: "Posts",
               ),
             ),
           ],
