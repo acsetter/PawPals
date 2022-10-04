@@ -8,13 +8,10 @@ import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
 
 import 'edit_profile_screen.dart';
 
-/// This is an example of a simple screen that extends a [StatelessWidget]
-/// Yes, technically the screen is a widget, but it's best to treat it like
-/// a place to organize widgets.
 class ProfileScreen extends StatelessWidget {
   final String screenTitle = "My Profile";
   final String exampleText = "The My Profile Screen.";
-  final String buttonLabel = "Next Screen";
+  final String buttonLabel = "Edit Profile";
 
   // This is the constructor. All widgets should have a Key key as optional
   // parameter in their constructor. Key is something used by flutter engine

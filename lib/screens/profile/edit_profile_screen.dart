@@ -4,9 +4,7 @@ import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 
-/// This is an example of a simple screen that extends a [StatelessWidget]
-/// Yes, technically the screen is a widget, but it's best to treat it like
-/// a place to organize widgets.
+
 class EditProfileScreen extends StatelessWidget {
   final String screenTitle = "Edit Profile";
   final String exampleText = "The Edit Profile Screen.";

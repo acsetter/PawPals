@@ -96,6 +96,7 @@ class HomeScreenState extends State<HomeScreen> {
                   Get.to(() => const ProfileScreen());
               },
               label: "My Profile",
+              icon: AppIcons.user,
               ),
             ),
             FieldWrapper(
