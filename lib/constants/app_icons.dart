@@ -16,4 +16,12 @@ class AppIcons {
   static Icon get signUp => const Icon(Icons.launch);
   static Icon get visibility => const Icon(Icons.visibility);
   static Icon get visibilityOff => const Icon(Icons.visibility_off);
+  static Icon get feed => const Icon(Icons.dynamic_feed);
+  static Icon get likedPosts => const Icon(Icons.recommend);
+  static Icon get profile => const Icon(Icons.account_circle);
+  static Icon get newPost => const Icon(Icons.post_add);
+  static IconData get feedIconData => (Icons.dynamic_feed);
+  static IconData get likedPostsIconData => (Icons.recommend);
+  static IconData get profileIconData => (Icons.account_circle);
+  static IconData get newPostIconData => (Icons.post_add);
 }

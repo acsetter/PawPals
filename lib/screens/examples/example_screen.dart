@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:navbar_router/navbar_router.dart';
 
 import 'package:paw_pals/screens/examples/example_stack_screen.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
+import 'package:paw_pals/widgets/bars/our_nav_bar/nav_routes.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
@@ -41,6 +43,9 @@ class ExampleScreen extends StatelessWidget {
                   // You can keep stacking screens by calling
                   // `Get.to(() => MyNextScreen())` on subsequent screens.
                   Get.to(() => const ExampleStackScreen());
+                  
+                  // The new navigation required for the NavBar
+                  // navigate(context, Temp_Home_Screen_Navigators.route_example_stack_screen, isRootNavigator: false);
                 },
                 label: buttonLabel
             ),

@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:navbar_router/navbar_router.dart';
 
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
+import 'package:paw_pals/widgets/bars/our_nav_bar/nav_routes.dart';
+import 'package:paw_pals/widgets/bars/our_nav_bar/our_nav_bar.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
 
 import 'edit_profile_screen.dart';
 
+/// This is an example of a simple screen that extends a [StatelessWidget]
+/// Yes, technically the screen is a widget, but it's best to treat it like
+/// a place to organize widgets.
 class ProfileScreen extends StatelessWidget {
   final String screenTitle = "My Profile";
   final String exampleText = "The My Profile Screen.";
@@ -38,7 +44,10 @@ class ProfileScreen extends StatelessWidget {
                     // This adds a page to the stack and displays the next screen.
                     // You can keep stacking screens by calling
                     // `Get.to(() => MyNextScreen())` on subsequent screens.
-                    Get.to(() => const EditProfileScreen());
+                    //Get.to(() => const EditProfileScreen());
+
+                  // The new navigation required for the NavBar
+                  navigate(context, Profile_Screen_Navigators.route_edit_profile_screen, isRootNavigator: false);  
                   },
                   label: buttonLabel
               ),

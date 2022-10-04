@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:navbar_router/navbar_router.dart';
 import 'package:paw_pals/screens/Feed/went_left.dart';
 import 'package:paw_pals/screens/Feed/went_right.dart';
+import 'package:paw_pals/screens/home_screen.dart';
 
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
+import 'package:paw_pals/widgets/bars/our_nav_bar/nav_routes.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
@@ -45,6 +48,9 @@ class FeedScreen extends StatelessWidget {
                     // You can keep stacking screens by calling
                     // `Get.to(() => MyNextScreen())` on subsequent screens.
                     Get.to(() => const LeftScreen());
+
+                  // The new navigation required for the NavBar
+                  // navigate(context, Temp_Home_Screen_Navigators.route_left, isRootNavigator: false);
                   },
                   label: buttonLabelLeft
 
@@ -59,6 +65,9 @@ class FeedScreen extends StatelessWidget {
                     // You can keep stacking screens by calling
                     // `Get.to(() => MyNextScreen())` on subsequent screens.
                     Get.to(() => const RightScreen());
+
+                  // The new navigation required for the NavBar
+                  // navigate(context, Temp_Home_Screen_Navigators.route_right, isRootNavigator: false);
                   },
                   label: buttonLabelRight
 
