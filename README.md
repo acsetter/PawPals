@@ -3,9 +3,11 @@
 ## Dependencies:
 * [Firebase Auth](https://firebase.google.com/docs/auth/flutter/start)
 * [Firebase Storage](https://firebase.google.com/docs/storage/flutter/start)
-* [Firebase Database](https://firebase.google.com/docs/database/flutter/start)
+* [Firebase Firestore](https://firebase.google.com/docs/firestore)
 * [deep_pick](https://pub.dev/packages/deep_pick)
 * [GetX](https://pub.dev/packages/get)
+* [GeoHash Flutter](https://pub.dev/packages/flutter_geo_hash)
+* [Flutter Location Plugin](https://pub.dev/packages/location)
 
 ## Getting Started:
 

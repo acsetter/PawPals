@@ -39,10 +39,11 @@ dependencies:
   firebase_core: ^1.23.0
   firebase_auth: ^3.10.0
   firebase_storage: ^10.3.9
-  firebase_database: ^9.1.5
   deep_pick: ^0.10.0
   get: ^4.6.5
-  navbar_router: ^0.3.2
+  cloud_firestore: ^3.5.0
+  flutter_geo_hash: ^0.0.4
+  location: ^4.4.0
 
 dev_dependencies:
   flutter_test:

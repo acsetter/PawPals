@@ -1,15 +1,16 @@
-import 'dart:developer' as developer;
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../utils/app_log.dart';
 
 /// A service class to manage Firebase auth and handle auth errors.
 class AuthService {
+  static FirebaseAuth get _auth => FirebaseAuth.instance;
+  static User? get _user => _auth.currentUser;
+
   /// Signs a user out of the app. If successful, it also updates any
   /// authStateChanges, idTokenChanges or userChanges stream listeners.
   static Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
+    await _auth.signOut();
   }
 
   /// Attempts to sign in a user with the given email address and password.
@@ -29,7 +30,7 @@ class AuthService {
   static Future<String> signIn(
       {required String email, required String password}) async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       Logger.log('Logged in as: ${FirebaseAuth.instance.currentUser?.email ?? "error getting email"}');
       return "";
@@ -64,9 +65,9 @@ class AuthService {
   static Future<String> signUp(
       {required String email, required String password}) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      Logger.log('Signed up in as: ${FirebaseAuth.instance.currentUser?.email ?? "error getting email"}');
+      Logger.log('Signed up in as: ${_user?.email ?? "error getting email"}');
       return "";
     } on FirebaseAuthException catch (e) {
       Logger.log('${e.code}: ${e.message}', isError: true);
@@ -108,7 +109,7 @@ class AuthService {
   ///   Thrown if there is no user corresponding to the email address.
   static Future<String> sendCode({required String email}) async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      await _auth.sendPasswordResetEmail(email: email);
       return "code-sent";
     } on FirebaseAuthException catch (e) {
       Logger.log('${e.code}: ${e.message}', isError: true);
@@ -143,7 +144,7 @@ class AuthService {
   ///    was issued and when this method was called.
   static Future<String> verifyCode({required String code}) async {
     try {
-      await FirebaseAuth.instance.verifyPasswordResetCode(code);
+      await _auth.verifyPasswordResetCode(code);
       return 'code verified';
     } on FirebaseAuthException catch (e) {
       Logger.log('${e.code}: ${e.message}', isError: true);

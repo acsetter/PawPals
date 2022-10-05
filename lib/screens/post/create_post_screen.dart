@@ -34,7 +34,7 @@ class CreatePostScreen extends StatelessWidget {
             ),
             FieldWrapper(
               child: OurOutlinedButton(
-                // method evoked when a user presses this button
+                // method invoked when a user presses this button
                   onPressed: () {
                     // This adds a page to the stack and displays the next screen.
                     // You can keep stacking screens by calling
