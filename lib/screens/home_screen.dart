@@ -8,10 +8,11 @@ import 'package:paw_pals/screens/profile/profile_screen.dart';
 import 'package:paw_pals/screens/post/create_post_screen.dart';
 import 'package:paw_pals/screens/post/liked_post_screen.dart';
 import 'package:paw_pals/screens/post/post_screen.dart';
+import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
-import 'package:paw_pals/widgets/wrappers/screen_wrapper.dart';
+import 'package:paw_pals/widgets/wrappers/navbar.dart';
 
 import 'Feed/feed_screen.dart';
 
@@ -27,9 +28,8 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return ScreenWrapper(
-      title: "Home Screen",
-      navbarIndex: 0,
+    return Scaffold(
+      appBar: OurAppBar.build("Home"),
       body: SingleChildScrollView(
         child: FormWrapper(
           children: [

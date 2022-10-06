@@ -3,6 +3,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:paw_pals/constants/app_theme.dart';
 import 'package:paw_pals/screens/home_screen.dart';
 import 'package:paw_pals/utils/app_localizations.dart';
+import 'package:paw_pals/widgets/wrappers/navbar.dart';
 
 /// Root of the application.
 class MyApp extends StatelessWidget {
@@ -18,6 +19,15 @@ class MyApp extends StatelessWidget {
       //     login: LoginScreen()),
       home: const HomeScreen(),  // Changed from Home
       locale: const Locale("en", "US"),
+      builder: (context, child) {
+        return Overlay(
+          initialEntries: [
+            OverlayEntry(
+                builder: (context) => Navbar(child: child)
+            )
+          ],
+        );
+      },
       localizationsDelegates: const [
         AppLocalizations.delegate
       ],
