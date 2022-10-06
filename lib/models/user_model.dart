@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/// Model that defines the user data stored in the database.
 class UserModel {
   final String? uid;
   String? email;
@@ -7,7 +8,7 @@ class UserModel {
   String? first;
   String? last;
   String? photoUrl;
-  int? date;
+  int? timestamp;
 
   UserModel({
     required this.uid,
@@ -16,7 +17,7 @@ class UserModel {
     this.first,
     this.last,
     this.photoUrl,
-    this.date
+    this.timestamp
   });
 
   factory UserModel.fromFirestore(
@@ -31,7 +32,7 @@ class UserModel {
         first: data?["first"],
         last: data?["last"],
         photoUrl: data?["photoUrl"],
-        date: data?["date"]
+        timestamp: data?["timestamp"]
     );
   }
 
@@ -39,6 +40,8 @@ class UserModel {
     "username": username,
     "first": first,
     "last": last,
+    "photoUrl": photoUrl,
+    "timestamp": timestamp
   };
 
   // static List<UserModel> listFromJson(list) =>
