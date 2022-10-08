@@ -53,6 +53,17 @@ mixin FormValidation<T extends StatefulWidget> on State<T> {
     return null;
   }
 
+  String? usernameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return fetch("errors.empty-username");
+    }
+    if (!RegExpressions.username.hasMatch(value)) {
+      return fetch("errors.invalid-username");
+    }
+
+    return null;
+  }
+
   String? firstNameValidator(String? value) {
     if (value == null || value.isEmpty) {
       return fetch("errors.empty-first-name");

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-/// Model that defines the user data stored in the database.
+/// Model that defines the user data stored in the database. <br/>
+/// **WARNING:** [UserModel] fields are not null-safe and need to be handled as such.
 class UserModel {
   final String? uid;
   String? email;
@@ -20,6 +21,7 @@ class UserModel {
     this.timestamp
   });
 
+  /// Converts a [DocumentSnapshot] from [FirebaseFirestore] to a [UserModel].
   factory UserModel.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options
@@ -36,12 +38,24 @@ class UserModel {
     );
   }
 
+  /// Converts the [UserModel] to json with including all non-null fields.
   Map<String, dynamic> toFirestore() => {
-    "username": username,
-    "first": first,
-    "last": last,
-    "photoUrl": photoUrl,
-    "timestamp": timestamp
+    "uid": uid,
+    if (username != null) "username": username,
+    if (email != null) "email": email,
+    if (first != null) "first": first,
+    if (last != null) "last": last,
+    if (photoUrl != null) "photoUrl": photoUrl,
+    if (timestamp!= null) "timestamp": timestamp
+  };
+
+  /// Converts the [UserModel] to json excluding fields unsafe to edit.
+  Map<String, dynamic> toFirestoreUpdate() => {
+    // TODO: Discuss if username should be editable with team.
+    // if (username != null) "username": username,
+    if (first != null) "first": first,
+    if (last != null) "last": last,
+    if (photoUrl != null) "photoUrl": photoUrl,
   };
 
   // static List<UserModel> listFromJson(list) =>

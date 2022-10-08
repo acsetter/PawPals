@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:paw_pals/models/user_model.dart';
+import 'package:paw_pals/services/firestore_service.dart';
 
 import '../utils/app_log.dart';
 
@@ -62,12 +64,27 @@ class AuthService {
   ///    email/password accounts in the Firebase Console, under the Auth tab.
   /// - **weak-password**:
   ///  - Thrown if the password is not strong enough.
-  static Future<String> signUp(
-      {required String email, required String password}) async {
+  static Future<String> signUp({
+    required String email, 
+    required String password, 
+    required String username, 
+    String? first, 
+    String? last}) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      Logger.log('Signed up in as: ${_user?.email ?? "error getting email"}');
+      await _auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((res) async {
+          FirestoreService.createUser(
+            UserModel(
+              uid: res.user?.uid,
+              email: email,
+              username: username,
+              first: first,
+              last: last,
+            )
+          );
+        });
+      Logger.log('Signed up as: ${_user?.email ?? "error getting email"}');
       return "";
     } on FirebaseAuthException catch (e) {
       Logger.log('${e.code}: ${e.message}', isError: true);

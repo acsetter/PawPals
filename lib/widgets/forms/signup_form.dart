@@ -17,6 +17,7 @@ class SignUpForm extends StatefulWidget {
 class SignUpFormState extends State<SignUpForm> with FormValidation {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -33,10 +34,17 @@ class SignUpFormState extends State<SignUpForm> with FormValidation {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          OurTextField(controller: emailController,
+          OurTextField(
+            controller: emailController,
             labelText: fetch("field-labels.email"),
             validator: emailValidator,
             icon: AppIcons.email
+          ),
+          OurTextField(
+            controller: usernameController,
+            labelText: fetch("field-labels.username"),
+            validator: usernameValidator,
+            icon: AppIcons.username,
           ),
           NewPasswordField(
             controller: passwordController,
@@ -66,6 +74,9 @@ class SignUpFormState extends State<SignUpForm> with FormValidation {
                       AuthService.signUp(
                         email: emailController.text.trim(),
                         password: passwordController.text.trim(),
+                        username: usernameController.text.trim(),
+                        first: firstNameController.text.trim(),
+                        last: lastNameController.text.trim()
                       );
                     }
                   },

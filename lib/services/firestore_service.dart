@@ -15,7 +15,7 @@ class FirestoreService {
   static FirebaseFirestore get _db => FirebaseFirestore.instance;
 
   /// [DocumentReference] to the current user
-  static DocumentReference<UserModel> get _userRef => _db.collection('user')
+  static DocumentReference<UserModel> get _userRef => _db.collection('users')
       .doc(_uid)
       .withConverter(
     fromFirestore: UserModel.fromFirestore,
@@ -40,14 +40,43 @@ class FirestoreService {
     return docSnap.data();
   }
 
-  /// Creates or Overwrites the User
-  static Future<void> setUser(UserModel userModel) async {
-    if (_uid == null || userModel.uid == null || userModel.uid != _uid) {
+  /// Creates a User document from a [UserModel] in the Firestore Database.
+  /// [UserModel.uid] is required to create the doc in the database.
+  /// This method should only be called on user sign-up.
+  static Future<void> createUser(UserModel userModel) async {
+    // Restrict creating/overwriting if not authorized.
+    if (_uid == null || userModel.uid == null) {
       Logger.log("No User is logged into Firebase Auth.", isError: true);
       return;
     }
-
+    if (userModel.uid != _uid) {
+      Logger.log("User being created does not match the user logged in", isError: true);
+      return;
+    }
+    // Set the timestamp to the moment the account was created.
+    userModel.timestamp = DateTime.now().microsecondsSinceEpoch;
     await _userRef.set(userModel);
+  }
+
+  /// Updates a User from a [UserModel] in the Firestore Database. <br/>
+  /// **Note:** only the following fields are considered editable. All other
+  /// fields will **NOT** be overwritten by this method:
+  /// * [UserModel.first]
+  /// * [UserModel.last]
+  /// * [UserModel.photoUrl]
+  static Future<void> updateUser(UserModel userModel) async {
+    // Restrict creating/overwriting if not authorized.
+    if (_uid == null || userModel.uid == null) {
+      Logger.log("No User is logged into Firebase Auth.", isError: true);
+      return;
+    }
+    if (userModel.uid != _uid) {
+      Logger.log("User being updated does not match the user logged in", isError: true);
+      return;
+    }
+
+    _userRef.update(userModel.toFirestoreUpdate());
+
   }
 
   static Future<PostModel?> getPostById(String postId) async {

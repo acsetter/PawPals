@@ -18,11 +18,13 @@
     "empty-last-name": "Please enter your last name.",
     "empty-password": "Please enter a password.",
     "empty-retype": "Please retype your password.",
+    "empty-username": "Please enter a username.",
     "expired-action-code": "Code has expired.",
     "invalid-action-code": "Invalid code.",
     "invalid-email": "Not a valid email.",
     "invalid-email-or-password": "Invalid email or password.",
     "invalid-name": "Name must only contain letters: A-z.",
+    "invalid-username": "Username can only letters, numbers, -, and _.",
     "mismatched-password": "Password does not match.",
     "no-lower-char-password": "Password must have a lower-case letter.",
     "no-number-char-password": "Password must have a number.",
@@ -37,7 +39,8 @@
     "new-password": "New Password",
     "retype-password": "Retype Password",
     "first-name": "First Name",
-    "last-name": "Last Name"
+    "last-name": "Last Name",
+    "username": "Username"
   },
   "page-titles": {
     "login": "Login",
