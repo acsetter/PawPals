@@ -37,13 +37,13 @@ class LoginFormState extends State<LoginForm> with FormValidation {
             children: [
               OurTextField(
                 controller: emailController,
-                labelText: fetch("field-labels.email"),
+                labelText: translate("field-labels.email"),
                 validator: emailValidator,
                 icon: AppIcons.email,
               ),
               OurTextField(
                 controller: passwordController,
-                labelText: fetch("field-labels.password"),
+                labelText: translate("field-labels.password"),
                 validator: passwordValidator,
                 icon: AppIcons.password,
                 hideText: true,
@@ -63,7 +63,7 @@ class LoginFormState extends State<LoginForm> with FormValidation {
                             );
                           }
                         },
-                        label: fetch("btn-labels.login"),
+                        label: translate("btn-labels.login"),
                       )
                     ],
                   )

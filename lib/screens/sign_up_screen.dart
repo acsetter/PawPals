@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../widgets/forms/signup_form.dart';
-import '../widgets/wrappers/form_wrapper.dart';
+
+import 'package:paw_pals/widgets/forms/signup_form.dart';
+import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -14,7 +15,7 @@ class SignUpScreen extends StatelessWidget {
       body: const SingleChildScrollView(
         child: FormWrapper(
           children: [
-            SignUpForm()
+            SignUpForm(),
           ],
         ),
       ),

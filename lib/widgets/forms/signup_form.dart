@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:paw_pals/constants/app_icons.dart';
+import 'package:paw_pals/constants/app_info.dart';
+import 'package:paw_pals/screens/temp_user_screen.dart';
 import 'package:paw_pals/services/auth_service.dart';
 import 'package:paw_pals/widgets/buttons/contained_button.dart';
 import 'package:paw_pals/widgets/fields/new_password_field.dart';
@@ -36,31 +40,36 @@ class SignUpFormState extends State<SignUpForm> with FormValidation {
         children: [
           OurTextField(
             controller: emailController,
-            labelText: fetch("field-labels.email"),
+            labelText: translate("field-labels.email"),
             validator: emailValidator,
-            icon: AppIcons.email
+            icon: AppIcons.email,
+            maxLength: AppInfo.maxEmailLength,
           ),
           OurTextField(
             controller: usernameController,
-            labelText: fetch("field-labels.username"),
+            labelText: translate("field-labels.username"),
             validator: usernameValidator,
             icon: AppIcons.username,
+            maxLength: AppInfo.maxUsernameLength,
+            showCounter: true,
           ),
           NewPasswordField(
             controller: passwordController,
             validator: newPasswordValidator,
           ),
           OurTextField(
-            labelText: fetch("field-labels.first-name"),
+            labelText: translate("field-labels.first-name"),
             validator: firstNameValidator,
             controller: firstNameController,
             icon: AppIcons.user,
+            maxLength: AppInfo.maxNameLength,
           ),
           OurTextField(
-            labelText: fetch("field-labels.last-name"),
+            labelText: translate("field-labels.last-name"),
             validator: lastNameValidator,
             controller: lastNameController,
             icon: AppIcons.users,
+            maxLength: AppInfo.maxNameLength,
           ),
           FieldWrapper(
             child: Column(
@@ -77,10 +86,20 @@ class SignUpFormState extends State<SignUpForm> with FormValidation {
                         username: usernameController.text.trim(),
                         first: firstNameController.text.trim(),
                         last: lastNameController.text.trim()
-                      );
+                      ).then((String val) {
+                        if (val.isNotEmpty) {
+                          Get.snackbar("Error:", translate('errors.$val'),
+                              snackPosition: SnackPosition.BOTTOM,
+                              duration: const Duration(seconds: 7),
+                              colorText: Theme.of(context).errorColor
+                          );
+                        } else {
+                          Get.off(const TempUserScreen());
+                        }
+                      });
                     }
                   },
-                  label: fetch("btn-labels.sign-up"),
+                  label: translate("btn-labels.sign-up"),
                 )
               ],
             )

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
@@ -16,6 +15,8 @@ class OurTextField extends StatefulWidget {
   final Icon? icon;
   final bool hideText;
   final bool? autocorrect;
+  final int? maxLength;
+  final bool showCounter;
 
   const OurTextField({
     super.key,
@@ -23,9 +24,12 @@ class OurTextField extends StatefulWidget {
     required this.validator,
     this.controller,
     this.icon,
+    this.autocorrect,
+    this.maxLength,
     hideText,
-    this.autocorrect
-  }): hideText = hideText ?? false;
+    showCounter
+  }): hideText = hideText ?? false,
+      showCounter = showCounter ?? false;
 
   @override
   State<StatefulWidget> createState() => OurTextFieldState();
@@ -40,6 +44,7 @@ class OurTextFieldState extends State<OurTextField> {
       border: const OutlineInputBorder(),
       labelText: _textField.labelText,
       helperText: "",
+      counterText: !_textField.showCounter ? "" : null,
       icon: _textField.icon,
       isDense: false
     );
@@ -78,6 +83,7 @@ class OurTextFieldState extends State<OurTextField> {
           validator: _textField.validator,
           obscureText: _textField.hideText ? !isVisible : false,
           autocorrect: _textField.autocorrect ?? true,
+          maxLength: _textField.maxLength,
         )
     );
   }

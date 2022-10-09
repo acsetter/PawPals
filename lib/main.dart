@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:paw_pals/utils/app_log.dart';
-import 'firebase_options.dart';
-import 'my_app.dart';
+import 'package:paw_pals/firebase_options.dart';
+import 'package:paw_pals/my_app.dart';
 
 /// Main entry point into the application.
 Future<void> main() async {

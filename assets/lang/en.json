@@ -31,6 +31,7 @@
     "no-special-char-password": "Must have a special-character: #?!@$%^&*|_-.",
     "no-upper-char-password": "Password must have an upper-case letter.",
     "unhandled-error": "An unknown error has occurred.",
+    "username-taken": "Username already in use.",
     "weak-password": "Password must have 8 characters."
   },
   "field-labels": {

@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/services/firestore_service.dart';
-
-import '../utils/app_log.dart';
+import 'package:paw_pals/utils/app_log.dart';
 
 /// A service class to manage Firebase auth and handle auth errors.
 class AuthService {
@@ -71,6 +71,11 @@ class AuthService {
     String? first, 
     String? last}) async {
     try {
+      bool? isUnameUnique = await FirestoreService.isUsernameUnique(username);
+      // ^ returns null if an error occurred when querying database
+      if (isUnameUnique == null) return "unhandled-error";
+      if (!isUnameUnique) return "username-taken";
+
       await _auth
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((res) async {
@@ -84,7 +89,7 @@ class AuthService {
             )
           );
         });
-      Logger.log('Signed up as: ${_user?.email ?? "error getting email"}');
+      Logger.log("Auth entry created for ${_user?.email}");
       return "";
     } on FirebaseAuthException catch (e) {
       Logger.log('${e.code}: ${e.message}', isError: true);
