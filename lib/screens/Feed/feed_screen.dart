@@ -20,7 +20,7 @@ import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
 
 class FeedScreen extends StatelessWidget {
   final String screenTitle = "Feed Screen";
-  final String exampleText = "Feed Would be imported Here\n\n\n\n\n\n\n\n\n\n\n";
+  //final String exampleText = "Feed Would be imported Here\n\n\n\n\n\n\n\n\n\n\n";
   //final String buttonLabelLeft = "left swipe (For Later)";
   //final String buttonLabelRight = "right swipe (For Later)";
 
@@ -44,11 +44,16 @@ class FeedScreen extends StatelessWidget {
             feedback: ScreenCards(color: Colors.red,),
             childWhenDragging: ScreenCards(color: Colors.blue,),
             onDragEnd: (drag){
-              if (drag.velocity.pixelsPerSecond.dx <0 ){
-                print('Swiped left');
-              } else {
+              if (drag.velocity.pixelsPerSecond.dx >-20 &&
+                  drag.velocity.pixelsPerSecond.dx < 20 ){
+                print('Stay');
+
+              } else if (drag.velocity.pixelsPerSecond.dx > 20 ) {
                 print('Swiped right');
+              } else  {
+                print('Swiped left');
               }
+
             },
           )
         ]
