@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:paw_pals/widgets/screencards.dart';
+
 
 import 'package:paw_pals/screens/Feed/went_left.dart';
 import 'package:paw_pals/screens/Feed/went_right.dart';
@@ -11,11 +13,16 @@ import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
 /// This is an example of a simple screen that extends a [StatelessWidget]
 /// Yes, technically the screen is a widget, but it's best to treat it like
 /// a place to organize widgets.
+///
+///
+
+
+
 class FeedScreen extends StatelessWidget {
   final String screenTitle = "Feed Screen";
-  final String exampleText = "Feed Would be imported Here";
-  final String buttonLabelLeft = "left swipe (For Later)";
-  final String buttonLabelRight = "right swipe (For Later)";
+  final String exampleText = "Feed Would be imported Here\n\n\n\n\n\n\n\n\n\n\n";
+  //final String buttonLabelLeft = "left swipe (For Later)";
+  //final String buttonLabelRight = "right swipe (For Later)";
 
 
   // This is the constructor. All widgets should have a Key key as optional
@@ -29,49 +36,25 @@ class FeedScreen extends StatelessWidget {
     // Every screen will use a scaffold as the outer-most widget.
     return Scaffold(
       // The bar that goes across the top of the screen:
-        appBar: OurAppBar.build(screenTitle),
-        // The main body of the Screen:
-        body: FormWrapper(
-          children: [
-            FieldWrapper(
-              child: Text(exampleText, textAlign: TextAlign.center),
-            ),
-            FieldWrapper(
-              child: OurOutlinedButton(
-                // method evoked when a user presses this button
-                  onPressed: () {
-
-                    // This adds a page to the stack and displays the next screen.
-                    // You can keep stacking screens by calling
-                    // `Get.to(() => MyNextScreen())` on subsequent screens.
-                    Get.to(() => const LeftScreen());
-
-                  // The new navigation required for the NavBar
-                  // navigate(context, Temp_Home_Screen_Navigators.route_left, isRootNavigator: false);
-                  },
-                  label: buttonLabelLeft
-
-
-              ),
-            ),
-            FieldWrapper(
-              child: OurOutlinedButton(
-                // method invoked when a user presses this button
-                  onPressed: () {
-                    // This adds a page to the stack and displays the next screen.
-                    // You can keep stacking screens by calling
-                    // `Get.to(() => MyNextScreen())` on subsequent screens.
-                    Get.to(() => const RightScreen());
-
-                  // The new navigation required for the NavBar
-                  // navigate(context, Temp_Home_Screen_Navigators.route_right, isRootNavigator: false);
-                  },
-                  label: buttonLabelRight
-
-              ),
-            )
-          ],
-        )
+      appBar: OurAppBar.build(screenTitle),
+      body: Column(
+        children: [
+          Draggable(
+            child: ScreenCards(color: Colors.red,),
+            feedback: ScreenCards(color: Colors.red,),
+            childWhenDragging: ScreenCards(color: Colors.blue,),
+            onDragEnd: (drag){
+              if (drag.velocity.pixelsPerSecond.dx <0 ){
+                print('Swiped left');
+              } else {
+                print('Swiped right');
+              }
+            },
+          )
+        ]
+      )
     );
+
+
   }
 }
