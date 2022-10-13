@@ -17,6 +17,7 @@ class AppIcons {
   static Icon get visibility => const Icon(Icons.visibility);
   static Icon get visibilityOff => const Icon(Icons.visibility_off);
   static Icon get feed => const Icon(Icons.home);
+  static Icon get edit => const Icon(Icons.edit);
 
   static Icon get likedPostsInactive => const Icon(Icons.favorite_border);
   static Icon get likedPostsActive => const Icon(Icons.favorite);
