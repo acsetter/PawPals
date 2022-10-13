@@ -36,13 +36,32 @@ class ScreenCards extends StatelessWidget {
         width: MediaQuery.of(context).size.width /1.2,
         child: Stack(
           children: [
-
             Container(
               decoration: BoxDecoration(
                 color: color,
                 borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 4,
+                  blurRadius: 4,
+                  offset: Offset(3,3),
+                  )
+                ]
               ),
-        )
+        ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.0),
+                gradient: const LinearGradient(
+                  colors: [
+                    Color.fromARGB(200, 0, 0, 0),
+                    Color.fromARGB(0, 0, 0, 0),
+                  ],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                )
+              ),
+            )
 
       ],
     )
