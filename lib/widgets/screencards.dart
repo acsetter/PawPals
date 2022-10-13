@@ -32,7 +32,7 @@ class ScreenCards extends StatelessWidget {
             right:30
         ),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height /1.6,
+        height: MediaQuery.of(context).size.height /1.45,
         width: MediaQuery.of(context).size.width /1.2,
         child: Stack(
           children: [
@@ -41,7 +41,7 @@ class ScreenCards extends StatelessWidget {
                 color: color,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
-                  BoxShadow(color: Colors.grey.withOpacity(0.5),
+                  BoxShadow(color: Colors.grey.withOpacity(1.0),
                   spreadRadius: 4,
                   blurRadius: 4,
                   offset: Offset(3,3),
@@ -51,18 +51,39 @@ class ScreenCards extends StatelessWidget {
         ),
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5.0),
+                borderRadius: BorderRadius.circular(20.0),
                 gradient: const LinearGradient(
                   colors: [
-                    Color.fromARGB(200, 0, 0, 0),
+                    Color.fromARGB(185, 0, 0, 0),
                     Color.fromARGB(0, 0, 0, 0),
                   ],
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                 )
               ),
+            ),
+            Positioned(
+              bottom: 30,
+              left: 20,
+              child:Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Name, Age',
+                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                    color: Colors.white,
+                  )
+                ),
+                Text(
+                    'Description\n',
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                    )
+                )
+              ],
             )
-
+            )
       ],
     )
     )

@@ -44,13 +44,16 @@ class FeedScreen extends StatelessWidget {
             feedback: ScreenCards(color: Colors.red,),
             childWhenDragging: ScreenCards(color: Colors.blue,),
             onDragEnd: (drag){
-              if (drag.velocity.pixelsPerSecond.distance == 0 ){
+              if (drag.velocity.pixelsPerSecond.dx < 500 &&
+                  drag.velocity.pixelsPerSecond.dx > -500){
                 print('Stay');
 
-              } else if (drag.velocity.pixelsPerSecond.distance < 0 ) {
+              } else if (drag.velocity.pixelsPerSecond.dx >500 ) {
                 print('Swiped right');
               } else  {
+                print('Swiped left');
                 print(drag.velocity.pixelsPerSecond.dx);
+                print(drag.velocity.pixelsPerSecond.distance);
                 print(drag.velocity.pixelsPerSecond.direction);
               }
 
