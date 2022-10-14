@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paw_pals/widgets/screencards.dart';
@@ -17,9 +18,9 @@ import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
 ///
 
 
-
 class FeedScreen extends StatelessWidget {
   final String screenTitle = "Feed Screen";
+
   //final String exampleText = "Feed Would be imported Here\n\n\n\n\n\n\n\n\n\n\n";
   //final String buttonLabelLeft = "left swipe (For Later)";
   //final String buttonLabelRight = "right swipe (For Later)";
@@ -30,15 +31,21 @@ class FeedScreen extends StatelessWidget {
   // at the step of recognizing which widget in a list as changed.
   const FeedScreen({super.key});
 
+
+
+
+
   // You must call @override on the build method
   @override
   Widget build(BuildContext context) {
     // Every screen will use a scaffold as the outer-most widget.
     return Scaffold(
       // The bar that goes across the top of the screen:
+
       appBar: OurAppBar.build(screenTitle),
       body: Column(
         children: [
+
           Draggable(
             child: ScreenCards(color: Colors.red,),
             feedback: ScreenCards(color: Colors.red,),
@@ -46,9 +53,11 @@ class FeedScreen extends StatelessWidget {
             onDragEnd: (drag){
               if (drag.velocity.pixelsPerSecond.dx < 500 &&
                   drag.velocity.pixelsPerSecond.dx > -500){
+
                 print('Stay');
 
               } else if (drag.velocity.pixelsPerSecond.dx >500 ) {
+
                 print('Swiped right');
               } else  {
                 print('Swiped left');
