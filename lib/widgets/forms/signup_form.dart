@@ -108,4 +108,14 @@ class SignUpFormState extends State<SignUpForm> with FormValidation {
       )
     );
   }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    usernameController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    super.dispose();
+  }
 }

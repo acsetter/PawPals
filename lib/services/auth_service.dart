@@ -52,18 +52,21 @@ class AuthService {
   }
 
   /// Tries to create a new user account with the given email address and
-  /// password.
+  /// password. Returns an empty String if successful or an error-message code.
   ///
-  /// A [FirebaseAuthException] maybe thrown with the following error code:
-  /// - **email-already-in-use**:
-  ///  - Thrown if there already exists an account with the given email address.
-  /// - **invalid-email**:
-  ///  - Thrown if the email address is not valid.
-  /// - **operation-not-allowed**:
-  ///  - Thrown if email/password accounts are not enabled. Enable
-  ///    email/password accounts in the Firebase Console, under the Auth tab.
-  /// - **weak-password**:
-  ///  - Thrown if the password is not strong enough.
+  /// Error codes: <br/>
+  /// > **email-already-in-use**: There already exists an account with the
+  /// given email address.
+  ///
+  /// > **invalid-email**: The email address is not valid.
+  ///
+  /// > **unhandled-error**: An error occurred that no corresponding code has
+  /// been made for.
+  ///
+  /// > **username-taken**: Username is taken by another account and cannot be
+  /// claimed on sign up.
+  ///
+  /// > **weak-password**: The password is not strong enough.
   static Future<String> signUp({
     required String email, 
     required String password, 
@@ -97,6 +100,7 @@ class AuthService {
         case "email-already-in-use":
         case "invalid-email":
         case "weak-password":
+          // Code is the same as the error message key for translation
           return e.code;
         case "operation-not-allowed":
         default:

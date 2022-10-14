@@ -50,7 +50,7 @@ class OurTextFieldState extends State<OurTextField> {
     );
 
     // Add an input visibility toggle button when field hides text:
-    if (_textField.hideText ?? false) {
+    if (_textField.hideText) {
       return base.copyWith(
         suffixIcon: IconButton(
           icon: isVisible ? AppIcons.visibilityOff : AppIcons.visibility,

@@ -58,6 +58,16 @@ class UserModel {
     if (photoUrl != null) "photoUrl": photoUrl,
   };
 
+  bool isEqualTo(UserModel userModel) {
+    return uid == userModel.uid &&
+      username == userModel.username &&
+      email == userModel.email &&
+      first == userModel.first &&
+      last == userModel.last &&
+      photoUrl == userModel.photoUrl &&
+      timestamp == userModel.timestamp;
+  }
+
   // static List<UserModel> listFromJson(list) =>
   //     List<UserModel>.from(list.map((x) => UserModel.fromJson(snapshot: x)));
 }

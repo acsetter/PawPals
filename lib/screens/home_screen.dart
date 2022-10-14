@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/screens/dashboard/dashboard_screen.dart';
-import 'package:paw_pals/screens/login_screen.dart';
 import 'package:paw_pals/screens/profile/profile_screen.dart';
 import 'package:paw_pals/screens/post/create_post_screen.dart';
 import 'package:paw_pals/screens/post/liked_post_screen.dart';
@@ -13,7 +12,6 @@ import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
-import 'package:paw_pals/widgets/wrappers/navbar.dart';
 
 import 'Feed/feed_screen.dart';
 
@@ -41,7 +39,7 @@ class HomeScreenState extends State<HomeScreen> {
             FieldWrapper(
               child: OurOutlinedButton(
                 onPressed: () {
-                  Get.to(() => const TempUserScreen());
+                  Get.to(() => TempUserScreen());
                 },
                 label: "Login Screen",
                 icon: AppIcons.login,

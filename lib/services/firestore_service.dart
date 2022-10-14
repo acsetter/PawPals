@@ -1,15 +1,16 @@
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
-import 'package:paw_pals/services/firebase_service.dart';
 
-/// A service class for accessing the database over the network.
+/// A service class for interface with the [FirebaseFirestore] plugin.
 class FirestoreService {
+  FirestoreService._();
   /// Reference UID of the current auth-user
-  static String? get _uid => FirebaseService.auth.currentUser?.uid;
+  static String? get _uid => FirebaseAuth.instance.currentUser?.uid;
 
   /// Reference to the [FirebaseFirestore] instance
   static FirebaseFirestore get _db => FirebaseFirestore.instance;
@@ -22,6 +23,11 @@ class FirestoreService {
       fromFirestore: UserModel.fromFirestore,
       toFirestore: (UserModel user, _) => user.toFirestore());
 
+  /// A broadcast stream that notifies listeners when the [UserModel] of the
+  /// logged in user updates/changes.
+  static Stream<UserModel?> get userModelStream => _userRef.snapshots()
+      .map((snapshot) => snapshot.data()).asBroadcastStream();
+
   /// Fetches the data of the currently logged-in user and returns a [UserModel].
   /// A null value will be returned if an error occurred.
   static Future<UserModel?> getUser() async {
@@ -30,15 +36,13 @@ class FirestoreService {
       Logger.log("No User is logged into Firebase Auth.", isError: true);
       return null;
     }
-
     // The call to Firestore
-    final docSnap = await _userRef.get();
-    if (docSnap.data() == null) {
-      // Log if something went wrong
-      Logger.log("Error fetching User data", isError: true);
-    }
-    // returns UserModel or null if something went wrong.
-    return docSnap.data();
+    return await _userRef
+      .get()
+      .then(
+        (snapshot) => snapshot.data(),  // UserModel or null on err
+        onError: (e) => Logger.log(e.toString(), isError: true)
+      );
   }
 
   /// Creates a User document from a [UserModel] in the Firestore Database.

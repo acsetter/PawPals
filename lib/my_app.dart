@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:paw_pals/constants/app_info.dart';
 import 'package:paw_pals/constants/app_theme.dart';
 import 'package:paw_pals/screens/home_screen.dart';
 import 'package:paw_pals/utils/app_localizations.dart';
@@ -13,12 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Test App',
+      title: AppInfo.appName,
       // home: const AuthWrapper(
       //     home: HomeScreen(),
       //     login: LoginScreen()),
       home: const HomeScreen(),  // Changed from Home
-      locale: const Locale("en", "US"),
+      locale: AppInfo.defaultLocale,
       builder: (context, child) {
         return Overlay(
           initialEntries: [

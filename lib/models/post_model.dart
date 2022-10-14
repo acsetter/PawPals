@@ -4,6 +4,7 @@ import 'package:paw_pals/constants/app_types.dart';
 /// Model that defines the post data stored in the database.
 class PostModel {
   final String? postId;
+  final String? uid;
   String? timestamp;
   String? postDescription;
   double? longitude;
@@ -18,6 +19,7 @@ class PostModel {
 
   PostModel({
     required this.postId,
+    required this.uid,
     this.timestamp,
     this.postDescription,
     this.longitude,
@@ -38,6 +40,7 @@ class PostModel {
     final data = snapshot.data();
     return PostModel(
       postId: data?["postId"],
+      uid: data?["uid"],
       timestamp: data?["timestamp"],
       postDescription: data?["postDescription"],
       longitude: data?["longitude"],
