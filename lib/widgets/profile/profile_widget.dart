@@ -3,7 +3,7 @@ import 'package:paw_pals/widgets/profile/usermodeltest.dart';
 import 'package:paw_pals/widgets/profile/user_preferences.dart';
 
 /*
-Widget to fetch and build the User's profile image --> Utilizes web URL from dummy user
+ProfilePhotoWidget: fetch and build the user's profile image --> Utilizes web URL from dummy user
 information (usermodeltest.dart) until database is built.
  */
 
@@ -22,14 +22,10 @@ class ProfilePhotoWidget extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: buildImage());
-  }
 
   Widget buildImage() {
-    final photo = NetworkImage(photoUrl);
+    final photo = NetworkImage(photoUrl); // Utilizing NetworkImage package in order to capture the photoUrl from the dummy user
+
 
     return Ink.image( // Creates a widget for displaying an image
       image: photo,  // Grabbing photo from photoUrl defined by user model
@@ -39,9 +35,17 @@ class ProfilePhotoWidget extends StatelessWidget {
       child: InkWell(onTap: onPressed),  // Allows user to press their profile photo
     );
   }
+
+  @override // Overriding build method
+  Widget build(BuildContext context) {
+    return Center(
+        child: buildImage());
+  }
 }
 
-/* Widget to Build the User's Information --> Takes dummy user information from usermodeltest.dart
+
+
+/* UserInformationWidget: to build the User's Information --> Takes dummy user information from usermodeltest.dart
 until database is created */
 
 class UserInformationWidget extends StatelessWidget {
@@ -76,26 +80,39 @@ class UserInformationWidget extends StatelessWidget {
 }
 
 /* Widget to Build the "User's Posts" Area --> The user should be able to scroll through the posts that they
- have made on their profile */
+ have made on their profile
 
-/*
-@override
-Widget buildPostArea() {
-  return MaterialApp(
-    home: Scaffold(
-      body: GridView.count(
-        // Create a grid with 2 columns.
-        crossAxisCount: 2,
-        // Generate 10 widgets that display their index in the List.
-        children: List.generate(10, (index) {
-          return Center(
-            child: Text(
-              'Post $index',
-            ),
-          );
-        }),
-      ),
-    ),
-  );
-}
-*/
+class UserPostAreaWidget extends StatelessWidget {
+  const UserPostAreaWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: ListView.separated(
+          separatorBuilder: (context, int) {
+            return Divider(color: Colors.black,);
+          },
+          // shrinkWrap: true,
+          itemBuilder: (BuildContext context, int index) {
+            return GridView.count(
+              shrinkWrap: true,
+              crossAxisCount: 3,
+              childAspectRatio: 2.0,
+              children: List.generate(6, (index) {
+                return Center(
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      'item no : $index',
+                    ),
+                  ),
+                );
+              }),
+            );
+          },
+          itemCount: 4,
+        ));
+  }
+
+
+ */

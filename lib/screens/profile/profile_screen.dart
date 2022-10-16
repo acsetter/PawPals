@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
@@ -32,20 +29,19 @@ class ProfileScreen extends StatelessWidget {
       // The bar that goes across the top of the screen:
         appBar: OurAppBar.build(screenTitle),
         // The main body of the Screen:
-        body: FormWrapper(
+        body: SingleChildScrollView(
+          child: FormWrapper (
           children: [
             FieldWrapper(
                 child: ProfilePhotoWidget(
                   photoUrl: user.photoUrl, onPressed: () {},)
             ),
-            const FieldWrapper(
-              child: UserInformationWidget()
-              ),
-            /*
             FieldWrapper(
-              child: buildPostArea(),
-            ),
-             */
+              child: UserInformationWidget()
+              ),/*
+            FieldWrapper(
+              child: UserPostAreaWidget()
+            ),*/
             FieldWrapper(
               child: OurOutlinedButton(
                 // method invoked when a user presses this button
@@ -60,7 +56,8 @@ class ProfileScreen extends StatelessWidget {
               ),
             )
           ],
-        )
+        ),
+    ),
     );
   }
 }
