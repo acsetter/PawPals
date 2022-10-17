@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../constants/app_types.dart';
 
+/// Model that defines the preferences data stored in the database.
 class Preferences {
   List<PetType>? petTypes;
   PetGender? petGender;
@@ -17,16 +20,22 @@ class Preferences {
     this.isKidFriendly
   });
 
-  factory Preferences.fromJson(Map<String, dynamic> json) => Preferences(
-    petTypes: json["petTypes"],
-    petGender: json["petGender"],
-    ageRanges: json["ageRanges"],
-    searchRadius: json["searchRadius"],
-    isPetFriendly: json["isPetFriendly"],
-    isKidFriendly: json["isKidFriendly"],
-  );
+  factory Preferences.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options
+  ) {
+    final data = snapshot.data();
+    return Preferences(
+      petTypes: data?["petTypes"],
+      petGender: data?["petGender"],
+      ageRanges: data?["ageRanges"],
+      searchRadius: data?["searchRadius"],
+      isPetFriendly: data?["isPetFriendly"],
+      isKidFriendly: data?["isKidFriendly"],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toFirestore() => {
     "petTypes": petTypes,
     "petGender": petGender,
     "ageRanges": ageRanges,

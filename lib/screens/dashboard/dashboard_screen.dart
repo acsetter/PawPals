@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paw_pals/constants/app_data.dart';
 import '../../widgets/bars/our_app_bar.dart';
 
 /// This class will eventually become our home screen once the navbar
@@ -16,8 +17,12 @@ class DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: OurAppBar.build("Dashboard (temp)"),
-      body: const Center(child: Text("Temporary screen to work on navbar")),
-      bottomNavigationBar: null,
+      body: Center(
+        child: Image(
+          image: AppData.tabbyCat,
+          height: 200,
+        ),
+      ),
     );
   }
 
