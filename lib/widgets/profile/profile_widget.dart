@@ -89,7 +89,7 @@ class UserInformationWidget extends StatelessWidget {
 class UserPostAreaWidget extends StatelessWidget {
   UserPostAreaWidget({super.key});
 
-  final numbers = List.generate(10, (index) => '$index');
+  final numbers = List.generate(6, (index) => '$index');
 
   @override
   Widget build(BuildContext context) {
