@@ -1,16 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:paw_pals/widgets/empty_screen_card.dart';
 import 'package:paw_pals/widgets/screencards.dart';
-
-
-import 'package:paw_pals/screens/Feed/went_left.dart';
-import 'package:paw_pals/screens/Feed/went_right.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
-import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
-import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
-import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
+
 
 /// This is an example of a simple screen that extends a [StatelessWidget]
 /// Yes, technically the screen is a widget, but it's best to treat it like

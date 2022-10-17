@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:paw_pals/constants/app_data.dart';
 
 /// This is an example of a simple screen that extends a [StatelessWidget]
