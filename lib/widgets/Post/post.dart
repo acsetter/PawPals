@@ -5,23 +5,33 @@ class Post extends StatelessWidget {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      body: Center(
-        child: Card(
+      body: Card(
+        elevation: 10.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0)
+          ),
           color: Colors.amber,
           child: Container(
-            height:100,
-            child:Column(
-              children: const [
+            padding: EdgeInsets.all(10.0),
+            width: 500,
+            child: Column(
+              children: [
                 Text(
-                  "Dog's Name",
-                  style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
-                )
-              ],
+              "Pet's Name",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                ),
+                Image.asset('images/Rocket.jpg',width:800, height:350),
+             SizedBox(height:10.0),
+            Text(
+              'more things here',
+              //style:TextStyle(),
             )
+
+              ],
+            ),
           )
+
         ),
-      ),
-    );
+      );
   }
 
 
