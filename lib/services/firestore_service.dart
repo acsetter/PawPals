@@ -3,10 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:paw_pals/models/user_model.dart';
-import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
 
-/// A service class for interface with the [FirebaseFirestore] plugin.
+/// A service class to interface with the [FirebaseFirestore] plugin.
 class FirestoreService {
   FirestoreService._();
   /// Reference UID of the current auth-user
@@ -27,6 +26,29 @@ class FirestoreService {
   /// logged in user updates/changes.
   static Stream<UserModel?> get userModelStream => _userRef.snapshots()
       .map((snapshot) => snapshot.data()).asBroadcastStream();
+  
+  static Future<UserModel?> getUserById(String uid) async {
+    return await _users.doc(_uid)
+      .withConverter(
+        fromFirestore: UserModel.fromFirestore, 
+        toFirestore: (UserModel user, _) => user.toFirestore())
+      .get()
+      .then(
+        (snapshot) => snapshot.data(),  // UserModel or null on err
+        onError: (e) => Logger.log(e.toString(), isError: true));
+  }
+  
+  static Future<UserModel?> getUserByUsername(String username) async {
+    return await _users.where("username", isEqualTo: username)
+      .withConverter(
+        fromFirestore: UserModel.fromFirestore,
+        toFirestore: (UserModel user, _) => user.toFirestore()).get()
+      .then((snapshot) {
+        if (snapshot.docs.isNotEmpty) {
+          snapshot.docs.single.data();
+        }
+    }).catchError((e) { Logger.log(e.toString(), isError: true); });
+  }
 
   /// Fetches the data of the currently logged-in user and returns a [UserModel].
   /// A null value will be returned if an error occurred.
@@ -59,7 +81,7 @@ class FirestoreService {
       return;
     }
     // Set the timestamp to the moment the account was created.
-    userModel.timestamp = DateTime.now().microsecondsSinceEpoch;
+    userModel.timestamp = DateTime.now().millisecondsSinceEpoch;
     await _userRef
       .set(userModel)
       .then((res) => Logger.log("Firestore doc created for ${userModel.email}"),
@@ -82,7 +104,7 @@ class FirestoreService {
       Logger.log("User being updated does not match the user logged in", isError: true);
       return;
     }
-    
+
     await _userRef
       .update(userModel.toFirestoreUpdate())
       .then((res) => Logger.log("Firestore doc created for ${userModel.email}"),
@@ -90,17 +112,17 @@ class FirestoreService {
       );
   }
 
-  static Future<PostModel?> getPostById(String postId) async {
-    return null;
-  }
-
-  static Future<List<PostModel>?> getPostsByUser(UserModel userModel) async {
-    return null;
-  }
-
-  static Future<PostModel?> getLikedPosts() async {
-    return null;
-  }
+  // static Future<PostModel?> getPostById(String postId) async {
+  //   return null;
+  // }
+  //
+  // static Future<List<PostModel>?> getPostsByUser(UserModel userModel) async {
+  //   return null;
+  // }
+  //
+  // static Future<PostModel?> getLikedPosts() async {
+  //   return null;
+  // }
 
   static Future<Image?> getImageFromUrl(String url) async {
     return null;

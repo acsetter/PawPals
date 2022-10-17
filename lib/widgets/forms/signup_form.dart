@@ -94,7 +94,7 @@ class SignUpFormState extends State<SignUpForm> with FormValidation {
                               colorText: Theme.of(context).errorColor
                           );
                         } else {
-                          Get.off(const TempUserScreen());
+                          Get.offAll(const TempUserScreen());
                         }
                       });
                     }

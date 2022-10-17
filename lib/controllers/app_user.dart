@@ -3,11 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:paw_pals/models/user_model.dart';
-import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/utils/app_log.dart';
+import 'package:paw_pals/services/firestore_service.dart';
 
-/// The controller/access-point for the user of the app.
-/// This class is a singleton accessed by calling `AppUser.instance`. The signleton is
+/// The data-controller for the user of the app.
+/// This class is a singleton accessed by calling `AppUser.instance`.
 ///
 /// [AppUser] listens to both [FirebaseAuth] and [FirebaseFirestore] for changes
 /// to the authenticated user through two separate streams. When any significant
@@ -87,7 +87,7 @@ class AppUser extends ChangeNotifier {
   }
 
   void _updateStream() {
-    // Called to send the UserModel down the stream
+    // send the updated UserModel to stream listeners.
     _controller.sink.add(_userModel);
   }
 
