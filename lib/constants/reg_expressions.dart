@@ -23,4 +23,7 @@ class RegExpressions {
 
   /// Strings that have 8 or more characters.
   static RegExp eightChars = RegExp(r'^.{8,}');
+  
+  /// Strings that are only valid usernames.
+  static RegExp username = RegExp(r'^[a-z0-9_-]+$');
 }

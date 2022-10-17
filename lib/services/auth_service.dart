@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../utils/app_log.dart';
+import 'package:paw_pals/models/user_model.dart';
+import 'package:paw_pals/services/firestore_service.dart';
+import 'package:paw_pals/utils/app_log.dart';
 
 /// A service class to manage Firebase auth and handle auth errors.
 class AuthService {
@@ -50,24 +52,47 @@ class AuthService {
   }
 
   /// Tries to create a new user account with the given email address and
-  /// password.
+  /// password. Returns an empty String if successful or an error-message code.
   ///
-  /// A [FirebaseAuthException] maybe thrown with the following error code:
-  /// - **email-already-in-use**:
-  ///  - Thrown if there already exists an account with the given email address.
-  /// - **invalid-email**:
-  ///  - Thrown if the email address is not valid.
-  /// - **operation-not-allowed**:
-  ///  - Thrown if email/password accounts are not enabled. Enable
-  ///    email/password accounts in the Firebase Console, under the Auth tab.
-  /// - **weak-password**:
-  ///  - Thrown if the password is not strong enough.
-  static Future<String> signUp(
-      {required String email, required String password}) async {
+  /// Error codes: <br/>
+  /// > **email-already-in-use**: There already exists an account with the
+  /// given email address.
+  ///
+  /// > **invalid-email**: The email address is not valid.
+  ///
+  /// > **unhandled-error**: An error occurred that no corresponding code has
+  /// been made for.
+  ///
+  /// > **username-taken**: Username is taken by another account and cannot be
+  /// claimed on sign up.
+  ///
+  /// > **weak-password**: The password is not strong enough.
+  static Future<String> signUp({
+    required String email, 
+    required String password, 
+    required String username, 
+    String? first, 
+    String? last}) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      Logger.log('Signed up in as: ${_user?.email ?? "error getting email"}');
+      bool? isUnameUnique = await FirestoreService.isUsernameUnique(username);
+      // ^ returns null if an error occurred when querying database
+      if (isUnameUnique == null) return "unhandled-error";
+      if (!isUnameUnique) return "username-taken";
+
+      await _auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((res) async {
+          FirestoreService.createUser(
+            UserModel(
+              uid: res.user?.uid,
+              email: email,
+              username: username,
+              first: first,
+              last: last,
+            )
+          );
+        });
+      Logger.log("Auth entry created for ${_user?.email}");
       return "";
     } on FirebaseAuthException catch (e) {
       Logger.log('${e.code}: ${e.message}', isError: true);
@@ -75,6 +100,7 @@ class AuthService {
         case "email-already-in-use":
         case "invalid-email":
         case "weak-password":
+          // Code is the same as the error message key for translation
           return e.code;
         case "operation-not-allowed":
         default:
