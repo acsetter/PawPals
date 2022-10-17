@@ -40,7 +40,11 @@ class ScreenCards extends StatelessWidget {
 
             Container(
               decoration: BoxDecoration(
+
                 color: color,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AppData.tabbyCat,),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(color: Colors.grey.withOpacity(1.0),
@@ -65,20 +69,20 @@ class ScreenCards extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 110,
-              right: 90,
+              bottom:30,
+              left: 15,
               child:Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'OUT OF PETS',
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                  'Bubbles, 7',
+                  style: Theme.of(context).textTheme.headline6!.copyWith(
                     color: Colors.white,
                   )
                 ),
                 Text(
-                    'Sorry\n',
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                    'In search of a loving home!',
+                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
                     )
@@ -86,8 +90,8 @@ class ScreenCards extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      height:150,
-                      width: 150,
+                      height:40,
+                      width: 40,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AppData.tabbyCat,

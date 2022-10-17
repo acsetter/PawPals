@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:paw_pals/widgets/empty_screen_card.dart';
 import 'package:paw_pals/widgets/screencards.dart';
 
 
@@ -49,7 +50,7 @@ class FeedScreen extends StatelessWidget {
           Draggable(
             child: ScreenCards(color: Colors.red,),
             feedback: ScreenCards(color: Colors.red,),
-            childWhenDragging: ScreenCards(color: Colors.blue,),
+            childWhenDragging: EmptyCard(color: Colors.grey,),
             onDragEnd: (drag){
               if (drag.velocity.pixelsPerSecond.dx < 500 &&
                   drag.velocity.pixelsPerSecond.dx > -500){
