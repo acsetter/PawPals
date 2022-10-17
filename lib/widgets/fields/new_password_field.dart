@@ -3,6 +3,8 @@ import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/utils/app_localizations.dart';
 import 'package:paw_pals/widgets/fields/our_text_field.dart';
 
+import '../../constants/app_info.dart';
+
 /// Used by [OurTextField.validator].
 typedef FormFieldValidator<T> = String? Function(T? value);
 
@@ -30,11 +32,13 @@ class NewPasswordField extends StatelessWidget {
           icon: AppIcons.password,
           hideText: true,
           autocorrect: false,
+          maxLength: AppInfo.maxPasswordLength,
         ),
         OurTextField(
           labelText: AppLocalizations.of(context).translate("field-labels.retype-password"),
           icon: AppIcons.retypePassword,
           hideText: true,
+          maxLength: AppInfo.maxPasswordLength,
           validator: (val) {
             if (val == null || val.isEmpty) {
               return AppLocalizations.of(context).translate("errors.empty-password");

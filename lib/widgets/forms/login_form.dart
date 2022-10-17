@@ -4,7 +4,6 @@ import 'package:paw_pals/widgets/buttons/contained_button.dart';
 import 'package:paw_pals/widgets/fields/our_text_field.dart';
 import 'package:paw_pals/widgets/forms/_form_validation.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
-import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 
 import '../../constants/app_icons.dart';
 import '../../services/auth_service.dart';
@@ -37,13 +36,13 @@ class LoginFormState extends State<LoginForm> with FormValidation {
             children: [
               OurTextField(
                 controller: emailController,
-                labelText: fetch("field-labels.email"),
+                labelText: translate("field-labels.email"),
                 validator: emailValidator,
                 icon: AppIcons.email,
               ),
               OurTextField(
                 controller: passwordController,
-                labelText: fetch("field-labels.password"),
+                labelText: translate("field-labels.password"),
                 validator: passwordValidator,
                 icon: AppIcons.password,
                 hideText: true,
@@ -63,7 +62,7 @@ class LoginFormState extends State<LoginForm> with FormValidation {
                             );
                           }
                         },
-                        label: fetch("btn-labels.login"),
+                        label: translate("btn-labels.login"),
                       )
                     ],
                   )

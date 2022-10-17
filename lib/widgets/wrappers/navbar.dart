@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paw_pals/constants/app_colors.dart';
@@ -48,45 +49,56 @@ class NavbarState extends State<Navbar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _child,
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: AppColors.primary,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: AppColors.primary.shade200,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        currentIndex: _index,
-        onTap: (index) {
-          Get.appUpdate();
-          Get.offAll(screens[index], transition: Transition.downToUp);
-          _index = index;
-          setState(() {
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-              icon: AppIcons.feed,
-              label: "Feed"
-          ),
-          BottomNavigationBarItem(
-              icon: AppIcons.likedPostsInactive,
-              activeIcon: AppIcons.likedPostsActive,
-              label: "Liked Posts"
-          ),
-          BottomNavigationBarItem(
-              icon: AppIcons.myProfileInactive,
-              activeIcon: AppIcons.myProfileActive,
-              label: "Profile"
-          ),
-          BottomNavigationBarItem(
-              icon: AppIcons.createPostInactive,
-              activeIcon: AppIcons.createPostActive,
-              label: "New Post"
-          ),
-        ],
-      ),
+     return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.hasData) { // means the user is not null (logged in)
+          return Scaffold(
+          body: _child,
+          bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: AppColors.primary,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: AppColors.primary.shade200,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          currentIndex: _index,
+          onTap: (index) {
+            Get.appUpdate();
+            Get.offAll(screens[index], transition: Transition.downToUp);
+            _index = index;
+            setState(() {
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+                icon: AppIcons.feed,
+                label: "Feed"
+            ),
+            BottomNavigationBarItem(
+                icon: AppIcons.likedPostsInactive,
+                activeIcon: AppIcons.likedPostsActive,
+                label: "Liked Posts"
+            ),
+            BottomNavigationBarItem(
+                icon: AppIcons.myProfileInactive,
+                activeIcon: AppIcons.myProfileActive,
+                label: "Profile"
+            ),
+            BottomNavigationBarItem(
+                icon: AppIcons.createPostInactive,
+                activeIcon: AppIcons.createPostActive,
+                label: "New Post"
+            ),
+          ],
+        ),
+      );
+    }
+
+        return Scaffold(
+          body: _child,
+        ); // show login for null user (not logged in)
+      }
     );
   }
 }
