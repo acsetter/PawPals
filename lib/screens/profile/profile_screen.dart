@@ -38,10 +38,7 @@ class ProfileScreen extends StatelessWidget {
             ),
             FieldWrapper(
               child: UserInformationWidget()
-              ),/*
-            FieldWrapper(
-              child: UserPostAreaWidget()
-            ),*/
+              ),
             FieldWrapper(
               child: OurOutlinedButton(
                 // method invoked when a user presses this button
