@@ -81,7 +81,7 @@ class ScreenCards extends StatelessWidget {
                   )
                 ),
                 Text(
-                    'In search of a loving home!',
+                    'In search of a loving home!\n',
                     style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
