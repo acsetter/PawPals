@@ -1,28 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:paw_pals/constants/app_data.dart';
 
-/// This is an example of a simple screen that extends a [StatelessWidget]
-/// Yes, technically the screen is a widget, but it's best to treat it like
-/// a place to organize widgets.
-///
-///
-
-
-
 class ScreenCards extends StatelessWidget {
-  final color;
+  final Color color;
 
-  ScreenCards({Key? key, this.color}) : super(key:key);
-  //final String buttonLabelLeft = "left swipe (For Later)";
-  //final String buttonLabelRight = "right swipe (For Later)";
+  const ScreenCards({Key? key, required this.color}) : super(key:key);
 
-
-  // This is the constructor. All widgets should have a Key key as optional
-  // parameter in their constructor. Key is something used by flutter engine
-  // at the step of recognizing which widget in a list as changed.
-
-
-  // You must call @override on the build method
   @override
   Widget build(BuildContext context) {
     return Padding(
