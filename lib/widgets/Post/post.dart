@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:paw_pals/constants/app_data.dart';
-
 import '../../models/post_model.dart';
 
 class Post extends StatelessWidget {
-  PostModel post = AppData.fakePost;
+  final PostModel post = AppData.fakePost;
 
   Post({super.key});
   @override
@@ -56,13 +55,13 @@ class Post extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${AppData.fakePost.petName}, 4',
-                  style: Theme.of(context).textTheme.headline3!.copyWith(
+                  Text('${AppData.fakePost.petName}',
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
                     color: Colors.white,
                   ),
                   ),
-                  Text('Male, Wilmington',
-                    style: Theme.of(context).textTheme.headline4!.copyWith(
+                  Text('4, Male, Wilmington',
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
                     ),
@@ -72,8 +71,8 @@ class Post extends StatelessWidget {
                       margin: const EdgeInsets.only(
                         top: 8, right: 8,
                       ),
-                      height: 70,
-                      width: 70,
+                      height: 60,
+                      width: 60,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AppData.siameseCat,
