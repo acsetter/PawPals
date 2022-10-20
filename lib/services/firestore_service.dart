@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:paw_pals/models/pref_model.dart';
 
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
@@ -16,11 +17,19 @@ class FirestoreService {
 
   static CollectionReference get _users => _db.collection('users');
 
+  static CollectionReference get _prefs => _db.collection('preferences');
+
   /// [DocumentReference] to the current user
   static DocumentReference<UserModel> get _userRef => _users.doc(_uid)
     .withConverter(
       fromFirestore: UserModel.fromFirestore,
       toFirestore: (UserModel user, _) => user.toFirestore());
+
+  /// [DocumentReference] to the current user's feed-preferences
+  static DocumentReference<PreferencesModel> get _prefRef => _prefs.doc(_uid)
+      .withConverter(
+        fromFirestore: PreferencesModel.fromFirestore,
+        toFirestore: (PreferencesModel prefs, _) => prefs.toFirestore());
 
   /// A broadcast stream that notifies listeners when the [UserModel] of the
   /// logged in user updates/changes.
@@ -94,6 +103,8 @@ class FirestoreService {
   /// * [UserModel.first]
   /// * [UserModel.last]
   /// * [UserModel.photoUrl]
+  /// * [UserModel.userPosts]
+  /// * [UserModel.likedPosts]
   static Future<void> updateUser(UserModel userModel) async {
     // Restrict creating/overwriting if not authorized.
     if (_uid == null || userModel.uid == null) {

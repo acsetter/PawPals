@@ -3,12 +3,6 @@ enum PetGender {
   female
 }
 
-enum AgeType {
-  newborn,
-  young,
-  adult
-}
-
 enum PetType {
   cat,
   dog

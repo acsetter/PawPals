@@ -41,7 +41,7 @@ class AppData {
     latitude: 200.00,
     geoHash: '_',
     petName: 'Whiskers',
-    petAge: AgeType.adult,
+    petAge: 3,
     petGender: PetGender.male,
     petPhotoUrl: 'assets/images/siamese_cat.jpg',
     isKidFriendly: true,

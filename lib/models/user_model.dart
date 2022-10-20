@@ -10,6 +10,8 @@ class UserModel {
   String? last;
   String? photoUrl;
   int? timestamp;
+  List<String>? userPosts;
+  List<String>? likedPosts;
 
   UserModel({
     required this.uid,
@@ -18,7 +20,9 @@ class UserModel {
     this.first,
     this.last,
     this.photoUrl,
-    this.timestamp
+    this.timestamp,
+    this.userPosts,
+    this.likedPosts
   });
 
   /// Converts a [DocumentSnapshot] from [FirebaseFirestore] to a [UserModel].
@@ -27,6 +31,7 @@ class UserModel {
     SnapshotOptions? options
   ) {
     final data = snapshot.data();
+
     return UserModel(
         uid: data?["uid"],
         email: data?["email"],
@@ -34,7 +39,11 @@ class UserModel {
         first: data?["first"],
         last: data?["last"],
         photoUrl: data?["photoUrl"],
-        timestamp: data?["timestamp"]
+        timestamp: data?["timestamp"],
+        userPosts: data?["userPosts"]
+            is Iterable ? List.from(data?['userPosts']) : null,
+        likedPosts: data?["likedPosts"]
+            is Iterable ? List.from(data?['likedPosts']) : null,
     );
   }
 
@@ -46,7 +55,9 @@ class UserModel {
     if (first != null) "first": first,
     if (last != null) "last": last,
     if (photoUrl != null) "photoUrl": photoUrl,
-    if (timestamp!= null) "timestamp": timestamp
+    if (timestamp!= null) "timestamp": timestamp,
+    if (userPosts != null) "userPosts": userPosts,
+    if (likedPosts != null) "likedPosts": likedPosts,
   };
 
   /// Converts the [UserModel] to json excluding fields unsafe to edit.
@@ -56,6 +67,8 @@ class UserModel {
     if (first != null) "first": first,
     if (last != null) "last": last,
     if (photoUrl != null) "photoUrl": photoUrl,
+    if (userPosts != null) "userPosts": userPosts,
+    if (likedPosts != null) "likedPosts": likedPosts,
   };
 
   bool isEqualTo(UserModel userModel) {
@@ -65,9 +78,11 @@ class UserModel {
       first == userModel.first &&
       last == userModel.last &&
       photoUrl == userModel.photoUrl &&
-      timestamp == userModel.timestamp;
+      timestamp == userModel.timestamp &&
+      userPosts == userModel.userPosts &&
+      likedPosts == userModel.likedPosts;
   }
 
-  // static List<UserModel> listFromJson(list) =>
-  //     List<UserModel>.from(list.map((x) => UserModel.fromJson(snapshot: x)));
+  // static List<UserModel> listFromFirestore(list) =>
+  //     List<UserModel>.from(list.map((x) => UserModel.fromFirestore(snapshot: x)));
 }
