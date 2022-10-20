@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:paw_pals/constants/app_types.dart';
 
-import '../constants/app_types.dart';
-
-/// Model that defines the preferences data stored in the database.
-class Preferences {
+/// Model that defines the feed-preferences data stored in the database.
+/// **WARNING:** [PreferencesModel] fields are not null-safe and need to be handled as such.
+class PreferencesModel {
   List<PetType>? petTypes;
   PetGender? petGender;
   int? minAge;
@@ -12,7 +12,7 @@ class Preferences {
   bool? isPetFriendly;
   bool? isKidFriendly;
 
-  Preferences({
+  PreferencesModel({
     this.petTypes,
     this.petGender,
     this.minAge,
@@ -22,12 +22,14 @@ class Preferences {
     this.isKidFriendly
   });
 
-  factory Preferences.fromFirestore(
+  /// Converts a [DocumentSnapshot] from [FirebaseFirestore] to a [PreferencesModel].
+  factory PreferencesModel.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options
   ) {
     final data = snapshot.data();
-    return Preferences(
+
+    return PreferencesModel(
       petTypes: data?["petTypes"],
       petGender: data?["petGender"],
       minAge: data?["minAge"],
@@ -38,6 +40,7 @@ class Preferences {
     );
   }
 
+  /// Converts the [PreferencesModel] to json with including all non-null fields.
   Map<String, dynamic> toFirestore() => {
     "petTypes": petTypes,
     "petGender": petGender,

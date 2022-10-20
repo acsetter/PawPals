@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paw_pals/constants/app_types.dart';
 
 /// Model that defines the post data stored in the database.
+/// **WARNING:** [PostModel] fields are not null-safe and need to be handled as such.
 class PostModel {
   final String? postId;
   final String? uid;
@@ -33,6 +34,7 @@ class PostModel {
     this.isPetFriendly,
   });
 
+  /// Converts a [DocumentSnapshot] from [FirebaseFirestore] to a [PostModel].
   factory PostModel.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options
@@ -55,6 +57,7 @@ class PostModel {
     );
   }
 
+  /// Converts the [PostModel] to json with including all non-null fields.
   Map<String, dynamic> toFirestore() => {
     "postId": postId,
     "timestamp": timestamp,
@@ -69,4 +72,7 @@ class PostModel {
     "isKidFriendly": isKidFriendly,
     "isPetFriendly": isPetFriendly,
   };
+
+// static List<PostModel> listFromFirestore(list) =>
+//     List<PostModel>.from(list.map((x) => PostModel.fromFirestore(snapshot: x)));
 }

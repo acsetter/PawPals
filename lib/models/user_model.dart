@@ -83,6 +83,6 @@ class UserModel {
       likedPosts == userModel.likedPosts;
   }
 
-  // static List<UserModel> listFromJson(list) =>
-  //     List<UserModel>.from(list.map((x) => UserModel.fromJson(snapshot: x)));
+  // static List<UserModel> listFromFirestore(list) =>
+  //     List<UserModel>.from(list.map((x) => UserModel.fromFirestore(snapshot: x)));
 }
