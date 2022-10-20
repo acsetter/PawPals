@@ -11,7 +11,7 @@ class PostModel {
   double? latitude;
   String? geoHash;
   String? petName;
-  AgeType? petAge;
+  int? petAge;
   PetGender? petGender;
   String? petPhotoUrl;
   bool? isKidFriendly;

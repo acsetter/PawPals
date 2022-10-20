@@ -6,7 +6,8 @@ import '../constants/app_types.dart';
 class Preferences {
   List<PetType>? petTypes;
   PetGender? petGender;
-  List<AgeType>? ageRanges;
+  int? minAge;
+  int? maxAge;
   int? searchRadius;
   bool? isPetFriendly;
   bool? isKidFriendly;
@@ -14,7 +15,8 @@ class Preferences {
   Preferences({
     this.petTypes,
     this.petGender,
-    this.ageRanges,
+    this.minAge,
+    this.maxAge,
     this.searchRadius,
     this.isPetFriendly,
     this.isKidFriendly
@@ -28,7 +30,8 @@ class Preferences {
     return Preferences(
       petTypes: data?["petTypes"],
       petGender: data?["petGender"],
-      ageRanges: data?["ageRanges"],
+      minAge: data?["minAge"],
+      maxAge: data?["maxAge"],
       searchRadius: data?["searchRadius"],
       isPetFriendly: data?["isPetFriendly"],
       isKidFriendly: data?["isKidFriendly"],
@@ -38,7 +41,8 @@ class Preferences {
   Map<String, dynamic> toFirestore() => {
     "petTypes": petTypes,
     "petGender": petGender,
-    "ageRanges": ageRanges,
+    "minAge": minAge,
+    "maxAge": maxAge,
     "searchRadius": searchRadius,
     "isPetFriendly": isPetFriendly,
     "isKidFriendly": isKidFriendly
