@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:paw_pals/widgets/profile/user_preferences.dart';
+import '../../constants/app_data.dart';
+import '../../models/user_model.dart';
 
 /*
-ProfilePhotoWidget: fetch and build the user's profile image --> Utilizes web URL from dummy user
-information (usermodeltest.dart) until database is built.
+ProfilePhotoWidget: fetch and build the user's profile image from dummy data in the UserModel
  */
 
 class ProfilePhotoWidget extends StatelessWidget {
@@ -17,16 +17,14 @@ class ProfilePhotoWidget extends StatelessWidget {
 
   const ProfilePhotoWidget({
     Key? key,
-    required this.photoUrl,
-    required this.onPressed,
+    required this.onPressed, required this.photoUrl,
   }) : super(key: key);
 
   @override // Overriding build method
   Widget build(BuildContext context) {
-    final photo = NetworkImage(photoUrl);
     return Center(
       child: Ink.image( // Creates a widget for displaying an image using Ink Package
-        image: photo,  // Grabbing photo from photoUrl defined by user model
+        image: AppData.profileMan,  // Grabbing photo from photoUrl defined by user model
         fit: BoxFit.cover,  // Applies box mask to image
         width: 128, // Setting width/height of the user's profile image
         height: 128,
@@ -37,84 +35,33 @@ class ProfilePhotoWidget extends StatelessWidget {
 }
 
 
-/* UserInformationWidget: to build the User's Information --> Takes dummy user information from usermodeltest.dart
-until database is created */
+/* UserInformationWidget: to build the User's Information --> Takes dummy user information from the UserModel to
+* build a profile screen */
 
 class UserInformationWidget extends StatelessWidget {
-  final user = UserPreferences.myUser;
+  final UserModel user = AppData.fakeManUser;
 
-  const UserInformationWidget({super.key});
+  UserInformationWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(  // Building widget for user information
-      children: [
-        Text(
-          user.username, // Fetching user username
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24), // Setting text style
-        ),
-        const SizedBox(height: 4),  // Creating container for user first / user last
-        Text(
-          '${user.first} ${user.last}',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.deepPurple), // Setting text style
-        ),
-        const SizedBox(height: 4),  // Creating container for email
-        Text(
-          user.email,  // Fetching user email
-          style: TextStyle(color: Colors.grey), // Setting the text style (color)
-        ),
-        /* The below is a a test of GridView to add the user's posts on their profile.
-        const SizedBox(height: 30),
-        GridView(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 16),
-            children: [
-              Container()
-              //Image.network('https://thumbs.dreamstime.com/b/welsh-corgi-pembroke-dog-standing-studio-looking-forward-67971970.jpg'),
-              //Image.network('https://thumbs.dreamstime.com/b/welsh-corgi-pembroke-dog-standing-studio-looking-forward-67971970.jpg'),
-             //Image.network('https://thumbs.dreamstime.com/b/welsh-corgi-pembroke-dog-standing-studio-looking-forward-67971970.jpg'),
-         */
-            ]
-        );
+        children: [
+          Text(
+            '${AppData.fakeManUser.username}', // Fetching user username
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24), // Setting text style
+          ),
+          const SizedBox(height: 4),  // Creating container for user first / user last
+          Text(
+            '${user.first} ${user.last}',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.deepPurple), // Setting text style
+          ),
+          const SizedBox(height: 4),  // Creating container for email
+          Text(
+            '${AppData.fakeManUser.email}',  // Fetching user email
+            style: const TextStyle(color: Colors.grey), // Setting the text style (color)
+          ),
+        ]
+    );
   }
 }
-
-// Below is more testing to try and get the user's posts to showcase on their profile (WIP)
-
- /*Widget to Build the "User's Posts" Area --> The user should be able to scroll through the posts that they
- have made on their profile
-
-
-class UserPostAreaWidget extends StatelessWidget {
-  UserPostAreaWidget({super.key});
-
-  final numbers = List.generate(6, (index) => '$index');
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: ListView.separated(
-          separatorBuilder: (context, int) {
-            return Divider(color: Colors.black,);
-          },
-          itemBuilder: (BuildContext context, int index) {
-            return GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 3,
-              childAspectRatio: 2.0,
-              children: List.generate(6, (index) {
-                return Center(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Post # : $index',
-                    ),
-                  ),
-                );
-              }),
-            );
-          },
-          itemCount: 4,
-        ));
- */
