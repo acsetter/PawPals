@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../models/post_model.dart';
 import '../models/user_model.dart';
+import 'app_types.dart';
 
 /// Static data for use in test and development
 class AppData {
@@ -29,6 +31,21 @@ class AppData {
     last: 'Palmer',
     username: 'cat_lady',
     photoUrl: '',
+  );
+  static PostModel get fakePost => PostModel(
+    postId: '11111',
+    uid: '22222',
+    timestamp: '_',
+    postDescription: '_',
+    longitude: 400.0,
+    latitude: 200.00,
+    geoHash: '_',
+    petName: 'Whiskers',
+    petAge: 3,
+    petGender: PetGender.male,
+    petPhotoUrl: 'assets/images/siamese_cat.jpg',
+    isKidFriendly: true,
+    isPetFriendly: true,
   );
 
   // Feel free to generate fake post data here
