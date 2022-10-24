@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/pref_model.dart';
 
 import 'package:paw_pals/models/user_model.dart';
@@ -19,6 +20,8 @@ class FirestoreService {
 
   static CollectionReference get _prefs => _db.collection('preferences');
 
+  static CollectionReference get _posts => _db.collection('posts');
+
   /// [DocumentReference] to the current user
   static DocumentReference<UserModel> get _userRef => _users.doc(_uid)
     .withConverter(
@@ -35,6 +38,11 @@ class FirestoreService {
   /// logged in user updates/changes.
   static Stream<UserModel?> get userModelStream => _userRef.snapshots()
       .map((snapshot) => snapshot.data()).asBroadcastStream();
+
+  /// A broadcast stream that notifies listeners when the [PreferencesModel] of
+  /// the logged in user updates/changes.
+  static Stream<PreferencesModel?> get prefModelStream => _prefRef.snapshots()
+      .map((snapshot) => snapshot.data()).asBroadcastStream();
   
   static Future<UserModel?> getUserById(String uid) async {
     return await _users.doc(_uid)
@@ -46,7 +54,7 @@ class FirestoreService {
         (snapshot) => snapshot.data(),  // UserModel or null on err
         onError: (e) => Logger.log(e.toString(), isError: true));
   }
-  
+
   static Future<UserModel?> getUserByUsername(String username) async {
     return await _users.where("username", isEqualTo: username)
       .withConverter(
@@ -93,7 +101,7 @@ class FirestoreService {
     userModel.timestamp = DateTime.now().millisecondsSinceEpoch;
     await _userRef
       .set(userModel)
-      .then((res) => Logger.log("Firestore doc created for ${userModel.email}"),
+      .then((res) => Logger.log("Firestore User doc created for ${userModel.email}"),
         onError: (e) => Logger.log(e.toString(), isError: true));
   }
 
@@ -123,9 +131,38 @@ class FirestoreService {
       );
   }
 
-  // static Future<PostModel?> getPostById(String postId) async {
-  //   return null;
+  static Future<void> createPreferences() async {
+    if (_uid == null) {
+      Logger.log("No User is logged into Firebase Auth.", isError: true);
+      return;
+    }
+
+    await _prefRef
+      .set(PreferencesModel())
+      .then((res) => Logger.log("Firestore Pref doc created."),
+        onError: (e) => Logger.log(e.toString(), isError: true));
+  }
+
+  static Future<PreferencesModel?> getPreferences() async {
+    if (_uid == null) {
+      Logger.log("No User is logged into Firebase Auth.", isError: true);
+      return null;
+    }
+
+    return await _prefRef
+      .get()
+      .then((snapshot) => snapshot.data(),
+        onError: (e) => Logger.log(e.toString(), isError: true));
+  }
+
+  static Future<PostModel?> getPostById(String postId) async {
+    return null;
+  }
+
+  // static Future<List<PostModel?>?> getPostsFromIds(List<String> idList) async {
+  //   await return _posts.where("uid", isEqualTo: )
   // }
+
   //
   // static Future<List<PostModel>?> getPostsByUser(UserModel userModel) async {
   //   return null;
