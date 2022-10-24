@@ -6,6 +6,7 @@ import '../../constants/app_data.dart';
 import '../../constants/app_icons.dart';
 import '../../widgets/profile/profile_widget.dart';
 import '../../widgets/wrappers/field_wrapper.dart';
+import '../../widgets/wrappers/form_wrapper.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -35,6 +36,8 @@ class ProfileScreen extends StatelessWidget {
                 FieldWrapper(
                   child: UserInformationWidget(),
                 ),
+                FormWrapper(
+                  children: [
                 FieldWrapper(
                   child: OurOutlinedButton(
                     // method invoked when a user presses this button
@@ -46,8 +49,11 @@ class ProfileScreen extends StatelessWidget {
                     },
                     label: buttonLabel,
                     icon: AppIcons.edit,
-                  ),
+                       ),
+                    )
+                  ]
                 ),
+
                 GridView.count(
                   // Create a grid with 2 columns. If you change the scrollDirection to
                   // horizontal, this produces 2 rows.
