@@ -53,6 +53,7 @@ class ProfileScreen extends StatelessWidget {
                   // horizontal, this produces 2 rows.
                   crossAxisCount: 2,
                   shrinkWrap: true,
+                  physics: const ScrollPhysics(),
                   // Generate 100 widgets that display their index in the List.
                   children: List.generate(10, (index) {
                     return Center(
