@@ -19,14 +19,6 @@ class PreferenceForm extends StatefulWidget {
 
 class _PreferenceFormState extends State<PreferenceForm> {
 
-  bool valMale = false;
-  bool valFemale = false;
-  // bool valMaleFemale = true;
-
-  bool valPetFriend = false;
-  bool valKidFriend = false;
-  bool valPetKidFriend = true;
-
   RangeValues currentPetAgeRangeValues = const RangeValues(0, 25);
   double currentRadiusValue = 100;
   int? minRange = 0;
@@ -37,34 +29,56 @@ class _PreferenceFormState extends State<PreferenceForm> {
   // Most of this was be trying to retrieve databse onformation
   // before the retrieval method was made. 
   
+  // Suppose to retrieve data from database
   static List<PetType>? dataPetTypes = PreferencesModel().petTypes;
-  PetGender? dataPetGender = PreferencesModel().petGender;
-  int? dataMinAge = PreferencesModel().minAge;
-  int? dataMaxAge = PreferencesModel().maxAge;
-  int? dataSearchRadius = PreferencesModel().searchRadius;
-  bool? dataPetFriend = PreferencesModel().isPetFriendly;
-  bool? dataKidFriend = PreferencesModel().isPetFriendly;
+  static PetGender? dataPetGender = PreferencesModel().petGender;
+  static int? dataMinAge = PreferencesModel().minAge;
+  static int? dataMaxAge = PreferencesModel().maxAge;
+  static int? dataSearchRadius = PreferencesModel().searchRadius;
+  static bool? dataPetFriend = PreferencesModel().isPetFriendly;
+  static bool? dataKidFriend = PreferencesModel().isPetFriendly;
+
   
-  static List<PetType>? defaultUserPetTypePref;
-  PetGender? userPetGenderPref;
-  bool? userIsPetFriendlyPref;
-  bool? userIsKidFriendlyPref;
-  int? userMinAgePref = 0;
-  int? userMaxAgePref = 25;
-  int? userSearchRadiusPref = 1;
+  // Assigns default values for new users
+  // static List<PetType>? defaultUserPetTypePref;
+  // static PetGender? defaultUserPetGenderPref;
+  // static bool? defaultUserIsPetFriendlyPref;
+  // static bool? defaultUserIsKidFriendlyPref;
+  // static int? defaultUserMinAgePref = 0;
+  // static int? defaultUserMaxAgePref = 25;
+  // static int? defaultUserSearchRadiusPref = 100;
 
+ // goes to null checker to see if preferance has been changed before and if so
+ // then not null and use vaalue retrieved frome the database
+  static List<PetType>? userPetTypePref = IsDatabaseNullChecker(dataPetTypes, 0);
+  static PetGender? userPetGenderPref = IsDatabaseNullChecker(dataPetGender, 1);
+  static bool? userIsPetFriendlyPref = IsDatabaseNullChecker(dataPetFriend, 2);
+  static bool? userIsKidFriendlyPref = IsDatabaseNullChecker(dataKidFriend, 3);
+  static int? userMinAgePref = IsDatabaseNullChecker(dataMinAge, 4);
+  static int? userMaxAgePref = IsDatabaseNullChecker(dataMaxAge, 5);
+  static int? userSearchRadiusPref = IsDatabaseNullChecker(dataSearchRadius, 6);
 
-  static List<PetType>?userPetTypePref = IsDatabaseNullChecker(dataPetTypes, defaultUserPetTypePref);
-  static var BoxBoolnes = PetTypeCheckBoxes(userPetTypePref);
-  bool valDog = BoxBoolnes[0];
-  bool valCat = BoxBoolnes[1];
-  bool valDogCat = BoxBoolnes[2];
-
-
-  final _formKey = GlobalKey<FormState>();
+    final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+
+  // Used to set up the boxes to match previous preferences
+  List<bool> PetTypeBoxBoolnes = PetTypeCheckBoxes(userPetTypePref);
+  bool valDog = PetTypeBoxBoolnes[0];
+  bool valCat = PetTypeBoxBoolnes[1];
+  bool valDogCat = PetTypeBoxBoolnes[2];
+
+  List<bool> PetGenderBoxBoolness = PetGenderCheckBoxes(userPetGenderPref);
+  bool valMale = PetGenderBoxBoolness[0];
+  bool valFemale = PetGenderBoxBoolness[1];
+  // bool valMaleFemale = true;
+
+  List<bool> FriendlyBoxBoolness = PetFriendCheckBoxes(userIsKidFriendlyPref, userIsPetFriendlyPref);
+  bool valKidFriend = FriendlyBoxBoolness[0];
+  bool valPetFriend = FriendlyBoxBoolness[1];
+  bool valPetKidFriend = FriendlyBoxBoolness[2];
+
     return Form(
       key: _formKey,
       child: 
@@ -83,7 +97,6 @@ class _PreferenceFormState extends State<PreferenceForm> {
               value: valDog, 
               onChanged: (value) {
                 userPetTypePref = [PetType.dog];
-                PreferencesModel(petTypes: userPetTypePref);
                 setState(() {
                   valDog = true;
                   valCat = false;
@@ -96,7 +109,6 @@ class _PreferenceFormState extends State<PreferenceForm> {
               value: valCat, 
               onChanged: (value) {
                 userPetTypePref = [PetType.cat];
-                PreferencesModel(petTypes: userPetTypePref);
                 setState(() {
                   valCat = true;
                   valDog = false;
@@ -109,7 +121,6 @@ class _PreferenceFormState extends State<PreferenceForm> {
               value: valDogCat, 
               onChanged: (value) {
                 userPetTypePref = [PetType.cat, PetType.dog];
-                PreferencesModel(petTypes: userPetTypePref);
                 setState(() {
                   valDogCat = true;
                   valCat = false;
@@ -148,15 +159,15 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   // valMaleFemale = false;
                 });
               },),
-            //   Text("Both"),
+              // Text("Both"),
             // Checkbox(
-            //   value: valDogCat, 
+            //   value: valMaleFemale, 
             //   onChanged: (value) {
             //     userPetTypePref = [PetType.cat, PetType.dog];
             //     setState(() {
-            //       valDogCat = true;
-            //       valCat = false;
-            //       valDog = false;
+            //       valMaleFemale = true;
+            //       valMale = false;
+            //       valFemale = false;
             //     });
             //   },)
           ],),
@@ -220,9 +231,6 @@ class _PreferenceFormState extends State<PreferenceForm> {
               max: 25,
               min: 0,
               divisions: 25,
-              // labels: RangeLabels(
-              //   currentPetAgeRangeValues.start.round().toString(), 
-              //   currentPetAgeRangeValues.end.round().toString()),
               onChanged: (RangeValues values) {
                 setState(() {
                   currentPetAgeRangeValues = values;
@@ -266,6 +274,15 @@ class _PreferenceFormState extends State<PreferenceForm> {
               backgroundColor: AppColors.primary
             ),
             onPressed: () {
+              print(
+              "Pet Type Pref: $userPetTypePref\n"
+              "Pet Gender Pref: $userPetGenderPref\n"
+              "Is Kid Friendly: $userIsKidFriendlyPref\n"
+              "Is Pet Friendly: $userIsPetFriendlyPref\n"
+              "Pet Min Age Pref: $userMinAgePref\n"
+              "Pet Max Age Pref: $userMaxAgePref\n"
+              "Search Radius Pref: $userSearchRadiusPref\n"
+              );
               //Where data will be sent to database maybe
             }, 
             child: Text("Save"))
@@ -279,24 +296,67 @@ class _PreferenceFormState extends State<PreferenceForm> {
 // Going to be some logic that requires information from the database 
 // to know if to use starter values or saved ones
 
-  static IsDatabaseNullChecker(var dataFromDatabase, var dataToBeUsed) {
+  static IsDatabaseNullChecker(var dataFromDatabase, int type) {
   if (dataFromDatabase == null) {
-    print("object");
-    return dataToBeUsed;
+    switch (type) {
+      case 0:
+        return [PetType.dog, PetType.cat];
+      case 1:
+        return PetGender.male;
+      case 2:
+        return true;
+      case 3:
+        return true;
+      case 4:
+        return 0;
+      case 5:
+        return 25;
+      case 6:
+       return 100;
+      default:
+    }
   } else {
     return dataFromDatabase;
   }
 }
 
+// all of these check save and chosen prefernaces and sets up boxes and sliders
+// to match
 static PetTypeCheckBoxes(List<PetType>? dataFromDatabse) {
-  if (dataFromDatabse == null || dataFromDatabse == [PetType.dog, PetType.cat]) {
-    return [false, false, true];
+  List<bool> temp = [];
+  if (dataFromDatabse?.length == 0 || dataFromDatabse?.length == 2) {
+    temp = [false, false, true];
+    return temp;
   }
-  if (dataFromDatabse == [PetType.dog]) {
-    return [true, false, false];
+  if (dataFromDatabse?[0] == PetType.dog) {
+    temp = [true, false, false];
+    return temp;
   }
-  if (dataFromDatabse == [PetType.cat]) {
-    return [false, true, false];
+  if (dataFromDatabse?[0] == PetType.cat) {
+    temp = [false, true, false];
+    return temp;
+  }
+}
+
+static PetGenderCheckBoxes(PetGender? dataFromDatabase) {
+  List<bool> temp = [];
+  if (dataFromDatabase == null || dataFromDatabase == PetGender.male) {
+    return temp = [true, false];
+  } else {
+    return temp = [false, true];
+  }
+}
+
+static PetFriendCheckBoxes(bool? dataFromDatabaseKid, bool? dataFromDatabasePet) {
+  List<bool> temp = [];
+  if (dataFromDatabaseKid == true && dataFromDatabasePet == true) {
+    return temp = [false, false, true];
+  }
+  if (dataFromDatabaseKid == true && dataFromDatabasePet == false) {
+    return temp = [true, false, false];
+  }
+  if (dataFromDatabaseKid == false && dataFromDatabasePet == true) {
+    return temp = [false, true, false];
   }
 }
 }
