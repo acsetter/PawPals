@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_data.dart';
+import '../../controllers/app_user.dart';
 import '../../models/user_model.dart';
 
 /*
-ProfilePhotoWidget: fetch and build the user's profile image from dummy data in the UserModel
+ProfilePhotoWidget: fetch and build the user's profile image --> Utilizes web URL from dummy user
+information (usermodeltest.dart) until database is built.
  */
 
 class ProfilePhotoWidget extends StatelessWidget {
@@ -35,33 +37,35 @@ class ProfilePhotoWidget extends StatelessWidget {
 }
 
 
-/* UserInformationWidget: to build the User's Information --> Takes dummy user information from the UserModel to
-* build a profile screen */
+/* UserInformationWidget: to build the User's Information --> Takes dummy user information from usermodeltest.dart
+until database is created */
 
 class UserInformationWidget extends StatelessWidget {
-  final UserModel user = AppData.fakeManUser;
 
-  UserInformationWidget({super.key});
+  const UserInformationWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    UserModel? userModel = AppUser.instance.userModel;
+
     return Column(  // Building widget for user information
         children: [
           Text(
-            '${AppData.fakeManUser.username}', // Fetching user username
+            '${userModel?.username}', // Fetching user username
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24), // Setting text style
           ),
           const SizedBox(height: 4),  // Creating container for user first / user last
           Text(
-            '${user.first} ${user.last}',
+            '${userModel?.first} ${userModel?.last}',
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.deepPurple), // Setting text style
           ),
           const SizedBox(height: 4),  // Creating container for email
           Text(
-            '${AppData.fakeManUser.email}',  // Fetching user email
+            '${userModel?.email}',  // Fetching user email
             style: const TextStyle(color: Colors.grey), // Setting the text style (color)
           ),
         ]
     );
   }
 }
+
