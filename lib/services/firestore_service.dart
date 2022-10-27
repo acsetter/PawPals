@@ -118,7 +118,7 @@ class FirestoreService {
 
     await _userRef
       .update(userModel.toFirestoreUpdate())
-      .then((res) => Logger.log("Firestore doc created for ${userModel.email}"),
+      .then((res) => Logger.log("Firestore doc updated for ${userModel.email}"),
         onError: (e) => Logger.log("Error creating Firestore doc for ${userModel.email}")
       );
   }

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:paw_pals/services/firestore_service.dart';
 import '../../constants/app_data.dart';
 import '../../controllers/app_user.dart';
 import '../../models/user_model.dart';
+import '../wrappers/auth_wrapper.dart';
+import '../wrappers/field_wrapper.dart';
+import '../wrappers/form_wrapper.dart';
 
 /*
 ProfilePhotoWidget: fetch and build the user's profile image --> Utilizes web URL from dummy user
@@ -26,7 +30,7 @@ class ProfilePhotoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Ink.image( // Creates a widget for displaying an image using Ink Package
-        image: AppData.profileMan,  // Grabbing photo from photoUrl defined by user model
+        image: AppData.profileWoman,  // Grabbing photo from photoUrl defined by user model
         fit: BoxFit.cover,  // Applies box mask to image
         width: 128, // Setting width/height of the user's profile image
         height: 128,
@@ -47,7 +51,36 @@ class UserInformationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserModel? userModel = AppUser.instance.userModel;
+    return
+      SizedBox(
+          child: StreamBuilder<UserModel?>(
+            // Stateful widget updates via a stream:
+              stream: AppUser.instance.appUserChanges(),
+              // builder is called every time the stream ^ gets an update
+              builder: (BuildContext context, _) {
+                // the '_' is the data-snapshot returned by the stream, which is
+                // fine to use, but we can also just fetch the same data
+                // directly from AppUser:
+                UserModel? userModel = AppUser.instance.userModel;
 
+                if (userModel != null) {
+                  // Return your widget here and pass the userModel
+                  return Text('    ${userModel.username}\n${userModel.first} ${userModel.last}',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 24));
+
+                  // Setting text style
+                } else {
+                  // This means the UI rendered before data was available
+                  // which means we should show a loading screen
+                  return const Text("Loading or error...");
+                }
+              }
+          )
+      );
+  }
+
+/*
     return Column(  // Building widget for user information
         children: [
           Text(
@@ -66,6 +99,8 @@ class UserInformationWidget extends StatelessWidget {
           ),
         ]
     );
+
+ */
   }
-}
+
 
