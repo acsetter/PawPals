@@ -79,21 +79,27 @@ class AuthService {
       if (isUnameUnique == null) return "unhandled-error";
       if (!isUnameUnique) return "username-taken";
 
-      await _auth
+      return await _auth
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((res) async {
-          FirestoreService.createUser(
-            UserModel(
-              uid: res.user?.uid,
-              email: email,
-              username: username,
-              first: first,
-              last: last,
-            )
-          );
+          return FirestoreService
+            .createUser(
+              UserModel(
+                uid: res.user?.uid,
+                email: email,
+                username: username,
+                first: first,
+                last: last,
+              ))
+            .then((res) {
+              if (res) {
+                Logger.log("Auth entry created for ${_user?.email}");
+                return "";
+              }
+              else {
+                return "unhandled-error";
+              }});
         });
-      Logger.log("Auth entry created for ${_user?.email}");
-      return "";
     } on FirebaseAuthException catch (e) {
       Logger.log('${e.code}: ${e.message}', isError: true);
       switch (e.code) {

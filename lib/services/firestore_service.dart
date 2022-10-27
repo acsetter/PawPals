@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:paw_pals/models/post_model.dart';
@@ -87,22 +86,28 @@ class FirestoreService {
   /// Creates a User document from a [UserModel] in the Firestore Database.
   /// [UserModel.uid] is required to create the doc in the database.
   /// This method should only be called on user sign-up.
-  static Future<void> createUser(UserModel userModel) async {
+  static Future<bool> createUser(UserModel userModel) async {
     // Restrict creating/overwriting if not authorized.
     if (_uid == null || userModel.uid == null) {
       Logger.log("No User is logged into Firebase Auth.", isError: true);
-      return;
+      return false;
     }
     if (userModel.uid != _uid) {
       Logger.log("User being created does not match the user logged in", isError: true);
-      return;
+      return false;
     }
     // Set the timestamp to the moment the account was created.
     userModel.timestamp = DateTime.now().millisecondsSinceEpoch;
-    await _userRef
+    return await _userRef
       .set(userModel)
-      .then((res) => Logger.log("Firestore User doc created for ${userModel.email}"),
-        onError: (e) => Logger.log(e.toString(), isError: true));
+      .then((res) {
+          Logger.log("Firestore User doc created for ${userModel.email}");
+          return createPreferences();
+        },
+        onError: (e) {
+          Logger.log(e.toString(), isError: true);
+          return false;
+        });
   }
 
   /// Updates a User from a [UserModel] in the Firestore Database. <br/>
@@ -131,18 +136,27 @@ class FirestoreService {
       );
   }
 
-  static Future<void> createPreferences() async {
+  /// Creates a [PreferencesModel] doc for a new user.
+  /// Returns a bool indicating creation success.
+  static Future<bool> createPreferences() async {
     if (_uid == null) {
       Logger.log("No User is logged into Firebase Auth.", isError: true);
-      return;
+      return false;
     }
 
-    await _prefRef
+    return await _prefRef
       .set(PreferencesModel())
-      .then((res) => Logger.log("Firestore Pref doc created."),
-        onError: (e) => Logger.log(e.toString(), isError: true));
+      .then((res) {
+          Logger.log("Firestore Pref doc created.");
+          return true;
+        },
+        onError: (e) {
+          Logger.log(e.toString(), isError: true);
+          return false;
+        });
   }
 
+  /// A one-time fetch of the [PreferencesModel] for the logged-in user.
   static Future<PreferencesModel?> getPreferences() async {
     if (_uid == null) {
       Logger.log("No User is logged into Firebase Auth.", isError: true);
@@ -155,6 +169,28 @@ class FirestoreService {
         onError: (e) => Logger.log(e.toString(), isError: true));
   }
 
+  /// Update the [PreferencesModel] for the logged-in user.
+  /// Returns a bool that indicates update success.
+  static Future<bool> updatePreferences(PreferencesModel prefModel) async {
+    if (_uid == null) {
+      Logger.log("No User is logged into Firebase Auth.", isError: true);
+      return false;
+    }
+
+    return await _prefRef
+        .update(prefModel.toFirestore())
+        .then(
+          (value) {
+            Logger.log("Preference doc updated.");
+            return true;
+          },
+          onError: (e) {
+            Logger.log(e.toString(), isError: true);
+            return false;
+          }
+    );
+  }
+
   static Future<PostModel?> getPostById(String postId) async {
     return null;
   }
@@ -163,18 +199,20 @@ class FirestoreService {
   //   await return _posts.where("uid", isEqualTo: )
   // }
 
-  //
-  // static Future<List<PostModel>?> getPostsByUser(UserModel userModel) async {
-  //   return null;
+  // static Future<List<PostModel?>?> getPostsByUser(UserModel userModel) async {
+  //   return await _posts.where("uid", isEqualTo: userModel.uid).get()
+  //       .then(
+  //         (value) => value.docs.data(),
+  //         onError: (e) => Logger.log(e.toString(), isError: true));
   // }
-  //
+
   // static Future<PostModel?> getLikedPosts() async {
   //   return null;
   // }
 
-  static Future<Image?> getImageFromUrl(String url) async {
-    return null;
-  }
+  // static Future<Image?> getImageFromUrl(String url) async {
+  //   return null;
+  // }
 
   /// Query all users and return if given username is unique.
   /// Returns null if error occurs.
