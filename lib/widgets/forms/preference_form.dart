@@ -18,15 +18,7 @@ class PreferenceForm extends StatefulWidget {
 }
 
 class _PreferenceFormState extends State<PreferenceForm> {
-
-  RangeValues currentPetAgeRangeValues = const RangeValues(0, 25);
-  double currentRadiusValue = 100;
-  int? minRange = 0;
-  int? maxRange = 100;
-
-  // static var userPrefModel = PreferencesModel.fromFirestore;
-
-  // Most of this was be trying to retrieve databse onformation
+  // Most of this was be trying to retrieve databse information
   // before the retrieval method was made. 
   
   // Suppose to retrieve data from database
@@ -38,24 +30,14 @@ class _PreferenceFormState extends State<PreferenceForm> {
   static bool? dataPetFriend = PreferencesModel().isPetFriendly;
   static bool? dataKidFriend = PreferencesModel().isPetFriendly;
 
-  
-  // Assigns default values for new users
-  // static List<PetType>? defaultUserPetTypePref;
-  // static PetGender? defaultUserPetGenderPref;
-  // static bool? defaultUserIsPetFriendlyPref;
-  // static bool? defaultUserIsKidFriendlyPref;
-  // static int? defaultUserMinAgePref = 0;
-  // static int? defaultUserMaxAgePref = 25;
-  // static int? defaultUserSearchRadiusPref = 100;
-
  // goes to null checker to see if preferance has been changed before and if so
- // then not null and use vaalue retrieved frome the database
+ // then not null and use value retrieved frome the database
   static List<PetType>? userPetTypePref = IsDatabaseNullChecker(dataPetTypes, 0);
   static PetGender? userPetGenderPref = IsDatabaseNullChecker(dataPetGender, 1);
   static bool? userIsPetFriendlyPref = IsDatabaseNullChecker(dataPetFriend, 2);
   static bool? userIsKidFriendlyPref = IsDatabaseNullChecker(dataKidFriend, 3);
-  static int? userMinAgePref = IsDatabaseNullChecker(dataMinAge, 4);
-  static int? userMaxAgePref = IsDatabaseNullChecker(dataMaxAge, 5);
+  static double? userMinAgePref = IsDatabaseNullChecker(dataMinAge, 4);
+  static double? userMaxAgePref = IsDatabaseNullChecker(dataMaxAge, 5);
   static int? userSearchRadiusPref = IsDatabaseNullChecker(dataSearchRadius, 6);
 
     final _formKey = GlobalKey<FormState>();
@@ -64,6 +46,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
   Widget build(BuildContext context) {
 
   // Used to set up the boxes to match previous preferences
+  // State preserve and setters for values
   List<bool> PetTypeBoxBoolnes = PetTypeCheckBoxes(userPetTypePref);
   bool valDog = PetTypeBoxBoolnes[0];
   bool valCat = PetTypeBoxBoolnes[1];
@@ -78,6 +61,13 @@ class _PreferenceFormState extends State<PreferenceForm> {
   bool valKidFriend = FriendlyBoxBoolness[0];
   bool valPetFriend = FriendlyBoxBoolness[1];
   bool valPetKidFriend = FriendlyBoxBoolness[2];
+
+  List<double?> PetAgeRangeState = PetAgeRangeStatePreserve(userMinAgePref, userMaxAgePref);
+  RangeValues currentPetAgeRangeValues = RangeValues(PetAgeRangeState[0]!, PetAgeRangeState[1]!);
+
+  int? petSearchRadiusState = PetSearchRadiusStatePreserve(userSearchRadiusPref);
+  int? maxRadiusLabel = petSearchRadiusState;
+  double currentRadiusValue =petSearchRadiusState!.toDouble();
 
     return Form(
       key: _formKey,
@@ -225,7 +215,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("$userMinAgePref"),
+            Text("${userMinAgePref?.toInt()}"),
             RangeSlider(
               values: currentPetAgeRangeValues,
               max: 25,
@@ -234,11 +224,11 @@ class _PreferenceFormState extends State<PreferenceForm> {
               onChanged: (RangeValues values) {
                 setState(() {
                   currentPetAgeRangeValues = values;
-                  userMinAgePref = currentPetAgeRangeValues.start.toInt();
-                  userMaxAgePref = currentPetAgeRangeValues.end.toInt();
+                  userMinAgePref = currentPetAgeRangeValues.start;
+                  userMaxAgePref = currentPetAgeRangeValues.end;
                 });
               },),
-              Text("$userMaxAgePref")
+              Text("${userMaxAgePref?.toInt()}")
           ],
         ),
 
@@ -248,7 +238,6 @@ class _PreferenceFormState extends State<PreferenceForm> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Text("$minRange mi"),
             Slider(
               value: currentRadiusValue,
               max: 100,
@@ -258,11 +247,11 @@ class _PreferenceFormState extends State<PreferenceForm> {
                 setState(() {
                   currentRadiusValue = value;
                   // minRange = currentRadiusValues.start.toInt();
-                  maxRange = currentRadiusValue.toInt();
+                  maxRadiusLabel = currentRadiusValue.toInt();
                   userSearchRadiusPref = currentRadiusValue.toInt();
                 });
               },),
-              Text("$maxRange mi")
+              Text("$maxRadiusLabel mi")
           ],
         ),
         Row(
@@ -279,8 +268,9 @@ class _PreferenceFormState extends State<PreferenceForm> {
               "Pet Gender Pref: $userPetGenderPref\n"
               "Is Kid Friendly: $userIsKidFriendlyPref\n"
               "Is Pet Friendly: $userIsPetFriendlyPref\n"
-              "Pet Min Age Pref: $userMinAgePref\n"
-              "Pet Max Age Pref: $userMaxAgePref\n"
+              // turned into intergers for future database implementation
+              "Pet Min Age Pref: ${userMinAgePref?.toInt()}\n"
+              "Pet Max Age Pref: ${userMaxAgePref?.toInt()}\n"
               "Search Radius Pref: $userSearchRadiusPref\n"
               );
               //Where data will be sent to database maybe
@@ -308,9 +298,9 @@ class _PreferenceFormState extends State<PreferenceForm> {
       case 3:
         return true;
       case 4:
-        return 0;
+        return 0.0;
       case 5:
-        return 25;
+        return 25.0;
       case 6:
        return 100;
       default:
@@ -357,6 +347,23 @@ static PetFriendCheckBoxes(bool? dataFromDatabaseKid, bool? dataFromDatabasePet)
   }
   if (dataFromDatabaseKid == false && dataFromDatabasePet == true) {
     return temp = [false, true, false];
+  }
+}
+
+static PetAgeRangeStatePreserve(double? dataMinAge, double? dataMaxAge) {
+  List<double?> temp =[];
+  if (dataMinAge == Null && dataMaxAge == Null) {
+    return temp = [0, 25];
+  } else {
+    return temp = [dataMinAge, dataMaxAge];
+  }
+}
+
+static PetSearchRadiusStatePreserve(int? dataSearchRadius) {
+  if (dataSearchRadius == Null) {
+    return 100;
+  } else {
+    return dataSearchRadius;
   }
 }
 }
