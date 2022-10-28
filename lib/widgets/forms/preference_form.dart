@@ -47,20 +47,20 @@ class _PreferenceFormState extends State<PreferenceForm> {
 
   // Used to set up the boxes to match previous preferences
   // State preserve and setters for values
-  List<bool> PetTypeBoxBoolnes = PetTypeCheckBoxes(userPetTypePref);
-  bool valDog = PetTypeBoxBoolnes[0];
-  bool valCat = PetTypeBoxBoolnes[1];
-  bool valDogCat = PetTypeBoxBoolnes[2];
+  List<bool?> PetTypeBoxBoolnes = PetTypeCheckBoxes(userPetTypePref);
+  bool? valDog = PetTypeBoxBoolnes[0];
+  bool? valCat = PetTypeBoxBoolnes[1];
+  bool? valDogCat = PetTypeBoxBoolnes[2];
 
-  List<bool> PetGenderBoxBoolness = PetGenderCheckBoxes(userPetGenderPref);
-  bool valMale = PetGenderBoxBoolness[0];
-  bool valFemale = PetGenderBoxBoolness[1];
-  // bool valMaleFemale = true;
+  List<bool?> PetGenderBoxBoolness = PetGenderCheckBoxes(userPetGenderPref);
+  bool? valFemale = PetGenderBoxBoolness[0];
+  bool? valMale = PetGenderBoxBoolness[1];
+  bool? valMaleFemale = PetGenderBoxBoolness[2];
 
-  List<bool> FriendlyBoxBoolness = PetFriendCheckBoxes(userIsKidFriendlyPref, userIsPetFriendlyPref);
-  bool valKidFriend = FriendlyBoxBoolness[0];
-  bool valPetFriend = FriendlyBoxBoolness[1];
-  bool valPetKidFriend = FriendlyBoxBoolness[2];
+  List<bool?> FriendlyBoxBoolness = PetFriendCheckBoxes(userIsKidFriendlyPref, userIsPetFriendlyPref);
+  bool? valKidFriend = FriendlyBoxBoolness[0];
+  bool? valPetFriend = FriendlyBoxBoolness[1];
+  bool? valPetKidFriend = FriendlyBoxBoolness[2];
 
   List<double?> PetAgeRangeState = PetAgeRangeStatePreserve(userMinAgePref, userMaxAgePref);
   RangeValues currentPetAgeRangeValues = RangeValues(PetAgeRangeState[0]!, PetAgeRangeState[1]!);
@@ -149,17 +149,18 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   // valMaleFemale = false;
                 });
               },),
-              // Text("Both"),
-            // Checkbox(
-            //   value: valMaleFemale, 
-            //   onChanged: (value) {
-            //     userPetTypePref = [PetType.cat, PetType.dog];
-            //     setState(() {
-            //       valMaleFemale = true;
-            //       valMale = false;
-            //       valFemale = false;
-            //     });
-            //   },)
+              Text("Both"),
+            Checkbox(
+              activeColor: AppColors.primary,
+              value: valMaleFemale, 
+              onChanged: (value) {
+                userPetGenderPref = null;
+                setState(() {
+                  valMaleFemale = true;
+                  valMale = false;
+                  valFemale = false;
+                });
+              },)
           ],),
 
           Row(children: [const Text("Pet friendliness", 
@@ -264,7 +265,12 @@ class _PreferenceFormState extends State<PreferenceForm> {
             ),
             onPressed: () {
               print(
+              // null will mean no preferance to the database
               "Pet Type Pref: $userPetTypePref\n"
+              // gender prefance was already handles to be set to null if both to be shown on feed
+              // so only other ones need to me handled and changed to return null to 
+              // the databse depending on if not selected
+              // This really only needs to be done for pet type i believe
               "Pet Gender Pref: $userPetGenderPref\n"
               "Is Kid Friendly: $userIsKidFriendlyPref\n"
               "Is Pet Friendly: $userIsPetFriendlyPref\n"
@@ -292,7 +298,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
       case 0:
         return [PetType.dog, PetType.cat];
       case 1:
-        return PetGender.male;
+        return null;
       case 2:
         return true;
       case 3:
@@ -329,11 +335,15 @@ static PetTypeCheckBoxes(List<PetType>? dataFromDatabse) {
 }
 
 static PetGenderCheckBoxes(PetGender? dataFromDatabase) {
-  List<bool> temp = [];
-  if (dataFromDatabase == null || dataFromDatabase == PetGender.male) {
-    return temp = [true, false];
-  } else {
-    return temp = [false, true];
+  List<bool?> temp = [];
+  if (dataFromDatabase == null) {
+    return temp = [false, false, true];
+  } 
+  if (dataFromDatabase == PetGender.male) {
+    return temp = [false, true, false];
+  }
+  if (dataFromDatabase == PetGender.female) {
+    return temp = [true, false, false];
   }
 }
 
