@@ -73,6 +73,29 @@ class PostModel {
     "isPetFriendly": isPetFriendly,
   };
 
+  static List<PostModel> post = [
+    PostModel(
+      postId: "1",
+      uid: "1",
+      postDescription: "Bob is an adventurous Cat!",
+      petName: "Bob",
+      petAge: 7,
+      petPhotoUrl: 'assets/images/tabby_cat.jpg',
+
+
+    ),
+    PostModel(
+      postId: "2",
+      uid: "2",
+      postDescription: "Carl likes to sleep and chew on bones!",
+      petName: "Carl",
+      petAge: 5,
+      petPhotoUrl: 'assets/images/corgi.jpg',
+
+
+    ),
+  ];
+
 // static List<PostModel> listFromFirestore(list) =>
 //     List<PostModel>.from(list.map((x) => PostModel.fromFirestore(snapshot: x)));
 }
