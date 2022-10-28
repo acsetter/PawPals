@@ -91,8 +91,22 @@ class PostModel {
       petName: "Carl",
       petAge: 5,
       petPhotoUrl: 'assets/images/corgi.jpg',
-
-
+    ),
+    PostModel(
+      postId: "3",
+      uid: "3",
+      postDescription: "Doug likes alot of treats!",
+      petName: "Doug",
+      petAge: 4,
+      petPhotoUrl: 'assets/images/english_bulldog.jpg',
+    ),
+    PostModel(
+      postId: "4",
+      uid: "4",
+      postDescription: "Earl is Lazy!",
+      petName: "Earl",
+      petAge: 9,
+      petPhotoUrl: 'assets/images/siamese_cat.jpg',
     ),
   ];
 
