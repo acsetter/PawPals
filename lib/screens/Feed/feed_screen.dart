@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paw_pals/Blocks/swipe_block.dart';
-import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/widgets/empty_screen_card.dart';
 import 'package:paw_pals/widgets/screencards.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
@@ -24,7 +23,6 @@ class FeedScreen extends StatelessWidget {
             if(state is SwipeLoading){
               return const Center(
                 child: CircularProgressIndicator(),
-
               );
             }
             else if (state is SwipeLoaded){
@@ -34,28 +32,28 @@ class FeedScreen extends StatelessWidget {
                   feedback: ScreenCards(post: state.posts[0]),
                   childWhenDragging: EmptyCard(color: Colors.grey),
                   onDragEnd: (drag){
-                    if(state.posts[2] == null){
+                    if(state.posts.length == 2){
+
+                      Logger.log("end of list");
+                    }
+                    else if(state.posts[2] == null && state.posts.length > 2){
 
                       context.read<SwipeBlock>()
                           .add(SwipeLeft(post: state.posts[-1]));
                     }
-
-                    if (drag.velocity.pixelsPerSecond.dx < 0){
+                    if (drag.velocity.pixelsPerSecond.dx < 0 && state.posts.length > 2 ){
                       Logger.log("Swiped left" );
 
                       context.read<SwipeBlock>()
                           .add(SwipeLeft(post: state.posts[0]));
-
-
                     }
-                    else if (drag.velocity.pixelsPerSecond.dx >0 ) {
+                    else if (drag.velocity.pixelsPerSecond.dx >0 && state.posts.length > 2) {
                       Logger.log('Swiped right');
 
                         context.read<SwipeBlock>()
                         .add(SwipeRight(post: state.posts[0]));
                     } else  {
                         Logger.log('Stay');
-
                     }
                   },
                 )

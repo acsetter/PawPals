@@ -114,7 +114,7 @@ class PostModel {
       postDescription: "Please update your preferences to\nSee more pets!",
       petName: "You're Out of Pets!",
       petAge: 0,
-      petPhotoUrl: 'assets/images/empty_cage.jpg',
+      petPhotoUrl: 'assets/images/profile_man.jpg',
     ),
     PostModel(
       postId: "6",

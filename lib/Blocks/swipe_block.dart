@@ -33,8 +33,8 @@ class SwipeBlock extends Bloc<SwipeEvent, SwipeState>{
         emit(SwipeLoaded(posts: List.from(state.posts)..remove(event.post),
         ),
         );
-    } on RangeError catch(_){
-        EmptyCard(color: Colors.grey);
+    } on RangeError{
+        return print('ghciv');
       }
   }
   }
@@ -49,8 +49,8 @@ class SwipeBlock extends Bloc<SwipeEvent, SwipeState>{
         emit(SwipeLoaded(posts: List.from(state.posts)..remove(event.post),
         ),
         );
-      } on RangeError catch(_){
-        EmptyCard(color: Colors.grey);
+      } on RangeError{
+        return print("ucyygcvkgv");
       }
     }
   }
