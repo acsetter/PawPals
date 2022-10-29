@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 import '../../constants/app_icons.dart';
 import '../../constants/app_info.dart';
@@ -75,8 +76,23 @@ class EditProfileState extends State<EditProfile> with FormValidation {
                         icon: AppIcons.edit,
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            FirestoreService.updateUser(AppUser.instance.userModel!.copyWith( // Using copyWith method and passing it the first and last name text controllers
-                                first: firstNameController.text.trim(), last: lastNameController.text.trim()));
+                            FirestoreService
+                                .updateUser(AppUser.instance.userModel!
+                                  .copyWith( // Using copyWith method and passing it the first and last name text controllers
+                                    first: firstNameController.text.trim(),
+                                    last: lastNameController.text.trim()))
+                                .then((didComplete) {
+                                  if (didComplete) {
+                                    Get.back(); // Goes back to profile photo
+                                  } else { // Tells the user that an error occurred
+                                    Get.snackbar('Error: unable to update profile',
+                                      'Please try again.',
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    duration: const Duration(seconds: 7),
+                                    colorText: Theme.of(context).errorColor
+                                    );
+                                  }
+                            });
                           }
                         }, label: 'Save Changes', //Button label
                       )
