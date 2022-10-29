@@ -10,7 +10,7 @@ abstract class SwipeEvent extends Equatable{
 class LoadPosts extends SwipeEvent{
   final List<PostModel> posts;
 
-  LoadPosts({required this.posts});
+  const LoadPosts({required this.posts});
 
   @override
   List<Object> get props => [posts];
@@ -19,7 +19,7 @@ class LoadPosts extends SwipeEvent{
 class SwipeLeft extends SwipeEvent{
   final PostModel post;
 
-  SwipeLeft({
+  const SwipeLeft({
     required this.post,
 });
   @override
@@ -28,7 +28,7 @@ class SwipeLeft extends SwipeEvent{
 class SwipeRight extends SwipeEvent{
   final PostModel post;
 
-  SwipeRight({
+  const SwipeRight({
     required this.post,
   });
   @override

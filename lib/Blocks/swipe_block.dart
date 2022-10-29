@@ -29,14 +29,10 @@ class SwipeBlock extends Bloc<SwipeEvent, SwipeState>{
       ) {
     if (state is SwipeLoaded){
       final state = this.state as SwipeLoaded;
-      try{
         emit(SwipeLoaded(posts: List.from(state.posts)..remove(event.post),
         ),
         );
-    } on RangeError{
-        return print('ghciv');
-      }
-  }
+    }
   }
 
   void _onSwipeRight(
@@ -45,13 +41,11 @@ class SwipeBlock extends Bloc<SwipeEvent, SwipeState>{
       ) {
     if (state is SwipeLoaded){
       final state = this.state as SwipeLoaded;
-      try{
+
         emit(SwipeLoaded(posts: List.from(state.posts)..remove(event.post),
         ),
         );
-      } on RangeError{
-        return print("ucyygcvkgv");
-      }
+
     }
   }
 

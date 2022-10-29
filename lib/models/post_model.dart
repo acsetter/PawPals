@@ -81,8 +81,6 @@ class PostModel {
       petName: "Bob",
       petAge: 7,
       petPhotoUrl: 'assets/images/tabby_cat.jpg',
-
-
     ),
     PostModel(
       postId: "2",

@@ -64,7 +64,6 @@ class EmptyCard extends StatelessWidget {
                               fontWeight: FontWeight.normal,
                             )
                         ),
-
                       ],
                     )
                 )

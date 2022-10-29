@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:paw_pals/Blocks/swipe_block.dart';
-import 'package:paw_pals/widgets/empty_screen_card.dart';
 import 'package:paw_pals/widgets/screencards.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/utils/app_log.dart';
 
-
-
 class FeedScreen extends StatelessWidget {
   final String screenTitle = "Feed Screen";
-
 
   const FeedScreen({super.key});
 
@@ -28,7 +24,6 @@ class FeedScreen extends StatelessWidget {
             else if (state is SwipeLoaded){
               return Column(children: [
                 Draggable(
-                  child: ScreenCards(post: state.posts[0]),
                   feedback: ScreenCards(post: state.posts[0]),
                   childWhenDragging: ScreenCards(post: state.posts[1]),
                   onDragEnd: (drag){
@@ -36,6 +31,7 @@ class FeedScreen extends StatelessWidget {
 
                       Logger.log("end of list");
                     }
+                    // ignore: unnecessary_null_comparison
                     else if(state.posts[2] == null && state.posts.length > 2){
 
                       context.read<SwipeBlock>()
@@ -56,6 +52,7 @@ class FeedScreen extends StatelessWidget {
                         Logger.log('Stay');
                     }
                   },
+                  child: ScreenCards(post: state.posts[0]),
                 )
               ],
               );
