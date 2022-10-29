@@ -50,4 +50,25 @@ class PreferencesModel {
     "isPetFriendly": isPetFriendly,
     "isKidFriendly": isKidFriendly
   };
+
+  /// Makes a copy of the [PreferencesModel] with expected changes.
+  PreferencesModel copyWith({
+    List<PetType>? petTypes,
+    PetGender? petGender,
+    int? minAge,
+    int? maxAge,
+    int? searchRadius,
+    bool? isPetFriendly,
+    bool? isKidFriendly,
+  }) {
+    return PreferencesModel(
+      petTypes: petTypes ?? this.petTypes,
+      petGender: petGender ?? this. petGender,
+      minAge: minAge ?? this.minAge,
+      maxAge: maxAge ?? this.maxAge,
+      searchRadius: searchRadius ?? this.searchRadius,
+      isPetFriendly: isPetFriendly ?? this.isPetFriendly,
+      isKidFriendly: isKidFriendly ?? this.isKidFriendly,
+    );
+  }
 }
