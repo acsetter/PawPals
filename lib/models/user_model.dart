@@ -84,7 +84,10 @@ class UserModel {
   }
 
   /*
-  The copyWith method aids in the editing of user profile information
+  The copyWith method aids in the editing of user profile information.
+  A copy of the UserModel is created and currently allows for the first
+  and last name of the user to be changed and passed to the updateUser()
+  method to be updated in the database.
    */
 
   UserModel copyWith({

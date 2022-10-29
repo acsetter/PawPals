@@ -37,8 +37,11 @@ class ProfilePhotoWidget extends StatelessWidget {
 }
 
 
-/* UserInformationWidget: to build the User's Information --> Takes dummy user information from usermodeltest.dart
-until database is created */
+/* The UserInformationWidget allows for the stream of data from
+the database to be displayed on the user's profile page.  If the UI
+renders before the data does, a "Loading or error" message will
+be displayed while the data continues to load up
+*/
 
 class UserInformationWidget extends StatelessWidget {
 
