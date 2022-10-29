@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:paw_pals/services/firestore_service.dart';
 import '../../constants/app_data.dart';
 import '../../controllers/app_user.dart';
 import '../../models/user_model.dart';
-import '../wrappers/auth_wrapper.dart';
-import '../wrappers/field_wrapper.dart';
-import '../wrappers/form_wrapper.dart';
 
 /*
 ProfilePhotoWidget: fetch and build the user's profile image --> Utilizes web URL from dummy user
@@ -50,7 +46,6 @@ class UserInformationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserModel? userModel = AppUser.instance.userModel;
     return
       SizedBox(
           child: StreamBuilder<UserModel?>(
@@ -65,7 +60,7 @@ class UserInformationWidget extends StatelessWidget {
 
                 if (userModel != null) {
                   // Return your widget here and pass the userModel
-                  return Text('    ${userModel.username}\n${userModel.first} ${userModel.last}',
+                  return Text('  ${userModel.username}\n${userModel.first} ${userModel.last}',
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 24));
 
@@ -80,27 +75,6 @@ class UserInformationWidget extends StatelessWidget {
       );
   }
 
-/*
-    return Column(  // Building widget for user information
-        children: [
-          Text(
-            '${userModel?.username}', // Fetching user username
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24), // Setting text style
-          ),
-          const SizedBox(height: 4),  // Creating container for user first / user last
-          Text(
-            '${userModel?.first} ${userModel?.last}',
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.deepPurple), // Setting text style
-          ),
-          const SizedBox(height: 4),  // Creating container for email
-          Text(
-            '${userModel?.email}',  // Fetching user email
-            style: const TextStyle(color: Colors.grey), // Setting the text style (color)
-          ),
-        ]
-    );
-
- */
   }
 
 
