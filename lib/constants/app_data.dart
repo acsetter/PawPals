@@ -14,6 +14,8 @@ class AppData {
   static AssetImage get tabbyCat => const AssetImage('assets/images/tabby_cat.jpg');
   static AssetImage get profileMan => const AssetImage('assets/images/profile_man.jpg');
   static AssetImage get profileWoman => const AssetImage('assets/images/profile_woman.jpg');
+  static AssetImage get emptyCage => const AssetImage('assets/images/empty_cage.jpg');
+
 
   static UserModel get fakeManUser => UserModel(
     uid: '_fakeMan',

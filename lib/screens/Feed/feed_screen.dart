@@ -6,7 +6,7 @@ import 'package:paw_pals/widgets/empty_screen_card.dart';
 import 'package:paw_pals/widgets/screencards.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/utils/app_log.dart';
-import 'package:paw_pals/models/post_model.dart';
+
 
 
 class FeedScreen extends StatelessWidget {
@@ -32,19 +32,30 @@ class FeedScreen extends StatelessWidget {
                 Draggable(
                   child: ScreenCards(post: state.posts[0]),
                   feedback: ScreenCards(post: state.posts[0]),
-                  childWhenDragging: ScreenCards(post: state.posts[1]),
+                  childWhenDragging: EmptyCard(color: Colors.grey),
                   onDragEnd: (drag){
-                    if (drag.velocity.pixelsPerSecond.dx < 0){
-                    context.read<SwipeBlock>()
-                    .add(SwipeLeft(post: state.posts[0]));
-                    Logger.log("Swiped left");
-                    } else if (drag.velocity.pixelsPerSecond.dx >0 ) {
-                      context.read<SwipeBlock>()
-                        .add(SwipeRight(post: state.posts[0]));
-                      Logger.log('Swiped right');
-                    } else  {
+                    if(state.posts[2] == null){
 
-                      Logger.log('Stay');
+                      context.read<SwipeBlock>()
+                          .add(SwipeLeft(post: state.posts[-1]));
+                    }
+
+                    if (drag.velocity.pixelsPerSecond.dx < 0){
+                      Logger.log("Swiped left" );
+
+                      context.read<SwipeBlock>()
+                          .add(SwipeLeft(post: state.posts[0]));
+
+
+                    }
+                    else if (drag.velocity.pixelsPerSecond.dx >0 ) {
+                      Logger.log('Swiped right');
+
+                        context.read<SwipeBlock>()
+                        .add(SwipeRight(post: state.posts[0]));
+                    } else  {
+                        Logger.log('Stay');
+
                     }
                   },
                 )

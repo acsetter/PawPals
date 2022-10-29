@@ -108,6 +108,22 @@ class PostModel {
       petAge: 9,
       petPhotoUrl: 'assets/images/siamese_cat.jpg',
     ),
+    PostModel(
+      postId: "5",
+      uid: "5",
+      postDescription: "Please update your preferences to\nSee more pets!",
+      petName: "You're Out of Pets!",
+      petAge: 0,
+      petPhotoUrl: 'assets/images/empty_cage.jpg',
+    ),
+    PostModel(
+      postId: "6",
+      uid: "6",
+      postDescription: "end of list",
+      petName: "null",
+      petAge: 0,
+      petPhotoUrl: 'assets/images/profile_man.jpg',
+    ),
   ];
 
 // static List<PostModel> listFromFirestore(list) =>

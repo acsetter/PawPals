@@ -71,7 +71,7 @@ class ScreenCards extends StatelessWidget {
                       fontWeight: FontWeight.normal,
                     )
                 ),
-                Row(
+                /*Row(
                   children: [
                     Container(
                       height:40,
@@ -84,7 +84,7 @@ class ScreenCards extends StatelessWidget {
                     )
 
                   ]
-                )
+                )*/
               ],
             )
             )

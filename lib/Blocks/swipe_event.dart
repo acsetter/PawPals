@@ -34,3 +34,5 @@ class SwipeRight extends SwipeEvent{
   @override
   List<Object> get props => [];
 }
+
+
