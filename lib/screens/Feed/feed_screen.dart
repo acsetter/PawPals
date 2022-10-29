@@ -30,7 +30,7 @@ class FeedScreen extends StatelessWidget {
                 Draggable(
                   child: ScreenCards(post: state.posts[0]),
                   feedback: ScreenCards(post: state.posts[0]),
-                  childWhenDragging: EmptyCard(color: Colors.grey),
+                  childWhenDragging: ScreenCards(post: state.posts[1]),
                   onDragEnd: (drag){
                     if(state.posts.length == 2){
 
