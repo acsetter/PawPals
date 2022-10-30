@@ -9,20 +9,20 @@ import '../fields/our_text_field.dart';
 import '../forms/_form_validation.dart';
 import '../wrappers/field_wrapper.dart';
 
-/*
-The EditProfile widget CURRENTLY allows the user to change their first and
-last name, eventually the user will be able to change their profile picture
-as well.  Two text fields assigned respectively to first and last name
-changes are shown on the edit profile screen.  The user MUST enter
-a first and last name that they would like to change or else they will not
-be allowed to save changes with empty values.  They can, however, go back
-if they have decided they would not like to edit their profile.
-When the "Save Changes" button is pressed the edited copyWith version
-of the UserModel that now has the first and last name changes that the user
-wanted to make is now passed to the database method updateUser(), a copy
-of the UserModel is necessary because this allows the changes to actually update
-to the database.
- */
+
+/// The EditProfile widget CURRENTLY allows the user to change their first and
+/// last name, eventually the user will be able to change their profile picture
+/// as well.  Two text fields assigned respectively to first and last name
+/// changes are shown on the edit profile screen.  The user MUST enter
+/// a first and last name that they would like to change or else they will not
+/// be allowed to save changes with empty values.  They can, however, go back
+/// if they have decided they would not like to edit their profile.
+/// When the "Save Changes" button is pressed the edited copyWith version
+/// of the UserModel that now has the first and last name changes that the user
+/// wanted to make is now passed to the database method updateUser(), a copy
+/// of the UserModel is necessary because this allows the changes to actually update
+/// to the database.
+
 
 class EditProfile extends StatefulWidget {
   final TextEditingController firstNameController = TextEditingController();

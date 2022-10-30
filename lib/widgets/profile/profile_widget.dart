@@ -3,10 +3,10 @@ import '../../constants/app_data.dart';
 import '../../controllers/app_user.dart';
 import '../../models/user_model.dart';
 
-/*
-ProfilePhotoWidget: fetch and build the user's profile image --> Utilizes web URL from dummy user
-information (usermodeltest.dart) until database is built.
- */
+
+/// ProfilePhotoWidget: fetch and build the user's profile image --> Utilizes web URL from dummy user
+/// information (usermodeltest.dart) until database is built.
+
 
 class ProfilePhotoWidget extends StatelessWidget {
   final String photoUrl;
@@ -37,11 +37,11 @@ class ProfilePhotoWidget extends StatelessWidget {
 }
 
 
-/* The UserInformationWidget allows for the stream of data from
-the database to be displayed on the user's profile page.  If the UI
-renders before the data does, a "Loading or error" message will
-be displayed while the data continues to load up
-*/
+/// The UserInformationWidget allows for the stream of data from
+/// the database to be displayed on the user's profile page.  If the UI
+/// renders before the data does, a "Loading or error" message will
+/// be displayed while the data continues to load up
+
 
 class UserInformationWidget extends StatelessWidget {
 
@@ -66,7 +66,6 @@ class UserInformationWidget extends StatelessWidget {
                   return Text('  ${userModel.username}\n${userModel.first} ${userModel.last}',
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 24));
-
                   // Setting text style
                 } else {
                   // This means the UI rendered before data was available
