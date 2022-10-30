@@ -26,26 +26,23 @@ class FeedScreen extends StatelessWidget {
                 Draggable(
                   feedback: ScreenCards(post: state.posts[0]),
                   childWhenDragging: ScreenCards(post: state.posts[1]),
-                  onDragEnd: (drag){
+                  onDragEnd: (drag) {
                     if(state.posts.length == 2){
+                      showFloatingEndSnackBar(context);
 
-                      Logger.log("end of list");
                     }
                     // ignore: unnecessary_null_comparison
                     else if(state.posts[2] == null && state.posts.length > 2){
-
                       context.read<SwipeBlock>()
                           .add(SwipeLeft(post: state.posts[-1]));
                     }
                     if (drag.velocity.pixelsPerSecond.dx < 0 && state.posts.length > 2 ){
-                      Logger.log("Swiped left" );
-
+                      showFloatingLeftSnackBar(context);
                       context.read<SwipeBlock>()
                           .add(SwipeLeft(post: state.posts[0]));
                     }
                     else if (drag.velocity.pixelsPerSecond.dx >0 && state.posts.length > 2) {
-                      Logger.log('Swiped right');
-
+                      showFloatingRightSnackBar(context);
                         context.read<SwipeBlock>()
                         .add(SwipeRight(post: state.posts[0]));
                     } else  {
@@ -62,5 +59,45 @@ class FeedScreen extends StatelessWidget {
         }
       ),
     );
+  }
+  void showFloatingRightSnackBar(BuildContext context){
+    const snackBar = SnackBar(
+      content: Text(
+        "Like",
+        style: TextStyle(fontSize: 24),
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: Colors.greenAccent,
+      duration: Duration(milliseconds: 300),
+      shape: StadiumBorder(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showFloatingLeftSnackBar(BuildContext context){
+    const snackBar = SnackBar(
+      content: Text(
+        "Dislike",
+        style: TextStyle(fontSize: 24),
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: Colors.pinkAccent,
+      duration: Duration(milliseconds: 300),
+      shape: StadiumBorder(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+  void showFloatingEndSnackBar(BuildContext context){
+    const snackBar = SnackBar(
+      content: Text(
+        "Out of Posts!",
+        style: TextStyle(fontSize: 24),
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: Colors.blue,
+      duration: Duration(milliseconds: 300),
+      shape: StadiumBorder(),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

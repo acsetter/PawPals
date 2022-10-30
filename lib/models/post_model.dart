@@ -73,56 +73,7 @@ class PostModel {
     "isPetFriendly": isPetFriendly,
   };
 
-  static List<PostModel> post = [
-    PostModel(
-      postId: "1",
-      uid: "1",
-      postDescription: "Bob is an adventurous Cat!",
-      petName: "Bob",
-      petAge: 7,
-      petPhotoUrl: 'assets/images/tabby_cat.jpg',
-    ),
-    PostModel(
-      postId: "2",
-      uid: "2",
-      postDescription: "Carl likes to sleep and chew on bones!",
-      petName: "Carl",
-      petAge: 5,
-      petPhotoUrl: 'assets/images/corgi.jpg',
-    ),
-    PostModel(
-      postId: "3",
-      uid: "3",
-      postDescription: "Doug likes alot of treats!",
-      petName: "Doug",
-      petAge: 4,
-      petPhotoUrl: 'assets/images/english_bulldog.jpg',
-    ),
-    PostModel(
-      postId: "4",
-      uid: "4",
-      postDescription: "Earl is Lazy!",
-      petName: "Earl",
-      petAge: 9,
-      petPhotoUrl: 'assets/images/siamese_cat.jpg',
-    ),
-    PostModel(
-      postId: "5",
-      uid: "5",
-      postDescription: "Please update your preferences to\nSee more pets!",
-      petName: "You're Out of Pets!",
-      petAge: 0,
-      petPhotoUrl: 'assets/images/profile_man.jpg',
-    ),
-    PostModel(
-      postId: "6",
-      uid: "6",
-      postDescription: "end of list",
-      petName: "null",
-      petAge: 0,
-      petPhotoUrl: 'assets/images/profile_man.jpg',
-    ),
-  ];
+
 
 // static List<PostModel> listFromFirestore(list) =>
 //     List<PostModel>.from(list.map((x) => PostModel.fromFirestore(snapshot: x)));

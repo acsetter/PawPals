@@ -1,1 +1,1 @@
-export 'post_model.dart';
+export 'package:paw_pals/constants/app_data.dart';

@@ -12,13 +12,13 @@ class ScreenCards extends StatelessWidget {
 
     return Padding(
         padding: const EdgeInsets.only(
-            top: 30,
-            left: 30,
-            right:30,
+            top: 10,
+            left: 10,
+            right:10,
         ),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height /1.45,
-        width: MediaQuery.of(context).size.width /1.2,
+        height: MediaQuery.of(context).size.height /1.325,
+        width: MediaQuery.of(context).size.width ,
         child: Stack(
           children: [
 

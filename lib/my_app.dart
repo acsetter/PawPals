@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:paw_pals/constants/app_theme.dart';
@@ -9,7 +8,8 @@ import 'package:paw_pals/widgets/wrappers/auth_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/navbar.dart';
 import 'package:paw_pals/Blocks/swipe_block.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'models/models.dart';
+import 'package:paw_pals/constants/app_data.dart';
+
 
 /// Root of the application.
 class MyApp extends StatelessWidget {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       MultiBlocProvider(providers: [
-        BlocProvider(create: (_) => SwipeBlock()..add(LoadPosts(posts: PostModel.post)))
+        BlocProvider(create: (_) => SwipeBlock()..add(LoadPosts(posts: AppData.post)))
       ],child:
       GetMaterialApp(
       debugShowCheckedModeBanner: false,
