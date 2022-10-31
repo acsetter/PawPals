@@ -36,16 +36,16 @@ class FeedScreen extends StatelessWidget {
                       context.read<SwipeBlock>()
                           .add(SwipeLeft(post: state.posts[-1]));
                     }
-                    if (drag.velocity.pixelsPerSecond.dx < 0 && state.posts.length > 2 ){
+                    if (drag.velocity.pixelsPerSecond.dx < -500 && state.posts.length > 2 ){
                       showFloatingLeftSnackBar(context);
                       context.read<SwipeBlock>()
                           .add(SwipeLeft(post: state.posts[0]));
                     }
-                    else if (drag.velocity.pixelsPerSecond.dx >0 && state.posts.length > 2) {
+                    else if (drag.velocity.pixelsPerSecond.dx > 500 && state.posts.length > 2) {
                       showFloatingRightSnackBar(context);
                         context.read<SwipeBlock>()
                         .add(SwipeRight(post: state.posts[0]));
-                    } else  {
+                    } else {
                         Logger.log('Stay');
                     }
                   },
