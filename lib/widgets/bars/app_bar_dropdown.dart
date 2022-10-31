@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:paw_pals/widgets/forms/preference_form.dart';
 
@@ -7,20 +6,22 @@ import '../../constants/app_icons.dart';
 class AppBarPopup {
   AppBarPopup._();
 
-  static PopupMenuButton build(BuildContext context,) {
+  static PopupMenuButton build(
+    BuildContext context,
+  ) {
     return PopupMenuButton(
-      icon: AppIcons.paw ,
+      icon: AppIcons.paw,
       tooltip: "Filter",
       constraints: const BoxConstraints(minWidth: 50),
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
       itemBuilder: (context) {
-        return[
+        return [
           const PopupMenuItem<int>(
-          child: PreferenceForm(),
-          value: 0,
+            value: 0,
+            child: PreferenceForm(),
           ),
-          ];
+        ];
       },
     );
   }
