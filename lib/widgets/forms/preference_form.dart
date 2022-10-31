@@ -18,10 +18,8 @@ class PreferenceForm extends StatefulWidget {
 }
 
 class _PreferenceFormState extends State<PreferenceForm> {
-  // Most of this was be trying to retrieve databse information
-  // before the retrieval method was made. 
-  
   // Suppose to retrieve data from database
+  // idk if this is how its going to work but this what I got to reference
   static List<PetType>? dataPetTypes = PreferencesModel().petTypes;
   static PetGender? dataPetGender = PreferencesModel().petGender;
   static int? dataMinAge = PreferencesModel().minAge;
@@ -78,9 +76,13 @@ class _PreferenceFormState extends State<PreferenceForm> {
             children: const [Text("Pet Type", 
             style: TextStyle(fontWeight: FontWeight.bold),)], 
             mainAxisAlignment: MainAxisAlignment.center),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
             const Text("Dog"),
             Checkbox(
               activeColor: AppColors.primary,
@@ -92,7 +94,10 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   valCat = false;
                   valDogCat = false;
                 });
-              },),
+              },),]),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
               const Text("Cat"),
             Checkbox(
               activeColor: AppColors.primary,
@@ -104,7 +109,10 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   valDog = false;
                   valDogCat = false;
                 });
-              },),
+              },),]),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
               const Text("Both"),
             Checkbox(
               activeColor: AppColors.primary,
@@ -116,15 +124,19 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   valCat = false;
                   valDog = false;
                 });
-              },)
+              },)])
           ],),
 
           Row(children: [const Text("Pet Gender", 
           style: TextStyle(fontWeight: FontWeight.bold))], 
           mainAxisAlignment: MainAxisAlignment.center),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
             const Text("Male"),
             Checkbox(
               activeColor: AppColors.primary,
@@ -136,7 +148,10 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   valFemale = false;
                   // valMaleFemale = false;
                 });
-              },),
+              },),]),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
               const Text("Female"),
             Checkbox(
               activeColor: AppColors.primary,
@@ -148,8 +163,11 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   valMale = false;
                   // valMaleFemale = false;
                 });
-              },),
-              Text("Both"),
+              },),]),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+              const Text("Both"),
             Checkbox(
               activeColor: AppColors.primary,
               value: valMaleFemale, 
@@ -160,15 +178,19 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   valMale = false;
                   valFemale = false;
                 });
-              },)
+              },)])
           ],),
 
           Row(children: [const Text("Pet friendliness", 
           style: TextStyle(fontWeight: FontWeight.bold))], 
           mainAxisAlignment: MainAxisAlignment.center),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
             const Text("Pet Friendly"),
             Checkbox(
               activeColor: AppColors.primary,
@@ -181,7 +203,10 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   valKidFriend = false;
                   valPetKidFriend = false;
                 });
-              },),
+              },),]),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
               const Text("Kid Friendly"),
             Checkbox(
               activeColor: AppColors.primary,
@@ -194,7 +219,10 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   valPetFriend = false;
                   valPetKidFriend = false;
                 });
-              },),
+              },),]),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
               const Text("Both"),
             Checkbox(
               activeColor: AppColors.primary,
@@ -207,7 +235,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
                   valKidFriend = false;
                   valPetFriend = false;
                 });
-              },)
+              },)])
           ],),
         
         Row(children: [const Text("Pet Age Range", 
@@ -264,17 +292,19 @@ class _PreferenceFormState extends State<PreferenceForm> {
               backgroundColor: AppColors.primary
             ),
             onPressed: () {
+              // if preference is set to both then change to null 
+              // because both is the default preference
+              if (userPetTypePref?.length == 2) {
+                userPetTypePref = null;
+                print("Pet Type Pref: $userPetTypePref\n");
+              } else {
+                print("Pet Type Pref: $userPetTypePref\n");
+              }
               print(
               // null will mean no preferance to the database
-              "Pet Type Pref: $userPetTypePref\n"
-              // gender prefance was already handles to be set to null if both to be shown on feed
-              // so only other ones need to me handled and changed to return null to 
-              // the databse depending on if not selected
-              // This really only needs to be done for pet type i believe
               "Pet Gender Pref: $userPetGenderPref\n"
               "Is Kid Friendly: $userIsKidFriendlyPref\n"
               "Is Pet Friendly: $userIsPetFriendlyPref\n"
-              // turned into intergers for future database implementation
               "Pet Min Age Pref: ${userMinAgePref?.toInt()}\n"
               "Pet Max Age Pref: ${userMaxAgePref?.toInt()}\n"
               "Search Radius Pref: $userSearchRadiusPref\n"
@@ -320,7 +350,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
 // to match
 static PetTypeCheckBoxes(List<PetType>? dataFromDatabse) {
   List<bool> temp = [];
-  if (dataFromDatabse?.length == 0 || dataFromDatabse?.length == 2) {
+  if (dataFromDatabse?.length == 0 || dataFromDatabse?.length == 2 || dataFromDatabse == null) {
     temp = [false, false, true];
     return temp;
   }
