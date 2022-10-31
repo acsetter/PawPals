@@ -1,14 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:paw_pals/constants/app_colors.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/models/pref_model.dart';
-import 'package:paw_pals/services/firestore_service.dart';
 
 class PreferenceForm extends StatefulWidget {
   const PreferenceForm({super.key});

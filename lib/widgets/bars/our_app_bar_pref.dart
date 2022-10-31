@@ -1,9 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:paw_pals/widgets/bars/app_bar_dropdown.dart';
-import 'package:paw_pals/widgets/forms/preference_form.dart';
 
 ///
 class OurAppBarpref {

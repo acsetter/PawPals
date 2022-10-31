@@ -11,12 +11,12 @@ class AppBarPopup {
     return PopupMenuButton(
       icon: AppIcons.paw ,
       tooltip: "Filter",
-      constraints: BoxConstraints(minWidth: 50),
-      shape: RoundedRectangleBorder(
+      constraints: const BoxConstraints(minWidth: 50),
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20.0))),
       itemBuilder: (context) {
         return[
-          PopupMenuItem<int>(
+          const PopupMenuItem<int>(
           child: PreferenceForm(),
           value: 0,
           ),
