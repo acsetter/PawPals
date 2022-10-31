@@ -347,11 +347,11 @@ static PetTypeCheckBoxes(List<PetType>? dataFromDatabse) {
     temp = [false, false, true];
     return temp;
   }
-  if (dataFromDatabse?[0] == PetType.dog) {
+  if (dataFromDatabse[0] == PetType.dog) {
     temp = [true, false, false];
     return temp;
   }
-  if (dataFromDatabse?[0] == PetType.cat) {
+  if (dataFromDatabse[0] == PetType.cat) {
     temp = [false, true, false];
     return temp;
   }
