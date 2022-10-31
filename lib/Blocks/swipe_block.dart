@@ -1,10 +1,6 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:paw_pals/models/post_model.dart';
-import 'package:paw_pals/widgets/empty_screen_card.dart';
 
 part 'swipe_event.dart';
 part 'swipe_state.dart';

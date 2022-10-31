@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:paw_pals/models/pref_model.dart';
-
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
 
@@ -105,22 +104,28 @@ class FirestoreService {
   /// * [UserModel.photoUrl]
   /// * [UserModel.userPosts]
   /// * [UserModel.likedPosts]
-  static Future<void> updateUser(UserModel userModel) async {
+  static Future<bool> updateUser(UserModel userModel) async {
     // Restrict creating/overwriting if not authorized.
     if (_uid == null || userModel.uid == null) {
       Logger.log("No User is logged into Firebase Auth.", isError: true);
-      return;
+      return false;
     }
     if (userModel.uid != _uid) {
       Logger.log("User being updated does not match the user logged in", isError: true);
-      return;
+      return false;
     }
 
-    await _userRef
-      .update(userModel.toFirestoreUpdate())
-      .then((res) => Logger.log("Firestore doc created for ${userModel.email}"),
-        onError: (e) => Logger.log("Error creating Firestore doc for ${userModel.email}")
-      );
+    return await _userRef
+        .update(userModel.toFirestoreUpdate())
+        .then((res) {
+      Logger.log("Firestore doc updated for ${userModel.email}");
+      return true;
+    },
+        onError: (e) {
+          Logger.log("Error updating Firestore doc for ${userModel.email}");
+          return false;
+        }
+    );
   }
 
   // static Future<PostModel?> getPostById(String postId) async {
