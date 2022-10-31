@@ -21,7 +21,6 @@ class ScreenCards extends StatelessWidget {
         width: MediaQuery.of(context).size.width ,
         child: Stack(
           children: [
-
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(

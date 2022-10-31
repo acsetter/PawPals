@@ -43,8 +43,68 @@ class FeedScreen extends StatelessWidget {
                     }
                     else if (drag.velocity.pixelsPerSecond.dx > 500 && state.posts.length > 2) {
                       showFloatingRightSnackBar(context);
-                        context.read<SwipeBlock>()
-                        .add(SwipeRight(post: state.posts[0]));
+                      showDialog(context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('${state.posts[0].petName}'),
+                            content: Text('${state.posts[0].postDescription}'),
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(color: Colors.green),
+                              borderRadius: BorderRadius.circular(10)
+                              ),
+                            actions: [
+                              TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  style: ButtonStyle(
+                                    foregroundColor: MaterialStateProperty.all(Colors.white),
+                                    backgroundColor: MaterialStateProperty.all(Colors.red),
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        side: const BorderSide(color: Colors.red),
+                                        borderRadius: BorderRadius.circular(20)
+                                      )
+                                      ),
+
+                                    ),
+                                  child: const Text('Go\nBack'),
+                                  ),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                style: ButtonStyle(
+                                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                                  backgroundColor: MaterialStateProperty.all(Colors.purpleAccent),
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          side: const BorderSide(color: Colors.purpleAccent),
+                                          borderRadius: BorderRadius.circular(20)
+                                      )
+                                  ),
+
+                                ),
+                                child: const Text('See\nProfile'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  context.read<SwipeBlock>().add(
+                                      SwipeRight(post: state.posts[0]));
+                                },
+                                style: ButtonStyle(
+                                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                                  backgroundColor: MaterialStateProperty.all(Colors.green),
+
+                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                  side: const BorderSide(color: Colors.green),
+                                  borderRadius: BorderRadius.circular(20),
+                                  )
+                                ),
+                              ),
+                                child: const Text('To\nLiked Posts!'),
+
+
+                              )],
+                          ));
+                        ;
                     } else {
                         Logger.log('Stay');
                     }
@@ -70,6 +130,7 @@ class FeedScreen extends StatelessWidget {
       backgroundColor: Colors.greenAccent,
       duration: Duration(milliseconds: 300),
       shape: StadiumBorder(),
+
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
