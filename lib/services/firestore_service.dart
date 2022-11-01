@@ -70,8 +70,7 @@ class FirestoreService {
   /// A null value will be returned if an error occurred.
   static Future<UserModel?> getUser() async {
     if (_uid == null) {
-      // Theres no User logged-in.
-      Logger.log("No User is logged into Firebase Auth.", isError: true);
+      Logger.noUserError();
       return null;
     }
     // The call to Firestore
@@ -89,7 +88,7 @@ class FirestoreService {
   static Future<bool> createUser(UserModel userModel) async {
     // Restrict creating/overwriting if not authorized.
     if (_uid == null || userModel.uid == null) {
-      Logger.log("No User is logged into Firebase Auth.", isError: true);
+      Logger.noUserError();
       return false;
     }
     if (userModel.uid != _uid) {
@@ -173,7 +172,7 @@ class FirestoreService {
   /// Returns a bool that indicates update success.
   static Future<bool> updatePreferences(PreferencesModel prefModel) async {
     if (_uid == null) {
-      Logger.log("No User is logged into Firebase Auth.", isError: true);
+      Logger.noUserError();
       return false;
     }
 
@@ -193,6 +192,26 @@ class FirestoreService {
 
   static Future<PostModel?> getPostById(String postId) async {
     return null;
+  }
+
+  static Future<bool> createPost(PostModel postModel) async {
+    if (_uid == null) {
+      Logger.noUserError();
+      return false;
+    }
+    if (postModel.uid != _uid) {
+      Logger.log("Post author's UID does not match the UID of the logged-in user", isError: true);
+      return false;
+    }
+
+    return await _posts
+        .add(postModel)
+        .then((res) {
+          Logger.log("Post ${res.id} created.");
+          return true;
+        }, onError: (e) {
+          Logger.log(e.toString(), isError: true);
+    });
   }
 
   // static Future<List<PostModel?>?> getPostsFromIds(List<String> idList) async {

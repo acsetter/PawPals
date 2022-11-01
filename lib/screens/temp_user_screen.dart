@@ -29,10 +29,12 @@ class TempUserScreen extends StatelessWidget {
                 // fine to use, but we can also just fetch the same data
                 // directly from AppUser:
                 UserModel? userModel = AppUser.instance.userModel;
+                Image? image;
 
                 if (userModel != null) {
                   // Return your widget here and pass the userModel
-                  return Text('Username: ${userModel.username}');
+                  // StorageService.getPhotoURL().then((value) => print(value));
+                  return Text(userModel.username ?? "Error");
                 } else {
                   // This means the UI rendered before data was available
                   // which means we should show a loading screen

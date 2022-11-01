@@ -40,8 +40,6 @@ class UserModel {
         last: data?["last"],
         photoUrl: data?["photoUrl"],
         timestamp: data?["timestamp"],
-        userPosts: data?["userPosts"]
-            is Iterable ? List.from(data?['userPosts']) : null,
         likedPosts: data?["likedPosts"]
             is Iterable ? List.from(data?['likedPosts']) : null,
     );
@@ -56,7 +54,6 @@ class UserModel {
     if (last != null) "last": last,
     if (photoUrl != null) "photoUrl": photoUrl,
     if (timestamp!= null) "timestamp": timestamp,
-    if (userPosts != null) "userPosts": userPosts,
     if (likedPosts != null) "likedPosts": likedPosts,
   };
 

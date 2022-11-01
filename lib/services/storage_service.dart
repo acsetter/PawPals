@@ -1,6 +1,12 @@
 // ignore_for_file: invalid_return_type_for_catch_error
 
+import 'dart:typed_data';
+import 'dart:ui';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:paw_pals/constants/app_data.dart';
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
 
@@ -24,6 +30,8 @@ import 'package:paw_pals/utils/app_log.dart';
 class StorageService {
   static final FirebaseStorage _store = FirebaseStorage.instance;
 
+  static String? get _uid => FirebaseAuth.instance.currentUser?.uid;
+
   /// references the root of the storage directory ('/').
   static final Reference _rootRef = _store.ref();
 
@@ -39,6 +47,30 @@ class StorageService {
         .getDownloadURL()
         .catchError((e) => Logger.log(e.toString(), isError: true));
   }
+
+  static Future<String?> getPhotoURL() async {
+    return await _usersRef.child(_uid!).child("profile.png").getDownloadURL();
+  }
+
+  static Future<Uint8List?> getPhotoBytes() async {
+    return await _usersRef.child(_uid!).child("profile.png").getData();
+  }
+
+  // static Future<String?> uploadProfileImg(Image image) async {
+  //   if (_uid == null) {
+  //     Logger.noUserError();
+  //     return null;
+  //   }
+  //
+  //   ByteData? byteData = await image.toByteData();
+  //
+  //   if (byteData != null) {
+  //     Uint8List data = byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
+  //     await _usersRef.child(_uid!).putData(data);
+  //
+  //     return await _usersRef.child(_uid!).getDownloadURL();
+  //   }
+  // }
 
   // TODO: Construct methods for uploading and downloading images.
 }
