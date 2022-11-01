@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:paw_pals/constants/app_data.dart';
+import 'package:paw_pals/models/post_model.dart';
 
 class ScreenCards extends StatelessWidget {
-  final Color color;
+  final PostModel post;
 
-  const ScreenCards({Key? key, required this.color}) : super(key:key);
+  const ScreenCards({ Key? key, required this.post,}) : super(key:key);
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
         padding: const EdgeInsets.only(
-            top: 30,
-            left: 30,
-            right:30,
+            top: 10,
+            left: 10,
+            right:10,
         ),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height /1.45,
-        width: MediaQuery.of(context).size.width /1.2,
+        height: MediaQuery.of(context).size.height /1.325,
+        width: MediaQuery.of(context).size.width ,
         child: Stack(
           children: [
-
             Container(
               decoration: BoxDecoration(
-
-                color: color,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AppData.tabbyCat,),
+                  image: AssetImage(post.petPhotoUrl!)
+                ),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(color: Colors.grey.withOpacity(1.0),
@@ -57,19 +57,20 @@ class ScreenCards extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Bubbles, 7',
+                  '${post.petName}, ${post.petAge}',
                   style: Theme.of(context).textTheme.headline6!.copyWith(
                     color: Colors.white,
+                    fontWeight: FontWeight.w300,
                   )
                 ),
                 Text(
-                    'In search of a loving home!\n',
-                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    '${post.postDescription}\n',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
                     )
                 ),
-                Row(
+                /*Row(
                   children: [
                     Container(
                       height:40,
@@ -82,7 +83,7 @@ class ScreenCards extends StatelessWidget {
                     )
 
                   ]
-                )
+                )*/
               ],
             )
             )
