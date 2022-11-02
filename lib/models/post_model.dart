@@ -73,8 +73,6 @@ class PostModel {
     "isPetFriendly": isPetFriendly,
   };
 
-
-
-// static List<PostModel> listFromFirestore(list) =>
-//     List<PostModel>.from(list.map((x) => PostModel.fromFirestore(snapshot: x)));
+  static List<PostModel> listFromFirestore(list) =>
+    List<PostModel>.from(list.map((x) => PostModel.fromFirestore(x, null)));
 }

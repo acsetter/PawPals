@@ -4,6 +4,7 @@ import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/pref_model.dart';
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
+import 'package:paw_pals/widgets/Post/post.dart';
 
 /// A service class to interface with the [FirebaseFirestore] plugin.
 class FirestoreService {
@@ -114,7 +115,6 @@ class FirestoreService {
   /// * [UserModel.first]
   /// * [UserModel.last]
   /// * [UserModel.photoUrl]
-  /// * [UserModel.userPosts]
   /// * [UserModel.likedPosts]
   static Future<bool> updateUser(UserModel userModel) async {
     // Restrict creating/overwriting if not authorized.
@@ -196,7 +196,14 @@ class FirestoreService {
   }
 
   static Future<PostModel?> getPostById(String postId) async {
-    return null;
+    return await _posts.doc(postId)
+        .withConverter(
+          fromFirestore: PostModel.fromFirestore,
+          toFirestore: (PostModel postModel, _) => postModel.toFirestore())
+        .get()
+        .then(
+          (res) => res.data(),
+          onError: (e) => Logger.log(e.toString(), isError: true));
   }
 
   static Future<bool> createPost(PostModel postModel) async {
@@ -220,9 +227,10 @@ class FirestoreService {
   }
 
   // static Future<List<PostModel?>?> getPostsFromIds(List<String> idList) async {
-  //   await return _posts.where("uid", isEqualTo: )
+  //   await return _posts.where("uid", whereIn: idList).get()
+  //       .then((value) => value.docs.first.);
   // }
-
+  //
   // static Future<List<PostModel?>?> getPostsByUser(UserModel userModel) async {
   //   return await _posts.where("uid", isEqualTo: userModel.uid).get()
   //       .then(
