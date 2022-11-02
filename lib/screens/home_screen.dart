@@ -86,7 +86,7 @@ class HomeScreenState extends State<HomeScreen> {
                   // The new navigation required for the NavBar
                   // navigate(context, Temp_Home_Screen_Navigators.route_post_screen, isRootNavigator: false);
                 },
-                label: "Posts",
+                label: "Post Example",
               ),
             ),
             FieldWrapper(

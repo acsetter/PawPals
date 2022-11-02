@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:paw_pals/widgets/Post/DetailedPost.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
-import '../../widgets/Post/post.dart';
 
 /// This is an example of a simple screen that extends a [StatelessWidget]
 /// Yes, technically the screen is a widget, but it's best to treat it like
@@ -23,7 +23,7 @@ class PostScreen extends StatelessWidget {
       // The bar that goes across the top of the screen:
         appBar: OurAppBar.build(screenTitle),
         // The main body of the Screen:
-        body: Post()
+        body: DetailedPost()
           //children: [
             //FieldWrapper(
               //child: Text(exampleText, textAlign: TextAlign.center),
