@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_data.dart';
+import '../../controllers/app_user.dart';
 import '../../models/user_model.dart';
 
-/*
-ProfilePhotoWidget: fetch and build the user's profile image from dummy data in the UserModel
- */
+
+/// ProfilePhotoWidget: fetch and build the user's profile image --> Utilizes web URL from dummy user
+/// information (usermodeltest.dart) until database is built.
+
 
 class ProfilePhotoWidget extends StatelessWidget {
   final String photoUrl;
@@ -24,7 +26,7 @@ class ProfilePhotoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Ink.image( // Creates a widget for displaying an image using Ink Package
-        image: AppData.profileMan,  // Grabbing photo from photoUrl defined by user model
+        image: AppData.profileWoman,  // Grabbing photo from photoUrl defined by user model
         fit: BoxFit.cover,  // Applies box mask to image
         width: 128, // Setting width/height of the user's profile image
         height: 128,
@@ -35,33 +37,46 @@ class ProfilePhotoWidget extends StatelessWidget {
 }
 
 
-/* UserInformationWidget: to build the User's Information --> Takes dummy user information from the UserModel to
-* build a profile screen */
+/// The UserInformationWidget allows for the stream of data from
+/// the database to be displayed on the user's profile page.  If the UI
+/// renders before the data does, a "Loading or error" message will
+/// be displayed while the data continues to load up
+
 
 class UserInformationWidget extends StatelessWidget {
-  final UserModel user = AppData.fakeManUser;
 
-  UserInformationWidget({super.key});
+  const UserInformationWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(  // Building widget for user information
-        children: [
-          Text(
-            '${AppData.fakeManUser.username}', // Fetching user username
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24), // Setting text style
-          ),
-          const SizedBox(height: 4),  // Creating container for user first / user last
-          Text(
-            '${user.first} ${user.last}',
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.deepPurple), // Setting text style
-          ),
-          const SizedBox(height: 4),  // Creating container for email
-          Text(
-            '${AppData.fakeManUser.email}',  // Fetching user email
-            style: const TextStyle(color: Colors.grey), // Setting the text style (color)
-          ),
-        ]
-    );
+    return
+      SizedBox(
+          child: StreamBuilder<UserModel?>(
+            // Stateful widget updates via a stream:
+              stream: AppUser.instance.appUserChanges(),
+              // builder is called every time the stream ^ gets an update
+              builder: (BuildContext context, _) {
+                // the '_' is the data-snapshot returned by the stream, which is
+                // fine to use, but we can also just fetch the same data
+                // directly from AppUser:
+                UserModel? userModel = AppUser.instance.userModel;
+
+                if (userModel != null) {
+                  // Return your widget here and pass the userModel
+                  return Text('  ${userModel.username}\n${userModel.first} ${userModel.last}',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 24));
+                  // Setting text style
+                } else {
+                  // This means the UI rendered before data was available
+                  // which means we should show a loading screen
+                  return const Text("Loading or error...");
+                }
+              }
+          )
+      );
   }
-}
+
+  }
+
+

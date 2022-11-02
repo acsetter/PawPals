@@ -33,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
                   child: ProfilePhotoWidget(
                     onPressed: () {}, photoUrl: '',),
                 ),
-                FieldWrapper(
+                const FieldWrapper(
                   child: UserInformationWidget(),
                 ),
                 FormWrapper(

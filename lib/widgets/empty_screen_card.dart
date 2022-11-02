@@ -51,20 +51,19 @@ class EmptyCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                            ' Out of Available Pets\n\n',
-                            style: Theme.of(context).textTheme.headline6!.copyWith(
+                            'Loading!\n\n',
+                            style: Theme.of(context).textTheme.displayMedium!.copyWith(
                               color: Colors.white,
                             )
                         ),
                         Text(
-                            '            To see more pets \n    '
-                                '  update your preferences!',
+                            '    Finding the best pets Available \n    '
+                                '          Please Wait',
                             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.normal,
                             )
                         ),
-
                       ],
                     )
                 )

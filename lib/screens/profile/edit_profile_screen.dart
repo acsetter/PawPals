@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:paw_pals/widgets/bars/our_app_bar.dart';
-import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
+import '../../widgets/profile/edit_profile_widget.dart';
 
 
 class EditProfileScreen extends StatelessWidget {
@@ -18,18 +17,15 @@ class EditProfileScreen extends StatelessWidget {
   // You must call @override on the build method
   @override
   Widget build(BuildContext context) {
-    // Every screen will use a scaffold as the outer-most widget.
     return Scaffold(
-      // The bar that goes across the top of the screen:
-        appBar: OurAppBar.build(screenTitle),
-        // The main body of the Screen:
-        body: FormWrapper(
-          children: [
-            FieldWrapper(
-              child: Text(exampleText, textAlign: TextAlign.center),
-            ),
-          ],
-        )
+      appBar: AppBar(
+        title: const Text("Edit Profile"),
+      ),
+      body: SingleChildScrollView(
+          child: FormWrapper(
+            children: [EditProfile()],
+          )
+      ),
     );
   }
 }
