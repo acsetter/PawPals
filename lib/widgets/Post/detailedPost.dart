@@ -34,7 +34,7 @@ class DetailedPost extends StatelessWidget{
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
 
                   Row(
@@ -43,37 +43,33 @@ class DetailedPost extends StatelessWidget{
                     children: [
 
                       Container(
-                        margin: const EdgeInsets.only(left:30),
+                        margin: const EdgeInsets.only(left:15),
                         child: Text('${AppData.fakePost.petName}',
-                          style: Theme.of(context).textTheme.headline4!.copyWith(
-                            color: Colors.black,
+                          style: TextStyle(fontFamily: "Proxima-Nova-Bold",
+                            fontSize: 30, color: Colors.black, fontWeight: FontWeight.w400
                           ),),
 
                       ),
                     ],
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 15,
                   ),
 
                   Container(
-                    margin: const EdgeInsets.only(left: 30),
+                    margin: const EdgeInsets.only(left: 15),
                     child: Text('4, Male, Wilmington',
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal,
+                      style: TextStyle(fontFamily: "Proxima-Nova-Bold",
+                        fontSize: 25, color: Colors.black, fontWeight: FontWeight.w400
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-
-                  const SizedBox(
+                  const SizedBox( // About me
                     height: 15,
                   ),
+
                   Container(
-                    margin: const EdgeInsets.only(left:30),
+                    margin: const EdgeInsets.only(left:15),
                     child: const Text("About Me", style: TextStyle(fontFamily: "Proxima-Nova-Bold",
                         fontSize: 20, color: Colors.black, fontWeight: FontWeight.w400
                     ),),
@@ -81,24 +77,24 @@ class DetailedPost extends StatelessWidget{
                   ),
 
                   const SizedBox(
-                    height: 5,
-                  ),
-
-                  Container(
-                    margin: const EdgeInsets.only(left: 30),
-                    width: MediaQuery.of(context).size.width*0.85,
-                    child: const Text("Whiskers is looking for a furrever home. He loves to cuddle and lay in the sun.", style: TextStyle(fontFamily: "ProximaNova-Regular",
-                        fontSize: 14, color: Colors.black, fontWeight: FontWeight.w300
-                    ),),
-                  ),
-
-                  const SizedBox(
                     height: 10,
                   ),
 
                   Container(
+                    margin: const EdgeInsets.only(left: 15),
+                    width: MediaQuery.of(context).size.width*0.85,
+                    child: const Text("Whiskers is looking for a furrever home. He loves to cuddle and lay in the sun.", style: TextStyle(fontFamily: "ProximaNova-Regular",
+                        fontSize: 15, color: Colors.black, fontWeight: FontWeight.w300
+                    ),),
+                  ),
+
+                  const SizedBox( // labels
+                    height: 30,
+                  ),
+
+                  Container(
                     width: MediaQuery.of(context).size.width*0.9,
-                    margin: const EdgeInsets.only(left: 30,right: 30,),
+                    margin: const EdgeInsets.only(left:10),
                     child: Wrap(
 
                       children: [
@@ -110,7 +106,7 @@ class DetailedPost extends StatelessWidget{
                                 color: const Color(0xFF7FE9F6).withOpacity(0.25)
                             ),
                             child: const Padding(
-                              padding: EdgeInsets.only(left: 6, right: 6, top: 6, bottom: 6 ),
+                              padding: EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6 ),
                               child: Text("Cat Friendly", style: TextStyle(fontFamily: "ProximaNova-Regular",
                                   fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400
                               ),),
@@ -126,7 +122,7 @@ class DetailedPost extends StatelessWidget{
                                 color: const Color(0xFF33C0FF).withOpacity(0.25)
                             ),
                             child: const Padding(
-                              padding: EdgeInsets.only(left: 6, right: 6, top: 6, bottom: 6 ),
+                              padding: EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6 ),
                               child: Text("Dog Friendly", style: TextStyle(fontFamily: "ProximaNova-Regular",
                                   fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400
                               ),),
@@ -142,7 +138,7 @@ class DetailedPost extends StatelessWidget{
                                 color: const Color(0xFFFF9933).withOpacity(0.25)
                             ),
                             child: const Padding(
-                              padding: EdgeInsets.only(left: 6, right: 6, top: 6, bottom: 6),
+                              padding: EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6),
                               child: Text("Kid Friendly", style: TextStyle(fontFamily: "ProximaNova-Regular",
                                   fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400
                               ),),

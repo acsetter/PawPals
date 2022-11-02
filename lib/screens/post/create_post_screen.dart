@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:paw_pals/widgets/Post/detailedPost.dart';
-
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
@@ -28,28 +26,27 @@ class CreatePostScreen extends StatelessWidget {
       // The bar that goes across the top of the screen:
         appBar: OurAppBar.build(screenTitle),
         // The main body of the Screen:
-        body: DetailedPost()
+        body:
+
+        FormWrapper(
+          children: [
+            FieldWrapper(
+              child: Text(exampleText, textAlign: TextAlign.center),
+            ),
+            FieldWrapper(
+              child: OurOutlinedButton(
+                // method invoked when a user presses this button
+                  onPressed: () {
+                    // This adds a page to the stack and displays the next screen.
+                    // You can keep stacking screens by calling
+                    // `Get.to(() => MyNextScreen())` on subsequent screens.
+                    Get.to(() => const CreatePostScreen());
+                  },
+                  label: buttonLabel
+              ),
+            )
+          ],
+        )
     );
-
-        // FormWrapper(
-        //   children: [
-        //     FieldWrapper(
-        //       child: Text(exampleText, textAlign: TextAlign.center),
-        //     ),
-        //     FieldWrapper(
-        //       child: OurOutlinedButton(
-        //         // method invoked when a user presses this button
-        //           onPressed: () {
-        //             // This adds a page to the stack and displays the next screen.
-        //             // You can keep stacking screens by calling
-        //             // `Get.to(() => MyNextScreen())` on subsequent screens.
-        //             Get.to(() => const CreatePostScreen());
-        //           },
-        //           label: buttonLabel
-        //       ),
-        //     )
-        //   ],
-        // )
-
   }
 }
