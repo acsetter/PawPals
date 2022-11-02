@@ -1,5 +1,3 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:paw_pals/constants/app_colors.dart';
 import 'package:paw_pals/constants/app_types.dart';
