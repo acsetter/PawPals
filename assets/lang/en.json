@@ -7,7 +7,7 @@
     "login": "Login",
     "resend": "Resend",
     "submit": "Submit",
-    "send-code": "Send Code",
+    "send-link": "Send Link",
     "sign-up": "Sign Up",
     "verify": "Verify"
   },
@@ -46,6 +46,12 @@
   "page-titles": {
     "login": "Login",
     "sign-up": "Sign Up",
-    "home": "Home"
+    "home": "Home",
+    "recovery": "Password Recovery"
+  },
+  "instructions": {
+    "login": "Login or sign up to continue.",
+    "recover": "Enter the email associated with your account to receive a password reset link.",
+    "check-email": "Check the junk folder of your email for a password reset link."
   }
 }

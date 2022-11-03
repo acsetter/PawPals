@@ -8,24 +8,23 @@ import 'package:paw_pals/widgets/forms/_form_validation.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/services/auth_service.dart';
-import 'package:paw_pals/screens/home_screen.dart';
+import 'package:paw_pals/screens/login_screen.dart';
 
 typedef Func = void Function();
 /// Form for user-login. A login request including an email and password is
 /// sent on submission of this form.
-class LoginForm extends StatefulWidget {
+class EmailForm extends StatefulWidget {
 
-  const LoginForm({super.key});
+  const EmailForm({super.key});
 
   @override
-  State<LoginForm> createState() => LoginFormState();
+  State<EmailForm> createState() => EmailFormState();
 }
 
 // Define a corresponding State Class.
 // This class holds data related to the form.
-class LoginFormState extends State<LoginForm> with FormValidation {
+class EmailFormState extends State<EmailForm> with FormValidation {
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -36,12 +35,14 @@ class LoginFormState extends State<LoginForm> with FormValidation {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                translate("instructions.login"),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
+              FieldWrapper(
+                child: Text(
+                  translate("instructions.recover"),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16
+                  ),
                 ),
               ),
               OurTextField(
@@ -50,39 +51,37 @@ class LoginFormState extends State<LoginForm> with FormValidation {
                 validator: emailValidator,
                 icon: AppIcons.email,
               ),
-              OurTextField(
-                controller: passwordController,
-                labelText: translate("field-labels.password"),
-                validator: passwordValidator,
-                icon: AppIcons.password,
-                hideText: true,
-                autocorrect: false,
-              ),
               FieldWrapper(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       ContainedButton(
-                        icon: AppIcons.login,
+                        icon: AppIcons.send,
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            AuthService.signIn(
+                            AuthService.sendResetLink(
                               email: emailController.text.trim(),
-                              password: passwordController.text.trim(),
                             ).then((String val) {
                               if (val.isNotEmpty) {
-                                Get.snackbar("Error:", translate('errors.$val'),
+                                Get.snackbar("Error:",
+                                    translate('errors.$val'),
                                     snackPosition: SnackPosition.BOTTOM,
                                     duration: const Duration(seconds: 7),
                                     colorText: Theme.of(context).errorColor
                                 );
                               } else {
-                                Get.offAll(const HomeScreen());
+                                Get.snackbar("Code Sent:",
+                                    translate('instructions.check-email'),
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    duration: const Duration(seconds: 7),
+                                    colorText: Theme.of(context).primaryColor
+                                );
+                                Get.offAll(const LoginScreen());
                               }
                             });
                           }
                         },
-                        label: translate("btn-labels.login"),
+                        label: translate("btn-labels.send-link"),
                       )
                     ],
                   )
@@ -95,7 +94,6 @@ class LoginFormState extends State<LoginForm> with FormValidation {
   @override
   void dispose() {
     emailController.dispose();
-    passwordController.dispose();
     super.dispose();
   }
 }
