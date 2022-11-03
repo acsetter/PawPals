@@ -5,6 +5,9 @@ import 'package:paw_pals/widgets/screencards.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/utils/app_log.dart';
 
+import '../../widgets/bars/our_app_bar_pref.dart';
+
+
 class FeedScreen extends StatelessWidget {
   final String screenTitle = "Feed Screen";
 
@@ -13,7 +16,7 @@ class FeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: OurAppBar.build(screenTitle),
+      appBar: OurAppBarpref.build(screenTitle, context),
         body: BlocBuilder<SwipeBlock, SwipeState>(
           builder: (context, state) {
             if(state is SwipeLoading){

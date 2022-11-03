@@ -139,53 +139,18 @@ class AuthService {
   ///   in the Firebase console.
   /// - **auth/user-not-found**
   ///   Thrown if there is no user corresponding to the email address.
-  static Future<String> sendCode({required String email}) async {
+  static Future<String> sendResetLink({required String email}) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
-      return "code-sent";
+      return "";
     } on FirebaseAuthException catch (e) {
       Logger.log('${e.code}: ${e.message}', isError: true);
       switch (e.code) {
         case "invalid-email":
           return e.code;
         case "user-not-found":
-          return "code-sent"; // Don't give error for security reasons
+          return ""; // Don't give error for security reasons
         case "operation-not-allowed":
-        default:
-          return "unhandled-error";
-      }
-    }
-  }
-
-  /// Checks a password reset code sent to the user by email or other
-  /// out-of-band mechanism.
-  ///
-  /// Returns the user's email address if valid.
-  ///
-  /// A [FirebaseAuthException] maybe thrown with the following error code:
-  /// - **expired-action-code**:
-  ///  - Thrown if the password reset code has expired.
-  /// - **invalid-action-code**:
-  ///  - Thrown if the password reset code is invalid. This can happen if the
-  ///    code is malformed or has already been used.
-  /// - **user-disabled**:
-  ///  - Thrown if the user corresponding to the given email has been disabled.
-  /// - **user-not-found**:
-  ///  - Thrown if there is no user corresponding to the password reset code.
-  ///    This may have happened if the user was deleted between when the code
-  ///    was issued and when this method was called.
-  static Future<String> verifyCode({required String code}) async {
-    try {
-      await _auth.verifyPasswordResetCode(code);
-      return 'code verified';
-    } on FirebaseAuthException catch (e) {
-      Logger.log('${e.code}: ${e.message}', isError: true);
-      switch (e.code) {
-        case "expired-action-code":
-        case "invalid-action-code":
-          return e.code;
-        case "operation-not-allowed":
-        case "user-disabled":
         default:
           return "unhandled-error";
       }
