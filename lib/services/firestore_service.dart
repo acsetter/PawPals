@@ -4,7 +4,6 @@ import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/pref_model.dart';
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
-import 'package:paw_pals/widgets/Post/post.dart';
 
 /// A service class to interface with the [FirebaseFirestore] plugin.
 class FirestoreService {
@@ -226,25 +225,29 @@ class FirestoreService {
     });
   }
 
-  // static Future<List<PostModel?>?> getPostsFromIds(List<String> idList) async {
-  //   await return _posts.where("uid", whereIn: idList).get()
-  //       .then((value) => value.docs.first.);
-  // }
-  //
-  // static Future<List<PostModel?>?> getPostsByUser(UserModel userModel) async {
-  //   return await _posts.where("uid", isEqualTo: userModel.uid).get()
-  //       .then(
-  //         (value) => value.docs.data(),
-  //         onError: (e) => Logger.log(e.toString(), isError: true));
-  // }
+  static Future<List<PostModel>?> getPostsFromIds(List<String> idList) async {
+    return await _posts
+        .where("uid", whereIn: idList)
+        .withConverter(
+          fromFirestore: PostModel.fromFirestore,
+          toFirestore: (snapshot, _) => snapshot.toFirestore())
+        .get()
+        .then(
+          (value) => List<PostModel>.from(value.docs.map((snapshot) => snapshot.data())),
+          onError: (e) => Logger.log(e.toString(), isError: true));
+  }
 
-  // static Future<PostModel?> getLikedPosts() async {
-  //   return null;
-  // }
-
-  // static Future<Image?> getImageFromUrl(String url) async {
-  //   return null;
-  // }
+  static Future<List<PostModel>?> getPostsByUser(UserModel userModel) async {
+    return await _posts
+        .where("uid", isEqualTo: userModel.uid)
+        .withConverter(
+          fromFirestore: PostModel.fromFirestore,
+          toFirestore: (snapshot, _) => snapshot.toFirestore())
+        .get()
+        .then(
+          (value) => List<PostModel>.from(value.docs.map((snapshot) => snapshot.data())),
+          onError: (e) => Logger.log(e.toString(), isError: true));
+  }
 
   /// Query all users and return if given username is unique.
   /// Returns null if error occurs.

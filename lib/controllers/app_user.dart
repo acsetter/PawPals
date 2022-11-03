@@ -6,6 +6,8 @@ import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 
+import '../models/post_model.dart';
+
 /// The data-controller for the user of the app.
 /// This class is a singleton accessed by calling `AppUser.instance`.
 ///
@@ -37,6 +39,12 @@ class AppUser extends ChangeNotifier {
 
   /// Notifies about changes to the authenticated user's [UserModel].
   Stream<UserModel?> appUserChanges() => _controller.stream;
+
+  Stream<List<PostModel>?> get appUserPosts =>
+      FirestoreService.getPostsByUser(userModel!).asStream();
+
+  Stream<List<PostModel>?> get appUserLikedPosts =>
+      FirestoreService.getPostsFromIds(userModel!.likedPosts!).asStream();
 
   /// Get the authenticated user's [UserModel].
   UserModel? get userModel => _userModel;
