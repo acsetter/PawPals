@@ -1,12 +1,14 @@
 // Following along: https://docs.flutter.dev/cookbook/forms/text-field-changes
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:paw_pals/widgets/buttons/contained_button.dart';
 import 'package:paw_pals/widgets/fields/our_text_field.dart';
 import 'package:paw_pals/widgets/forms/_form_validation.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
-
-import '../../constants/app_icons.dart';
-import '../../services/auth_service.dart';
+import 'package:paw_pals/constants/app_icons.dart';
+import 'package:paw_pals/services/auth_service.dart';
+import 'package:paw_pals/screens/home_screen.dart';
 
 typedef Func = void Function();
 /// Form for user-login. A login request including an email and password is
@@ -59,7 +61,17 @@ class LoginFormState extends State<LoginForm> with FormValidation {
                             AuthService.signIn(
                               email: emailController.text.trim(),
                               password: passwordController.text.trim(),
-                            );
+                            ).then((String val) {
+                              if (val.isNotEmpty) {
+                                Get.snackbar("Error:", translate('errors.$val'),
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    duration: const Duration(seconds: 7),
+                                    colorText: Theme.of(context).errorColor
+                                );
+                              } else {
+                                Get.offAll(const HomeScreen());
+                              }
+                            });
                           }
                         },
                         label: translate("btn-labels.login"),

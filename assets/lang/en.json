@@ -47,5 +47,8 @@
     "login": "Login",
     "sign-up": "Sign Up",
     "home": "Home"
+  },
+  "instructions": {
+    "login": "Login or sign up to continue."
   }
 }

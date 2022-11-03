@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:paw_pals/screens/sign_up_screen.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
-
-import '../utils/app_localizations.dart';
-import '../widgets/forms/login_form.dart';
-import '../widgets/wrappers/form_wrapper.dart';
+import 'package:paw_pals/utils/app_localizations.dart';
+import 'package:paw_pals/widgets/forms/login_form.dart';
+import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
+import 'package:paw_pals/constants/app_data.dart';
 
 class LoginScreen extends StatelessWidget {
 
@@ -20,6 +21,19 @@ class LoginScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: FormWrapper(
             children: [
+              Image(
+                image: AppData.logo,
+                width: 160,
+                height: 160,
+              ),
+              Text(
+                AppLocalizations.of(context).translate("instructions.login"),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16
+                ),
+              ),
               const LoginForm(),
               FieldWrapper(
                   child: Row(
