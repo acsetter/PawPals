@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:paw_pals/screens/recovery/recovery_screen.dart';
 
 import 'package:paw_pals/screens/sign_up_screen.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
@@ -26,14 +27,6 @@ class LoginScreen extends StatelessWidget {
                 width: 160,
                 height: 160,
               ),
-              Text(
-                AppLocalizations.of(context).translate("instructions.login"),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16
-                ),
-              ),
               const LoginForm(),
               FieldWrapper(
                   child: Row(
@@ -47,8 +40,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            // TODO: Implement password recovery.
-                            print("'Forgot password?' button pressed.");
+                            Get.to(const RecoveryScreen());
                           },
                           child: Text(AppLocalizations.of(context).translate("btn-labels.forgot-password")),
                         ),
