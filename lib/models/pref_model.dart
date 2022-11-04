@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paw_pals/constants/app_types.dart';
+import 'package:paw_pals/utils/app_utils.dart';
 
 /// Model that defines the feed-preferences data stored in the database.
 /// **WARNING:** [PreferencesModel] fields are not null-safe and need to be handled as such.
@@ -30,7 +31,8 @@ class PreferencesModel {
     final data = snapshot.data();
 
     return PreferencesModel(
-      petTypes: data?["petTypes"],
+      petTypes: data?["petTypes"]
+        is Iterable ? AppUtils.petTypeListFromFirestore(data?["petTypes"]) : null,
       petGender: data?["petGender"],
       minAge: data?["minAge"],
       maxAge: data?["maxAge"],
@@ -42,13 +44,13 @@ class PreferencesModel {
 
   /// Converts the [PreferencesModel] to json with including all non-null fields.
   Map<String, dynamic> toFirestore() => {
-    "petTypes": petTypes,
-    "petGender": petGender,
-    "minAge": minAge,
-    "maxAge": maxAge,
-    "searchRadius": searchRadius,
-    "isPetFriendly": isPetFriendly,
-    "isKidFriendly": isKidFriendly
+    if (petTypes != null) "petTypes": AppUtils.petTypeListToFirestore(petTypes!),
+    if (petGender != null) "petGender": petGender,
+    if (minAge != null) "minAge": minAge,
+    if (maxAge != null) "maxAge": maxAge,
+    if (searchRadius != null) "searchRadius": searchRadius,
+    if (isPetFriendly != null) "isPetFriendly": isPetFriendly,
+    if (isKidFriendly != null) "isKidFriendly": isKidFriendly
   };
 
   /// Makes a copy of the [PreferencesModel] with expected changes.

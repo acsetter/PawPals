@@ -6,7 +6,7 @@ import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 
-import '../models/post_model.dart';
+import 'package:paw_pals/models/post_model.dart';
 
 /// The data-controller for the user of the app.
 /// This class is a singleton accessed by calling `AppUser.instance`.
@@ -23,7 +23,7 @@ import '../models/post_model.dart';
 class AppUser extends ChangeNotifier {
   static final AppUser _instance = AppUser._();
 
-  final StreamController<UserModel?> _controller = StreamController<UserModel?>.broadcast();
+  final StreamController<UserModel?> _userController = StreamController<UserModel?>.broadcast();
   UserModel? _userModel;
   StreamSubscription<User?>? _authSub;
   StreamSubscription<UserModel?>? _firestoreSub;
@@ -31,20 +31,14 @@ class AppUser extends ChangeNotifier {
   AppUser._() {
     _updateUser();
     _subscribe();
-    addListener(_updateStream);
+    addListener(_updateUserStream);
   }
 
   /// Returns the instance of the [AppUser].
   static AppUser get instance => _instance;
 
   /// Notifies about changes to the authenticated user's [UserModel].
-  Stream<UserModel?> appUserChanges() => _controller.stream;
-
-  Stream<List<PostModel>?> get appUserPosts =>
-      FirestoreService.getPostsByUser(userModel!).asStream();
-
-  Stream<List<PostModel>?> get appUserLikedPosts =>
-      FirestoreService.getPostsFromIds(userModel!.likedPosts!).asStream();
+  Stream<UserModel?> appUserChanges() => _userController.stream;
 
   /// Get the authenticated user's [UserModel].
   UserModel? get userModel => _userModel;
@@ -79,6 +73,7 @@ class AppUser extends ChangeNotifier {
       _firestoreSub!.cancel();
       _firestoreSub = null;
     }
+    _userController.close();
   }
 
   void _updateUser() async {
@@ -94,9 +89,9 @@ class AppUser extends ChangeNotifier {
     }
   }
 
-  void _updateStream() {
+  void _updateUserStream() {
     // send the updated UserModel to stream listeners.
-    _controller.sink.add(_userModel);
+    _userController.sink.add(_userModel);
   }
 
   @override
@@ -104,7 +99,7 @@ class AppUser extends ChangeNotifier {
     // No need to call dispose() since this singleton is designed to live
     // the entire app cycle, but I added a cleanup routine just in case.
     _unsubscribe();
-    removeListener(_updateStream);
+    removeListener(_updateUserStream);
     Logger.log('AppUser disposed.');
     super.dispose();
   }

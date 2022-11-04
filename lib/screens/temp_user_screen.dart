@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:paw_pals/constants/app_data.dart';
+import 'package:paw_pals/models/post_model.dart';
 
 import 'package:paw_pals/services/auth_service.dart';
 import 'package:paw_pals/controllers/app_user.dart';
+import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
 import 'package:paw_pals/widgets/wrappers/auth_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
@@ -34,7 +37,16 @@ class TempUserScreen extends StatelessWidget {
                 if (userModel != null) {
                   // Return your widget here and pass the userModel
                   // StorageService.getPhotoURL().then((value) => print(value));
-                  return Text(userModel.username ?? "Error");
+                  return StreamBuilder<List<PostModel>?>(
+                      stream: FirestoreService.getPostsByUser(AppUser.instance.userModel!).asStream(),
+                      builder: (BuildContext context, posts) {
+                        if (posts.hasData) {
+                          return Text(posts.data!.first.toString());
+                        }
+
+                        return const Text("Loading or Error");
+                      }
+                  );
                 } else {
                   // This means the UI rendered before data was available
                   // which means we should show a loading screen
@@ -50,7 +62,17 @@ class TempUserScreen extends StatelessWidget {
                 AuthService.signOut();
               },
             ),
-          )
+          ),
+          FieldWrapper(
+            child: OurOutlinedButton(
+              label: "Create post",
+              onPressed: () {
+                FirestoreService.createPost(
+                  AppData.fakePost
+                );
+              },
+            ),
+          ),
         ]),
       login: const LoginScreen()
     );

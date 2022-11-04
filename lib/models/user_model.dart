@@ -76,33 +76,30 @@ class UserModel {
       last == userModel.last &&
       photoUrl == userModel.photoUrl &&
       timestamp == userModel.timestamp &&
-      userPosts == userModel.userPosts &&
-      likedPosts == userModel.likedPosts;
+      userPosts == userModel.userPosts;
   }
 
  /// The copyWith method aids in the editing of user profile information.
  /// A copy of the UserModel is created and currently allows for the first
  /// and last name of the user to be changed and passed to the updateUser()
  ///  method to be updated in the database.
-
-
   UserModel copyWith({
-    String ? first,
-    String ? last,
-    String ? photoUrl,
-    List<String> ? userPosts,
-    List<String> ? likedPosts
-})  {
-
+    String? first,
+    String? last,
+    String? photoUrl,
+    List<String>? userPosts,
+    List<String>? likedPosts
+  })  {
     return UserModel(
-        uid: uid,
-        email: email,
-        first: first ?? this.first,
-        last: last ?? this.last,
-        photoUrl: photoUrl ?? this.photoUrl,
-        userPosts: userPosts ?? this.userPosts,
-        likedPosts: likedPosts ?? this.likedPosts
-);}
+      uid: uid,
+      email: email,
+      first: first ?? this.first,
+      last: last ?? this.last,
+      photoUrl: photoUrl ?? this.photoUrl,
+      userPosts: userPosts ?? this.userPosts,
+      likedPosts: likedPosts ?? this.likedPosts
+    );
+  }
 
   // static List<UserModel> listFromFirestore(list) =>
   //     List<UserModel>.from(list.map((x) => UserModel.fromFirestore(snapshot: x)));
