@@ -5,7 +5,7 @@ import 'package:paw_pals/utils/app_utils.dart';
 /// Model that defines the feed-preferences data stored in the database.
 /// **WARNING:** [PreferencesModel] fields are not null-safe and need to be handled as such.
 class PreferencesModel {
-  List<PetType>? petTypes;
+  PetType? petType;
   PetGender? petGender;
   int? minAge;
   int? maxAge;
@@ -14,7 +14,7 @@ class PreferencesModel {
   bool? isKidFriendly;
 
   PreferencesModel({
-    this.petTypes,
+    this.petType,
     this.petGender,
     this.minAge,
     this.maxAge,
@@ -31,9 +31,8 @@ class PreferencesModel {
     final data = snapshot.data();
 
     return PreferencesModel(
-      petTypes: data?["petTypes"]
-        is Iterable ? AppUtils.petTypeListFromFirestore(data?["petTypes"]) : null,
-      petGender: data?["petGender"],
+      petType: AppUtils.petTypeFromString(data?["petType"]),
+      petGender: AppUtils.petGenderFromString(data?["petGender"]),
       minAge: data?["minAge"],
       maxAge: data?["maxAge"],
       searchRadius: data?["searchRadius"],
@@ -44,8 +43,8 @@ class PreferencesModel {
 
   /// Converts the [PreferencesModel] to json with including all non-null fields.
   Map<String, dynamic> toFirestore() => {
-    if (petTypes != null) "petTypes": AppUtils.petTypeListToFirestore(petTypes!),
-    if (petGender != null) "petGender": petGender,
+    if (petType != null) "petType": petType!.name,
+    if (petGender != null) "petGender": petGender!.name,
     if (minAge != null) "minAge": minAge,
     if (maxAge != null) "maxAge": maxAge,
     if (searchRadius != null) "searchRadius": searchRadius,
@@ -55,7 +54,7 @@ class PreferencesModel {
 
   /// Makes a copy of the [PreferencesModel] with expected changes.
   PreferencesModel copyWith({
-    List<PetType>? petTypes,
+    PetType? petType,
     PetGender? petGender,
     int? minAge,
     int? maxAge,
@@ -64,7 +63,7 @@ class PreferencesModel {
     bool? isKidFriendly,
   }) {
     return PreferencesModel(
-      petTypes: petTypes ?? this.petTypes,
+      petType: petType ?? this.petType,
       petGender: petGender ?? this. petGender,
       minAge: minAge ?? this.minAge,
       maxAge: maxAge ?? this.maxAge,

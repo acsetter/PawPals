@@ -34,6 +34,9 @@ class AppUtils {
   static List<String> petTypeListToFirestore(List<PetType> list) =>
     List<String>.from(list.map((x) => x.name));
 
+  static List<String> petGenderListToFirestore(List<PetGender> list) =>
+    List<String>.from(list.map((x) => x.name));
+
   static String dateFromTimestamp(int timestamp) {
     var dt = DateTime.fromMillisecondsSinceEpoch(timestamp);
     return "${dt.month}/${dt.day}/${dt.year} ${dt.hour}:${dt.minute}";

@@ -106,4 +106,43 @@ class AppData {
   ];
 
   // Feel free to generate fake post data here
+  static PostModel get feedPost1 => PostModel(
+    postDescription: "Feed Post 1",
+    petName: "Dog1",
+    petType: PetType.dog,
+    petAge: 0,
+    petGender: PetGender.male,
+    petPhotoUrl: "",
+    isPetFriendly: true,
+    isKidFriendly: true);
+
+  static PostModel get feedPost2 => PostModel(
+      postDescription: "Feed Post 2",
+      petName: "Cat1",
+      petType: PetType.cat,
+      petAge: 1,
+      petGender: PetGender.female,
+      petPhotoUrl: "",
+      isPetFriendly: true,
+      isKidFriendly: false);
+
+  static PostModel get feedPost3 => PostModel(
+      postDescription: "Feed Post 3",
+      petName: "Dog2",
+      petType: PetType.dog,
+      petAge: 15,
+      petGender: PetGender.female,
+      petPhotoUrl: "",
+      isPetFriendly: false,
+      isKidFriendly: true);
+
+  static PostModel get feedPost4 => PostModel(
+      postDescription: "Feed Post 4",
+      petName: "Cat2",
+      petType: PetType.cat,
+      petAge: 30,
+      petGender: PetGender.female,
+      petPhotoUrl: "",
+      isPetFriendly: false,
+      isKidFriendly: false);
 }

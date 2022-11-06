@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/pref_model.dart';
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
+
+import '../utils/app_utils.dart';
 
 /// A service class to interface with the [FirebaseFirestore] plugin.
 class FirestoreService {
@@ -268,5 +271,32 @@ class FirestoreService {
         return null;
       }
     );
+  }
+
+  static Future<List<PostModel>?> getFeedPosts(PreferencesModel prefModel) async {
+    // List<PetType> petTypes = prefModel.petTypes ?? [PetType.dog, PetType.cat];
+    // List<PetGender> petGenders = prefModel.petGender != null ? [prefModel.petGender!] : [PetGender.male, PetGender.female];
+
+    // List<bool> isPetFriendly = prefModel.isPetFriendly != null ? [prefModel.isPetFriendly!] : [true, false];
+    // List<bool> isKidFriendly = prefModel.isKidFriendly != null ? [prefModel.isPetFriendly!] : [true, false];
+    // TODO: filter for location services.
+
+    return await _posts
+      .where("isKidFriendly", isEqualTo: prefModel.isKidFriendly)
+      .where("isPetFriendly", isEqualTo: prefModel.isPetFriendly)
+      .where("petAge", isGreaterThanOrEqualTo: prefModel.minAge)
+      .where("petAge", isLessThanOrEqualTo: prefModel.maxAge)
+      .where("petGender", isEqualTo: prefModel.petGender?.name)
+      // .where("petType", whereIn: AppUtils.petTypeListToFirestore(petTypes))
+
+
+      .withConverter(
+        fromFirestore: PostModel.fromFirestore,
+        toFirestore: (snapshot, _) => snapshot.toFirestore())
+      .get()
+      .then(
+        (value) => List<PostModel>.from(value.docs.map((snapshot) => snapshot.data())),
+        onError: (e) => print(e.toString()));
+    
   }
 }
