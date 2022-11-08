@@ -63,7 +63,7 @@ class ProfileScreen extends StatelessWidget {
                   ]
                 ),
                 const Divider(),
-          Expanded(
+                Expanded(
             child: DummyGrid(AppData.post)
 
                   ),

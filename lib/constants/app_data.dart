@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../models/post_model.dart';
@@ -57,6 +58,7 @@ class AppData {
       postDescription: "Bob is an adventurous Cat!",
       petName: "Bob",
       petAge: 7,
+      petGender: PetGender.male,
       petPhotoUrl: 'assets/images/tabby_cat.jpg',
     ),
     PostModel(
@@ -65,6 +67,7 @@ class AppData {
       postDescription: "Carl likes to sleep and chew on bones!",
       petName: "Carl",
       petAge: 5,
+      petGender: PetGender.female,
       petPhotoUrl: 'assets/images/corgi.jpg',
     ),
     PostModel(
@@ -73,6 +76,7 @@ class AppData {
       postDescription: "Doug likes alot of treats!",
       petName: "Doug",
       petAge: 4,
+      petGender: PetGender.female,
       petPhotoUrl: 'assets/images/english_bulldog.jpg',
     ),
     PostModel(
@@ -81,6 +85,7 @@ class AppData {
       postDescription: "Earl is Lazy!",
       petName: "Earl",
       petAge: 9,
+      petGender: PetGender.male,
       petPhotoUrl: 'assets/images/siamese_cat.jpg',
     ),
     PostModel(
