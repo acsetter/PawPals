@@ -1,13 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../models/post_model.dart';
-import '../models/user_model.dart';
-import 'app_types.dart';
+import 'package:paw_pals/models/post_model.dart';
+import 'package:paw_pals/models/user_model.dart';
+import 'package:paw_pals/constants/app_types.dart';
 
 /// Static data for use in test and development
 class AppData {
   const AppData._();
+
+  static AssetImage get logo => const AssetImage('assets/images/logo.png');
 
   static AssetImage get corgi => const AssetImage('assets/images/corgi.jpg');
   static AssetImage get englishBulldog => const AssetImage('assets/images/english_bulldog.jpg');
