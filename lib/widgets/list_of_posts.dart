@@ -21,9 +21,6 @@ class DummyGrid extends StatelessWidget {
         itemBuilder: (context, index) {
           return MyCardForDisplay(post[index]);
 
-
-
-          //return Text(paintings[index].title);
         },
 
       );
@@ -38,7 +35,6 @@ class MyCardForDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // to make the card interactive have to put the card inside a gesture detector
     return
       GestureDetector(
           onTap: () {
@@ -49,7 +45,7 @@ class MyCardForDisplay extends StatelessWidget {
                 padding: const EdgeInsets.all(4),
                 child: Column(
                   children: [
-                    Image.asset(post.petPhotoUrl!),
+                    Image.asset(post.petPhotoUrl!, fit: BoxFit.fill),
                   ],
                 ),
               )));
@@ -66,11 +62,8 @@ class DetailScreen extends StatelessWidget {
 
     Widget contentToShow;
 
-    // we had two entry points to the detail screen but only one passed in
-    // information. This determined if inforation was passed in and if so
-    // show it
     if (post == null) {
-      contentToShow = Text("No posts yet");
+      contentToShow = const Text("No posts yet");
     }
     else {
       contentToShow = Image.asset(post!.petPhotoUrl!);
@@ -85,14 +78,26 @@ class DetailScreen extends StatelessWidget {
         child: Column(
           children: [
             contentToShow,
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("Go Back"))
-          ],
-        ),
-      ),
+            Column(
+              children: [
+                Text(post!.petName!,
+                    style: TextStyle(
+                    color: Colors.grey[700],
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+                     ),
+              ],
+            ),
+              Column(
+                children: [
+                  Text("Pet Age: ${post!.petAge}"),
+                  Text("Pet Gender: ${post!.petGender}"),
+                ],
+              ),
+              Text("Post Description: ${post!.postDescription}"),
+      ]
+          ),
+      )
     );
   }
 }
