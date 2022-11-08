@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
+import 'package:paw_pals/widgets/list_of_posts.dart';
 import '../../constants/app_data.dart';
 import '../../constants/app_icons.dart';
+import '../../models/post_model.dart';
 import '../../widgets/profile/profile_widget.dart';
 import '../../widgets/wrappers/field_wrapper.dart';
 import '../../widgets/wrappers/form_wrapper.dart';
@@ -11,7 +13,7 @@ import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
 
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key,});
 
   final String screenTitle = "My Profile";
   final String buttonLabel = "Edit Profile";
@@ -23,11 +25,18 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     // Every screen will use a scaffold as the outer-most widget.
     return Scaffold(
-        appBar: OurAppBar.build(screenTitle),
-        body: SingleChildScrollView(
-          child: Column(
+
+    appBar: OurAppBar.build(screenTitle),
+        body: CustomScrollView(
+          scrollDirection: Axis.vertical,
+          physics: const NeverScrollableScrollPhysics(),
+            slivers: [
+            SliverFillRemaining(
+            hasScrollBody: true,
+            child: Column(
               children: [
                 FieldWrapper(
                   child: ProfilePhotoWidget(
@@ -53,7 +62,20 @@ class ProfileScreen extends StatelessWidget {
                     )
                   ]
                 ),
+                const Divider(),
+          Expanded(
+            child: DummyGrid(AppData.post)
 
+                  ),
+
+
+    ]
+    )
+        )
+
+    ]),
+    );
+    /*
                 GridView.count(
                   // Create a grid with 2 columns. If you change the scrollDirection to
                   // horizontal, this produces 2 rows.
@@ -72,11 +94,11 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     );
                   }),
-                ),
-              ]
-          ),
-        )
-    );
+                ),*/
+
+
+
+
   }
 }
 
