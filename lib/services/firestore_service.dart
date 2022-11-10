@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:paw_pals/constants/app_types.dart';
+import 'package:paw_pals/constants/app_info.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/pref_model.dart';
 import 'package:paw_pals/models/user_model.dart';
@@ -44,6 +44,39 @@ class FirestoreService {
   /// the logged in user updates/changes.
   static Stream<PreferencesModel?> get prefModelStream => _prefRef.snapshots()
       .map((snapshot) => snapshot.data()).asBroadcastStream();
+
+  /// A broadcast stream that notifies listeners when the list of Posts that
+  /// belong to the app user updates/changes.
+  static Stream<List<PostModel>?> get appUserPostsStream => _posts
+      .where("uid", isEqualTo: _uid)
+      .withConverter(
+      fromFirestore: PostModel.fromFirestore,
+      toFirestore: (snapshot, _) => snapshot.toFirestore())
+      .snapshots()
+      .map((snapshot) => List<PostModel>.from(snapshot.docs.map((doc) => doc.data())))
+      .asBroadcastStream();
+
+  /// A broadcast stream that notifies listeners when the list of Posts that
+  /// belong to the 'uid' of the expected [UserModel] updates/changes.
+  static Stream<List<PostModel>?> userPostsStream(UserModel userModel) => _posts
+      .where("uid", isEqualTo: userModel.uid ?? "_")
+      .withConverter(
+      fromFirestore: PostModel.fromFirestore,
+      toFirestore: (snapshot, _) => snapshot.toFirestore())
+      .snapshots()
+      .map((snapshot) => List<PostModel>.from(snapshot.docs.map((doc) => doc.data())))
+      .asBroadcastStream();
+
+  /// A broadcast stream that notifies listeners when the list of Posts that
+  /// belong to the 'likedPosts' of the expected [UserModel] updates/changes.
+  static Stream<List<PostModel>?> userLikedPostsStream(UserModel userModel) => _posts
+      .where("postId", whereIn: userModel.likedPosts ?? ["_"])
+      .withConverter(
+        fromFirestore: PostModel.fromFirestore,
+        toFirestore: (snapshot, _) => snapshot.toFirestore())
+      .snapshots()
+      .map((snapshot) => List<PostModel>.from(snapshot.docs.map((doc) => doc.data())))
+      .asBroadcastStream();
   
   static Future<UserModel?> getUserById(String uid) async {
     return await _users.doc(_uid)
@@ -257,9 +290,19 @@ class FirestoreService {
           toFirestore: (snapshot, _) => snapshot.toFirestore())
         .get()
         .then(
-          (value) => List<PostModel>.from(value.docs.map((snapshot) => snapshot.data())),
+          (snapshot) => List<PostModel>.from(snapshot.docs.map((snapshot) => snapshot.data())),
           onError: (e) => Logger.log(e.toString(), isError: true));
   }
+
+  static Future<List<PostModel>?> likedPostsByUser(UserModel userModel) => _posts
+      .where("postId", whereIn: userModel.likedPosts ?? ["_"])
+      .withConverter(
+      fromFirestore: PostModel.fromFirestore,
+      toFirestore: (snapshot, _) => snapshot.toFirestore())
+      .get()
+      .then(
+        (snapshot) => List<PostModel>.from(snapshot.docs.map((doc) => doc.data())),
+        onError: (e) => Logger.log(e.toString(), isError: true));
 
   /// Query all users and return if given username is unique.
   /// Returns null if error occurs.
@@ -274,22 +317,14 @@ class FirestoreService {
   }
 
   static Future<List<PostModel>?> getFeedPosts(PreferencesModel prefModel) async {
-    // List<PetType> petTypes = prefModel.petTypes ?? [PetType.dog, PetType.cat];
-    // List<PetGender> petGenders = prefModel.petGender != null ? [prefModel.petGender!] : [PetGender.male, PetGender.female];
-
-    // List<bool> isPetFriendly = prefModel.isPetFriendly != null ? [prefModel.isPetFriendly!] : [true, false];
-    // List<bool> isKidFriendly = prefModel.isKidFriendly != null ? [prefModel.isPetFriendly!] : [true, false];
-    // TODO: filter for location services.
-
     return await _posts
+      // .where("uid", isNotEqualTo: _uid)
       .where("isKidFriendly", isEqualTo: prefModel.isKidFriendly)
       .where("isPetFriendly", isEqualTo: prefModel.isPetFriendly)
-      .where("petAge", isGreaterThanOrEqualTo: prefModel.minAge)
-      .where("petAge", isLessThanOrEqualTo: prefModel.maxAge)
+      .where("petAge", isGreaterThanOrEqualTo: prefModel.minAge ?? AppInfo.minPetAge)
+      .where("petAge", isLessThanOrEqualTo: prefModel.maxAge ?? AppInfo.maxPetAge)
       .where("petGender", isEqualTo: prefModel.petGender?.name)
-      // .where("petType", whereIn: AppUtils.petTypeListToFirestore(petTypes))
-
-
+      .where("petType", isEqualTo: prefModel.petType?.name)
       .withConverter(
         fromFirestore: PostModel.fromFirestore,
         toFirestore: (snapshot, _) => snapshot.toFirestore())

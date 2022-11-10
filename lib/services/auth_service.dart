@@ -90,6 +90,7 @@ class AuthService {
                 username: username,
                 first: first,
                 last: last,
+                likedPosts: ["_"],
               ))
             .then((res) {
               if (res) {

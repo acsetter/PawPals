@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'package:paw_pals/constants/app_data.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/pref_model.dart';
-
+import 'package:paw_pals/screens/login_screen.dart';
 import 'package:paw_pals/services/auth_service.dart';
 import 'package:paw_pals/controllers/app_user.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
-import 'package:paw_pals/widgets/wrappers/auth_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
-import 'package:paw_pals/screens/login_screen.dart';
 import 'package:paw_pals/models/user_model.dart';
 
 /// For testing auth, database, login, and signup functionality/ cohesion.
@@ -37,19 +37,20 @@ class TempUserScreen extends StatelessWidget {
                         // directly from AppUser:
                         UserModel? userModel = AppUser.instance.userModel;
                         PreferencesModel prefs = PreferencesModel(
-                          // isKidFriendly: true,
+                          isKidFriendly: true,
                           isPetFriendly: false,
                           minAge: 1,
                           maxAge: 15,
-                          petGender: PetGender.female
+                          petGender: PetGender.female,
+                          petType: PetType.dog,
                         );
 
                         if (userModel != null) {
                           // Return your widget here and pass the userModel
                           // StorageService.getPhotoURL().then((value) => print(value));
                           return StreamBuilder<List<PostModel>?>(
-                              // stream: FirestoreService.getPostsByUser(AppUser.instance.userModel!).asStream(),
-                              stream: FirestoreService.getFeedPosts(prefs).asStream(),
+                              stream: FirestoreService.userPostsStream(userModel),
+                              // stream: FirestoreService.getFeedPosts(prefs).asStream(),
                               builder: (BuildContext context, posts) {
                                 if (posts.hasData) {
                                   String postStr = "";
@@ -75,7 +76,8 @@ class TempUserScreen extends StatelessWidget {
                 child: OurOutlinedButton(
                   label: "Logout",
                   onPressed: () {
-                    AuthService.signOut();
+                    AuthService.signOut().then((value) =>
+                        Get.offAll(const LoginScreen()));
                   },
                 ),
               ),
@@ -95,6 +97,14 @@ class TempUserScreen extends StatelessWidget {
                     FirestoreService.createPost(
                         AppData.feedPost4
                     );
+                  },
+                ),
+              ),
+              FieldWrapper(
+                child: OurOutlinedButton(
+                  label: "Like Post",
+                  onPressed: () {
+                    FirestoreService.updateUser(AppUser.instance.userModel!.copyWith(likedPosts: ["2zCvCx8e29t3Me37BFMm"]));
                   },
                 ),
               ),

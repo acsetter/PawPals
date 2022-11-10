@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
 import 'package:paw_pals/services/firestore_service.dart';
+import '../models/post_model.dart';
 
 /// The data-controller for the user of the app.
 /// This class is a singleton accessed by calling `AppUser.instance`.
@@ -22,9 +23,14 @@ class AppUser extends ChangeNotifier {
   static final AppUser _instance = AppUser._();
 
   final StreamController<UserModel?> _userController = StreamController<UserModel?>.broadcast();
+  final StreamController<List<PostModel>?> _likedPostsController = StreamController<List<PostModel>>.broadcast();
+  final StreamController<List<PostModel>?> _userPostsController = StreamController<List<PostModel>>.broadcast();
   UserModel? _userModel;
+  List<PostModel>? _userPosts;
+  List<PostModel>? _likedPosts;
   StreamSubscription<User?>? _authSub;
   StreamSubscription<UserModel?>? _firestoreSub;
+  StreamSubscription<List<PostModel>?>? _userPostsSub;
 
   AppUser._() {
     _updateUser();
@@ -38,8 +44,18 @@ class AppUser extends ChangeNotifier {
   /// Notifies about changes to the authenticated user's [UserModel].
   Stream<UserModel?> appUserChanges() => _userController.stream;
 
+  Stream<List<PostModel>?> likedPostsStream() => _likedPostsController.stream;
+
+  Stream<List<PostModel>?> userPostsStream() => _userPostsController.stream;
+
   /// Get the authenticated user's [UserModel].
   UserModel? get userModel => _userModel;
+
+  /// Get the user's liked [PostModel]s.
+  List<PostModel>? get likedPosts => _likedPosts;
+
+  /// Get the user's [PostModel]s.
+  List<PostModel>? get userPosts => _userPosts;
 
   void _subscribe() {
     // Listen for changes to the authenticated user
@@ -64,7 +80,7 @@ class AppUser extends ChangeNotifier {
 
   void _unsubscribe() {
     if (_authSub != null) {
-      _authSub!.cancel();
+      _authSub?.cancel();
       _authSub = null;
     }
     if (_firestoreSub != null) {
@@ -77,19 +93,32 @@ class AppUser extends ChangeNotifier {
   void _updateUser() async {
     UserModel? newUserModel = await FirestoreService.getUser();
     if (newUserModel == null) return;
-
-    if (_userModel == null) {
+    _userModel ??= newUserModel;
+    if (!newUserModel.isEqualTo(_userModel!)) {
       _userModel = newUserModel;
-      notifyListeners();
-    } else if (!newUserModel.isEqualTo(_userModel!)) {
-      _userModel = newUserModel;
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   void _updateUserStream() {
     // send the updated UserModel to stream listeners.
     _userController.sink.add(_userModel);
+    _updateLikedPostsStream();
+    _updateUserPostsStream();
+  }
+
+  void _updateLikedPostsStream() async {
+    if (userModel != null) {
+      _likedPosts = await FirestoreService.likedPostsByUser(userModel!);
+      _likedPostsController.sink.add(_likedPosts);
+    }
+  }
+
+  void _updateUserPostsStream() async {
+    if (userModel != null) {
+      _userPosts = await FirestoreService.getPostsByUser(userModel!);
+      _userPostsController.sink.add(_userPosts);
+    }
   }
 
   @override

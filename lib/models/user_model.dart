@@ -10,7 +10,6 @@ class UserModel {
   String? last;
   String? photoUrl;
   int? timestamp;
-  List<String>? userPosts;
   List<String>? likedPosts;
 
   UserModel({
@@ -21,7 +20,6 @@ class UserModel {
     this.last,
     this.photoUrl,
     this.timestamp,
-    this.userPosts,
     this.likedPosts
   });
 
@@ -64,7 +62,6 @@ class UserModel {
     if (first != null) "first": first,
     if (last != null) "last": last,
     if (photoUrl != null) "photoUrl": photoUrl,
-    if (userPosts != null) "userPosts": userPosts,
     if (likedPosts != null) "likedPosts": likedPosts,
   };
 
@@ -75,8 +72,7 @@ class UserModel {
       first == userModel.first &&
       last == userModel.last &&
       photoUrl == userModel.photoUrl &&
-      timestamp == userModel.timestamp &&
-      userPosts == userModel.userPosts;
+      timestamp == userModel.timestamp;
   }
 
  /// The copyWith method aids in the editing of user profile information.
@@ -96,7 +92,6 @@ class UserModel {
       first: first ?? this.first,
       last: last ?? this.last,
       photoUrl: photoUrl ?? this.photoUrl,
-      userPosts: userPosts ?? this.userPosts,
       likedPosts: likedPosts ?? this.likedPosts
     );
   }
