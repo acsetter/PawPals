@@ -10,7 +10,6 @@ class UserModel {
   String? last;
   String? photoUrl;
   int? timestamp;
-  List<String>? userPosts;
   List<String>? likedPosts;
 
   UserModel({
@@ -21,7 +20,6 @@ class UserModel {
     this.last,
     this.photoUrl,
     this.timestamp,
-    this.userPosts,
     this.likedPosts
   });
 
@@ -40,8 +38,6 @@ class UserModel {
         last: data?["last"],
         photoUrl: data?["photoUrl"],
         timestamp: data?["timestamp"],
-        userPosts: data?["userPosts"]
-            is Iterable ? List.from(data?['userPosts']) : null,
         likedPosts: data?["likedPosts"]
             is Iterable ? List.from(data?['likedPosts']) : null,
     );
@@ -56,7 +52,6 @@ class UserModel {
     if (last != null) "last": last,
     if (photoUrl != null) "photoUrl": photoUrl,
     if (timestamp!= null) "timestamp": timestamp,
-    if (userPosts != null) "userPosts": userPosts,
     if (likedPosts != null) "likedPosts": likedPosts,
   };
 
@@ -67,7 +62,6 @@ class UserModel {
     if (first != null) "first": first,
     if (last != null) "last": last,
     if (photoUrl != null) "photoUrl": photoUrl,
-    if (userPosts != null) "userPosts": userPosts,
     if (likedPosts != null) "likedPosts": likedPosts,
   };
 
@@ -78,34 +72,29 @@ class UserModel {
       first == userModel.first &&
       last == userModel.last &&
       photoUrl == userModel.photoUrl &&
-      timestamp == userModel.timestamp &&
-      userPosts == userModel.userPosts &&
-      likedPosts == userModel.likedPosts;
+      timestamp == userModel.timestamp;
   }
 
  /// The copyWith method aids in the editing of user profile information.
  /// A copy of the UserModel is created and currently allows for the first
  /// and last name of the user to be changed and passed to the updateUser()
  ///  method to be updated in the database.
-
-
   UserModel copyWith({
-    String ? first,
-    String ? last,
-    String ? photoUrl,
-    List<String> ? userPosts,
-    List<String> ? likedPosts
-})  {
-
+    String? first,
+    String? last,
+    String? photoUrl,
+    List<String>? userPosts,
+    List<String>? likedPosts
+  })  {
     return UserModel(
-        uid: uid,
-        email: email,
-        first: first ?? this.first,
-        last: last ?? this.last,
-        photoUrl: photoUrl ?? this.photoUrl,
-        userPosts: userPosts ?? this.userPosts,
-        likedPosts: likedPosts ?? this.likedPosts
-);}
+      uid: uid,
+      email: email,
+      first: first ?? this.first,
+      last: last ?? this.last,
+      photoUrl: photoUrl ?? this.photoUrl,
+      likedPosts: likedPosts ?? this.likedPosts
+    );
+  }
 
   // static List<UserModel> listFromFirestore(list) =>
   //     List<UserModel>.from(list.map((x) => UserModel.fromFirestore(snapshot: x)));

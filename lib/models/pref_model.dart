@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paw_pals/constants/app_types.dart';
+import 'package:paw_pals/utils/app_utils.dart';
 
 /// Model that defines the feed-preferences data stored in the database.
 /// **WARNING:** [PreferencesModel] fields are not null-safe and need to be handled as such.
 class PreferencesModel {
-  List<PetType>? petTypes;
+  PetType? petType;
   PetGender? petGender;
   int? minAge;
   int? maxAge;
@@ -13,7 +14,7 @@ class PreferencesModel {
   bool? isKidFriendly;
 
   PreferencesModel({
-    this.petTypes,
+    this.petType,
     this.petGender,
     this.minAge,
     this.maxAge,
@@ -30,8 +31,8 @@ class PreferencesModel {
     final data = snapshot.data();
 
     return PreferencesModel(
-      petTypes: data?["petTypes"],
-      petGender: data?["petGender"],
+      petType: AppUtils.petTypeFromString(data?["petType"]),
+      petGender: AppUtils.petGenderFromString(data?["petGender"]),
       minAge: data?["minAge"],
       maxAge: data?["maxAge"],
       searchRadius: data?["searchRadius"],
@@ -42,12 +43,33 @@ class PreferencesModel {
 
   /// Converts the [PreferencesModel] to json with including all non-null fields.
   Map<String, dynamic> toFirestore() => {
-    "petTypes": petTypes,
-    "petGender": petGender,
-    "minAge": minAge,
-    "maxAge": maxAge,
-    "searchRadius": searchRadius,
-    "isPetFriendly": isPetFriendly,
-    "isKidFriendly": isKidFriendly
+    if (petType != null) "petType": petType!.name,
+    if (petGender != null) "petGender": petGender!.name,
+    if (minAge != null) "minAge": minAge,
+    if (maxAge != null) "maxAge": maxAge,
+    if (searchRadius != null) "searchRadius": searchRadius,
+    if (isPetFriendly != null) "isPetFriendly": isPetFriendly,
+    if (isKidFriendly != null) "isKidFriendly": isKidFriendly
   };
+
+  /// Makes a copy of the [PreferencesModel] with expected changes.
+  PreferencesModel copyWith({
+    PetType? petType,
+    PetGender? petGender,
+    int? minAge,
+    int? maxAge,
+    int? searchRadius,
+    bool? isPetFriendly,
+    bool? isKidFriendly,
+  }) {
+    return PreferencesModel(
+      petType: petType ?? this.petType,
+      petGender: petGender ?? this. petGender,
+      minAge: minAge ?? this.minAge,
+      maxAge: maxAge ?? this.maxAge,
+      searchRadius: searchRadius ?? this.searchRadius,
+      isPetFriendly: isPetFriendly ?? this.isPetFriendly,
+      isKidFriendly: isKidFriendly ?? this.isKidFriendly,
+    );
+  }
 }

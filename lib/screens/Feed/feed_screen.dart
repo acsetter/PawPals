@@ -16,7 +16,7 @@ class FeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: OurAppBarpref.build(screenTitle, context),
+      appBar: OurAppBarPref.build(screenTitle, context),
         body: BlocBuilder<SwipeBlock, SwipeState>(
           builder: (context, state) {
             if(state is SwipeLoading){

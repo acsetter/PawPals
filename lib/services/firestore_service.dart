@@ -1,9 +1,12 @@
-import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:paw_pals/constants/app_info.dart';
+import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/pref_model.dart';
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
+
+import '../utils/app_utils.dart';
 
 /// A service class to interface with the [FirebaseFirestore] plugin.
 class FirestoreService {
@@ -17,6 +20,8 @@ class FirestoreService {
   static CollectionReference get _users => _db.collection('users');
 
   static CollectionReference get _prefs => _db.collection('preferences');
+
+  static CollectionReference get _posts => _db.collection('posts');
 
   /// [DocumentReference] to the current user
   static DocumentReference<UserModel> get _userRef => _users.doc(_uid)
@@ -34,6 +39,44 @@ class FirestoreService {
   /// logged in user updates/changes.
   static Stream<UserModel?> get userModelStream => _userRef.snapshots()
       .map((snapshot) => snapshot.data()).asBroadcastStream();
+
+  /// A broadcast stream that notifies listeners when the [PreferencesModel] of
+  /// the logged in user updates/changes.
+  static Stream<PreferencesModel?> get prefModelStream => _prefRef.snapshots()
+      .map((snapshot) => snapshot.data()).asBroadcastStream();
+
+  /// A broadcast stream that notifies listeners when the list of Posts that
+  /// belong to the app user updates/changes.
+  static Stream<List<PostModel>?> get appUserPostsStream => _posts
+      .where("uid", isEqualTo: _uid)
+      .withConverter(
+      fromFirestore: PostModel.fromFirestore,
+      toFirestore: (snapshot, _) => snapshot.toFirestore())
+      .snapshots()
+      .map((snapshot) => List<PostModel>.from(snapshot.docs.map((doc) => doc.data())))
+      .asBroadcastStream();
+
+  /// A broadcast stream that notifies listeners when the list of Posts that
+  /// belong to the 'uid' of the expected [UserModel] updates/changes.
+  static Stream<List<PostModel>?> userPostsStream(UserModel userModel) => _posts
+      .where("uid", isEqualTo: userModel.uid ?? "_")
+      .withConverter(
+      fromFirestore: PostModel.fromFirestore,
+      toFirestore: (snapshot, _) => snapshot.toFirestore())
+      .snapshots()
+      .map((snapshot) => List<PostModel>.from(snapshot.docs.map((doc) => doc.data())))
+      .asBroadcastStream();
+
+  /// A broadcast stream that notifies listeners when the list of Posts that
+  /// belong to the 'likedPosts' of the expected [UserModel] updates/changes.
+  static Stream<List<PostModel>?> userLikedPostsStream(UserModel userModel) => _posts
+      .where("postId", whereIn: userModel.likedPosts ?? ["_"])
+      .withConverter(
+        fromFirestore: PostModel.fromFirestore,
+        toFirestore: (snapshot, _) => snapshot.toFirestore())
+      .snapshots()
+      .map((snapshot) => List<PostModel>.from(snapshot.docs.map((doc) => doc.data())))
+      .asBroadcastStream();
   
   static Future<UserModel?> getUserById(String uid) async {
     return await _users.doc(_uid)
@@ -45,7 +88,7 @@ class FirestoreService {
         (snapshot) => snapshot.data(),  // UserModel or null on err
         onError: (e) => Logger.log(e.toString(), isError: true));
   }
-  
+
   static Future<UserModel?> getUserByUsername(String username) async {
     return await _users.where("username", isEqualTo: username)
       .withConverter(
@@ -62,8 +105,7 @@ class FirestoreService {
   /// A null value will be returned if an error occurred.
   static Future<UserModel?> getUser() async {
     if (_uid == null) {
-      // Theres no User logged-in.
-      Logger.log("No User is logged into Firebase Auth.", isError: true);
+      Logger.noUserError();
       return null;
     }
     // The call to Firestore
@@ -78,22 +120,28 @@ class FirestoreService {
   /// Creates a User document from a [UserModel] in the Firestore Database.
   /// [UserModel.uid] is required to create the doc in the database.
   /// This method should only be called on user sign-up.
-  static Future<void> createUser(UserModel userModel) async {
+  static Future<bool> createUser(UserModel userModel) async {
     // Restrict creating/overwriting if not authorized.
     if (_uid == null || userModel.uid == null) {
-      Logger.log("No User is logged into Firebase Auth.", isError: true);
-      return;
+      Logger.noUserError();
+      return false;
     }
     if (userModel.uid != _uid) {
       Logger.log("User being created does not match the user logged in", isError: true);
-      return;
+      return false;
     }
     // Set the timestamp to the moment the account was created.
     userModel.timestamp = DateTime.now().millisecondsSinceEpoch;
-    await _userRef
+    return await _userRef
       .set(userModel)
-      .then((res) => Logger.log("Firestore doc created for ${userModel.email}"),
-        onError: (e) => Logger.log(e.toString(), isError: true));
+      .then((res) {
+          Logger.log("Firestore User doc created for ${userModel.email}");
+          return _createPreferences();
+        },
+        onError: (e) {
+          Logger.log(e.toString(), isError: true);
+          return false;
+        });
   }
 
   /// Updates a User from a [UserModel] in the Firestore Database. <br/>
@@ -102,7 +150,6 @@ class FirestoreService {
   /// * [UserModel.first]
   /// * [UserModel.last]
   /// * [UserModel.photoUrl]
-  /// * [UserModel.userPosts]
   /// * [UserModel.likedPosts]
   static Future<bool> updateUser(UserModel userModel) async {
     // Restrict creating/overwriting if not authorized.
@@ -128,21 +175,134 @@ class FirestoreService {
     );
   }
 
-  // static Future<PostModel?> getPostById(String postId) async {
-  //   return null;
-  // }
-  //
-  // static Future<List<PostModel>?> getPostsByUser(UserModel userModel) async {
-  //   return null;
-  // }
-  //
-  // static Future<PostModel?> getLikedPosts() async {
-  //   return null;
-  // }
+  /// Creates a [PreferencesModel] doc for a new user.
+  /// Returns a bool indicating creation success.
+  static Future<bool> _createPreferences() async {
+    if (_uid == null) {
+      Logger.log("No User is logged into Firebase Auth.", isError: true);
+      return false;
+    }
 
-  static Future<Image?> getImageFromUrl(String url) async {
-    return null;
+    return await _prefRef
+      .set(PreferencesModel())
+      .then((res) {
+          Logger.log("Firestore Pref doc created.");
+          return true;
+        },
+        onError: (e) {
+          Logger.log(e.toString(), isError: true);
+          return false;
+        });
   }
+
+  /// A one-time fetch of the [PreferencesModel] for the logged-in user.
+  static Future<PreferencesModel?> getPreferences() async {
+    if (_uid == null) {
+      Logger.log("No User is logged into Firebase Auth.", isError: true);
+      return null;
+    }
+
+    return await _prefRef
+      .get()
+      .then((snapshot) => snapshot.data(),
+        onError: (e) => Logger.log(e.toString(), isError: true));
+  }
+
+  /// Update the [PreferencesModel] for the logged-in user.
+  /// Returns a bool that indicates update success.
+  static Future<bool> updatePreferences(PreferencesModel prefModel) async {
+    if (_uid == null) {
+      Logger.noUserError();
+      return false;
+    }
+
+    return await _prefRef
+        .update(prefModel.toFirestore())
+        .then(
+          (value) {
+            Logger.log("Preference doc updated.");
+            return true;
+          },
+          onError: (e) {
+            Logger.log(e.toString(), isError: true);
+            return false;
+          }
+    );
+  }
+
+  static Future<PostModel?> getPostById(String postId) async {
+    return await _posts.doc(postId)
+        .withConverter(
+          fromFirestore: PostModel.fromFirestore,
+          toFirestore: (PostModel postModel, _) => postModel.toFirestore())
+        .get()
+        .then(
+          (res) => res.data(),
+          onError: (e) => Logger.log(e.toString(), isError: true));
+  }
+
+  static Future<bool> createPost(PostModel postModel) async {
+    if (_uid == null) {
+      Logger.noUserError();
+      return false;
+    }
+    // creates a ref to a new post and generates a unique postID
+    var postRef = _posts.doc()
+        .withConverter(
+          fromFirestore: PostModel.fromFirestore,
+          toFirestore: (PostModel postModel, _) => postModel.toFirestore());
+
+    // attach data generated by firestore to the new post
+    PostModel newPost = postModel.copyWith(
+      postId: postRef.id,
+      uid: _uid,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+      // TODO: Add long, lat, and geohash from location service here.
+    );
+
+    return await postRef
+        .set(newPost)
+        .then((res) {
+          Logger.log("Post ${newPost.postId} created.");
+          return true;
+        }, onError: (e) {
+          Logger.log(e.toString(), isError: true);
+    });
+  }
+
+  static Future<List<PostModel>?> getPostsFromIds(List<String>? idList) async {
+    return await _posts
+        .where("uid", whereIn: idList)
+        .withConverter(
+          fromFirestore: PostModel.fromFirestore,
+          toFirestore: (snapshot, _) => snapshot.toFirestore())
+        .get()
+        .then(
+          (value) => List<PostModel>.from(value.docs.map((snapshot) => snapshot.data())),
+          onError: (e) => Logger.log(e.toString(), isError: true));
+  }
+
+  static Future<List<PostModel>?> getPostsByUser(UserModel userModel) async {
+    return await _posts
+        .where("uid", isEqualTo: userModel.uid)
+        .withConverter(
+          fromFirestore: PostModel.fromFirestore,
+          toFirestore: (snapshot, _) => snapshot.toFirestore())
+        .get()
+        .then(
+          (snapshot) => List<PostModel>.from(snapshot.docs.map((snapshot) => snapshot.data())),
+          onError: (e) => Logger.log(e.toString(), isError: true));
+  }
+
+  static Future<List<PostModel>?> likedPostsByUser(UserModel userModel) => _posts
+      .where("postId", whereIn: userModel.likedPosts ?? ["_"])
+      .withConverter(
+      fromFirestore: PostModel.fromFirestore,
+      toFirestore: (snapshot, _) => snapshot.toFirestore())
+      .get()
+      .then(
+        (snapshot) => List<PostModel>.from(snapshot.docs.map((doc) => doc.data())),
+        onError: (e) => Logger.log(e.toString(), isError: true));
 
   /// Query all users and return if given username is unique.
   /// Returns null if error occurs.
@@ -154,5 +314,24 @@ class FirestoreService {
         return null;
       }
     );
+  }
+
+  static Future<List<PostModel>?> getFeedPosts(PreferencesModel prefModel) async {
+    return await _posts
+      // .where("uid", isNotEqualTo: _uid)
+      .where("isKidFriendly", isEqualTo: prefModel.isKidFriendly)
+      .where("isPetFriendly", isEqualTo: prefModel.isPetFriendly)
+      .where("petAge", isGreaterThanOrEqualTo: prefModel.minAge ?? AppInfo.minPetAge)
+      .where("petAge", isLessThanOrEqualTo: prefModel.maxAge ?? AppInfo.maxPetAge)
+      .where("petGender", isEqualTo: prefModel.petGender?.name)
+      .where("petType", isEqualTo: prefModel.petType?.name)
+      .withConverter(
+        fromFirestore: PostModel.fromFirestore,
+        toFirestore: (snapshot, _) => snapshot.toFirestore())
+      .get()
+      .then(
+        (value) => List<PostModel>.from(value.docs.map((snapshot) => snapshot.data())),
+        onError: (e) => print(e.toString()));
+    
   }
 }

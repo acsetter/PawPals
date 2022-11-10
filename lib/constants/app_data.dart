@@ -38,14 +38,12 @@ class AppData {
     photoUrl: '',
   );
   static PostModel get fakePost => PostModel(
-    postId: '11111',
-    uid: '22222',
-    timestamp: '_',
-    postDescription: '_',
+    postDescription: 'This is a post description.',
     longitude: 400.0,
     latitude: 200.00,
     geoHash: '_',
     petName: 'Whiskers',
+    petType: PetType.cat,
     petAge: 3,
     petGender: PetGender.male,
     petPhotoUrl: 'assets/images/siamese_cat.jpg',
@@ -59,6 +57,7 @@ class AppData {
       uid: "1",
       postDescription: "Bob is an adventurous Cat!",
       petName: "Bob",
+      petType: PetType.cat,
       petAge: 7,
       petGender: PetGender.male,
       petPhotoUrl: 'assets/images/tabby_cat.jpg',
@@ -68,6 +67,7 @@ class AppData {
       uid: "2",
       postDescription: "Carl likes to sleep and chew on bones!",
       petName: "Carl",
+      petType: PetType.dog,
       petAge: 5,
       petGender: PetGender.female,
       petPhotoUrl: 'assets/images/corgi.jpg',
@@ -77,6 +77,7 @@ class AppData {
       uid: "3",
       postDescription: "Doug likes alot of treats!",
       petName: "Doug",
+      petType: PetType.dog,
       petAge: 4,
       petGender: PetGender.female,
       petPhotoUrl: 'assets/images/english_bulldog.jpg',
@@ -86,6 +87,7 @@ class AppData {
       uid: "4",
       postDescription: "Earl is Lazy!",
       petName: "Earl",
+      petType: PetType.dog,
       petAge: 9,
       petGender: PetGender.male,
       petPhotoUrl: 'assets/images/siamese_cat.jpg',
@@ -109,4 +111,43 @@ class AppData {
   ];
 
   // Feel free to generate fake post data here
+  static PostModel get feedPost1 => PostModel(
+    postDescription: "Feed Post 1",
+    petName: "Dog1",
+    petType: PetType.dog,
+    petAge: 0,
+    petGender: PetGender.male,
+    petPhotoUrl: "",
+    isPetFriendly: true,
+    isKidFriendly: true);
+
+  static PostModel get feedPost2 => PostModel(
+      postDescription: "Feed Post 2",
+      petName: "Cat1",
+      petType: PetType.cat,
+      petAge: 1,
+      petGender: PetGender.female,
+      petPhotoUrl: "",
+      isPetFriendly: true,
+      isKidFriendly: false);
+
+  static PostModel get feedPost3 => PostModel(
+      postDescription: "Feed Post 3",
+      petName: "Dog2",
+      petType: PetType.dog,
+      petAge: 15,
+      petGender: PetGender.female,
+      petPhotoUrl: "",
+      isPetFriendly: false,
+      isKidFriendly: true);
+
+  static PostModel get feedPost4 => PostModel(
+      postDescription: "Feed Post 4",
+      petName: "Cat2",
+      petType: PetType.cat,
+      petAge: 30,
+      petGender: PetGender.female,
+      petPhotoUrl: "",
+      isPetFriendly: false,
+      isKidFriendly: false);
 }
