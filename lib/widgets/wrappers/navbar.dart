@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paw_pals/constants/app_colors.dart';
 import 'package:paw_pals/screens/home_screen.dart';
+import 'package:paw_pals/screens/login_screen.dart';
 import 'package:paw_pals/screens/post/create_post_screen.dart';
 import 'package:paw_pals/screens/post/liked_post_screen.dart';
 import 'package:paw_pals/screens/profile/profile_screen.dart';
 
 import '../../constants/app_icons.dart';
+import '../../utils/app_log.dart';
 
 class Navbar extends StatefulWidget {
   final String title;
@@ -30,7 +32,7 @@ class NavbarState extends State<Navbar> {
   Widget get _child => _screenWrapper.child;
   int _index = 0;
 
-  static Map<int, Widget> screens = {
+  Map<int, Widget> screens = {
     0: const HomeScreen(),
     1: const LikedPostScreen(),
     2: const ProfileScreen(),
@@ -52,52 +54,45 @@ class NavbarState extends State<Navbar> {
      return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot) {
-        if (snapshot.hasData) { // means the user is not null (logged in)
-          return Scaffold(
-          body: _child,
-          bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: AppColors.primary,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: AppColors.primary.shade200,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          currentIndex: _index,
-          onTap: (index) {
-            Get.appUpdate();
-            Get.offAll(screens[index], transition: Transition.downToUp);
-            _index = index;
-            setState(() {
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-                icon: AppIcons.feed,
-                label: "Feed"
-            ),
-            BottomNavigationBarItem(
-                icon: AppIcons.likedPostsInactive,
-                activeIcon: AppIcons.likedPostsActive,
-                label: "Liked Posts"
-            ),
-            BottomNavigationBarItem(
-                icon: AppIcons.myProfileInactive,
-                activeIcon: AppIcons.myProfileActive,
-                label: "Profile"
-            ),
-            BottomNavigationBarItem(
-                icon: AppIcons.createPostInactive,
-                activeIcon: AppIcons.createPostActive,
-                label: "New Post"
-            ),
-          ],
-        ),
-      );
-    }
-
         return Scaffold(
           body: _child,
-        ); // show login for null user (not logged in)
+          bottomNavigationBar: snapshot.hasData ? BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: AppColors.primary,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: AppColors.primary.shade200,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            currentIndex: _index,
+            onTap: (index) {
+              Get.appUpdate();
+              Get.offAll(screens[index], transition: Transition.downToUp);
+              _index = index;
+              setState(() {});
+            },
+            items: [
+              BottomNavigationBarItem(
+                  icon: AppIcons.feed,
+                  label: "Feed"
+              ),
+              BottomNavigationBarItem(
+                  icon: AppIcons.likedPostsInactive,
+                  activeIcon: AppIcons.likedPostsActive,
+                  label: "Liked Posts"
+              ),
+              BottomNavigationBarItem(
+                  icon: AppIcons.myProfileInactive,
+                  activeIcon: AppIcons.myProfileActive,
+                  label: "Profile"
+              ),
+              BottomNavigationBarItem(
+                  icon: AppIcons.createPostInactive,
+                  activeIcon: AppIcons.createPostActive,
+                  label: "New Post"
+              ),
+            ],
+          ) : null,
+        );
       }
     );
   }

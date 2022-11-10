@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:paw_pals/widgets/bars/app_bar_dropdown.dart';
 
 ///
-class OurAppBarpref {
-  OurAppBarpref._();
+class OurAppBarPref {
+  OurAppBarPref._();
 
   static AppBar build(
     String title,

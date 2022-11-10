@@ -11,5 +11,9 @@ class Logger {
   static void log(String value, {bool isError = false}) {
     if (isError || AppConfig.isAppLogEnabled) developer.log(value, name: 'APP');
   }
+
+  static void noUserError() {
+    Logger.log("No User is logged into Firebase Auth.", isError: true);
+  }
 }
 
