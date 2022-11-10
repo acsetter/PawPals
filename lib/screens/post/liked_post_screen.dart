@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
+import '../../constants/app_data.dart';
+import '../../widgets/list_of_posts.dart';
 
 /// This is an example of a simple screen that extends a [StatelessWidget]
 /// Yes, technically the screen is a widget, but it's best to treat it like
@@ -21,14 +23,25 @@ class LikedPostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Every screen will use a scaffold as the outer-most widget.
     return Scaffold(
-      appBar: OurAppBar.build(screenTitle),
-      body: FormWrapper(
-        children: [
-          FieldWrapper(
-            child: Text(exampleText, textAlign: TextAlign.center),
+
+        appBar: OurAppBar.build(screenTitle),
+        body: CustomScrollView(
+          scrollDirection: Axis.vertical,
+          physics: const NeverScrollableScrollPhysics(),
+          slivers: [
+          SliverFillRemaining(
+          hasScrollBody: true,
+          child: Column(
+              children: [
+              const Divider(),
+              Expanded(
+          child: DummyGrid(AppData.post)
           )
         ],
       )
+    )
+    ]
+        )
     );
   }
 }

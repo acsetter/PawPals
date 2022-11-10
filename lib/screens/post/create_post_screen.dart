@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
+import 'package:paw_pals/widgets/forms/create_post_form.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
@@ -11,7 +12,7 @@ import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
 class CreatePostScreen extends StatelessWidget {
   final String screenTitle = "Create Post";
   final String exampleText = "Create Post Screen";
-  final String buttonLabel = "Next Screen";
+  final String buttonLabel = "Create Post";
 
   // This is the constructor. All widgets should have a Key key as optional
   // parameter in their constructor. Key is something used by flutter engine
@@ -27,11 +28,12 @@ class CreatePostScreen extends StatelessWidget {
         appBar: OurAppBar.build(screenTitle),
         // The main body of the Screen:
         body:
-
+        SingleChildScrollView(
+        child:
         FormWrapper(
           children: [
-            FieldWrapper(
-              child: Text(exampleText, textAlign: TextAlign.center),
+            const FieldWrapper(
+              child: CreatePostForm(),
             ),
             FieldWrapper(
               child: OurOutlinedButton(
@@ -46,6 +48,7 @@ class CreatePostScreen extends StatelessWidget {
               ),
             )
           ],
+        )
         )
     );
   }

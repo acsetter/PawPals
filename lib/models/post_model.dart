@@ -1,6 +1,57 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paw_pals/constants/app_types.dart';
 
+enum PetGenderOptionsPost { petGenderMale, petGenderFemale }
+
+enum PetFriendOptionsPost { petIsKidFriend, petIsPetFriend }
+
+isDatabaseNullChecker(var dataFromDatabase, int type) {
+  if (dataFromDatabase == null) {
+    switch (type) {
+      case 0:
+        return null;
+      case 1:
+        return null;
+      case 2:
+        return null;
+      case 3:
+        return null;
+      case 4:
+        return 0.0;
+      case 5:
+        return 25.0;
+      case 6:
+        return 100;
+      default:
+    }
+  } else {
+    return dataFromDatabase;
+  }
+}
+
+PetGender? dataPetGender = PostModel(postId: '', uid: '').petGender;
+bool? dataPetFriend = PostModel(postId: '', uid: '').isPetFriendly;
+bool? dataKidFriend = PostModel(postId: '', uid: '').isPetFriendly;
+PetGender? userPetGenderPref = isDatabaseNullChecker(dataPetGender, 1);
+bool? userIsPetFriendlyPref = isDatabaseNullChecker(dataPetFriend, 2);
+bool? userIsKidFriendlyPref = isDatabaseNullChecker(dataKidFriend, 3);
+
+
+
+petGenderBoxes(PetGender? dataFromDatabase) {
+  var temp;
+  if (dataFromDatabase == null) {
+    return temp = null;
+  }
+  if (dataFromDatabase == PetGender.male) {
+    return temp = PetGenderOptionsPost.petGenderMale;
+  }
+  if (dataFromDatabase == PetGender.female) {
+    return temp = PetGenderOptionsPost.petGenderFemale;
+  }
+}
+
+
 /// Model that defines the post data stored in the database.
 /// **WARNING:** [PostModel] fields are not null-safe and need to be handled as such.
 class PostModel {

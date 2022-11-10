@@ -86,4 +86,39 @@ mixin FormValidation<T extends StatefulWidget> on State<T> {
 
     return null;
   }
+
+
+  String? petNameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return ("No pet name");
+    }
+    if (!RegExpressions.alpha.hasMatch(value)) {
+      return ("Invalid pet name");
+    }
+
+    return null;
+  }
+
+
+  String? petAgeValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return ("No pet age");
+    }
+    if (!RegExpressions.alpha.hasMatch(value)) {
+      return ("Invalid pet age");
+    }
+
+    return null;
+  }
+
+  String? postDescriptionValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return ("No post description");
+    }
+    if (!RegExpressions.alpha.hasMatch(value)) {
+      return ("Invalid post description");
+    }
+
+    return null;
+  }
 }
