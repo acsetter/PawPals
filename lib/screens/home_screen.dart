@@ -92,7 +92,7 @@ class HomeScreenState extends State<HomeScreen> {
               child: OurOutlinedButton(
                 onPressed: () {
                   PostModel post = PostModel(postId: "0111",uid: "1000" ,postDescription:"Whiskers is looking for a loving home." ,petName: "Whiskers",petAge: 4 ,petGender: PetGender.female,isKidFriendly: true, isPetFriendly: true);
-                  Get.to(() => const PostScreen(PostModel:post));
+                  Get.to(() => PostScreen(post:post));
                   // The new navigation required for the NavBar
                   // navigate(context, Temp_Home_Screen_Navigators.route_post_screen, isRootNavigator: false);
                 },

@@ -8,8 +8,9 @@ import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 /// a place to organize widgets.
 class PostScreen extends StatelessWidget {
   final String screenTitle = "Post";
+  final PostModel post;
 
-  const PostScreen({super.key, required PostModel PostModel});
+  const PostScreen({super.key, required this.post});
 
   // You must call @override on the build method
   @override
@@ -19,7 +20,7 @@ class PostScreen extends StatelessWidget {
       // The bar that goes across the top of the screen:
         appBar: OurAppBar.build(screenTitle),
         // The main body of the Screen:
-        body: const DetailedPost(),
+        body: DetailedPost(post:post),
 
           //children: [
             //FieldWrapper(

@@ -4,7 +4,7 @@ import '../../models/post_model.dart';
 class DetailedPost extends StatelessWidget{
   final PostModel post;
 
-  const DetailedPost({ Key? key, required this.post,}) : super(key:key);
+  const DetailedPost({super.key, required this.post});
 
 
   @override

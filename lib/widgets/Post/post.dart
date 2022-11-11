@@ -4,7 +4,7 @@ import '../../models/post_model.dart';
 class Post extends StatelessWidget {
   final PostModel post;
 
-  const Post({ Key? key, required this.post,}) : super(key:key);
+  const Post({super.key, required this.post});
   @override
   Widget build(BuildContext context){
     return Padding(
