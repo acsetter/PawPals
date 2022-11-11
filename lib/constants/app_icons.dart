@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 class AppIcons {
   const AppIcons._();
 
+  static Icon get addPhoto => const Icon(Icons.add_photo_alternate);
+  static Icon get camera => const Icon(Icons.photo_camera);
   static Icon get email => const Icon(Icons.email);
+  static Icon get gallery => const Icon(Icons.collections);
   static Icon get key => const Icon(Icons.key);
   static Icon get login => const Icon(Icons.login);
   static Icon get password => const Icon(Icons.lock);

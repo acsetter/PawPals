@@ -1,12 +1,10 @@
 // ignore_for_file: invalid_return_type_for_catch_error
-
+import 'dart:io';
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:paw_pals/constants/app_data.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
 
@@ -28,6 +26,8 @@ import 'package:paw_pals/utils/app_log.dart';
 /// * <a href="https://stackoverflow.com/questions/51857796/flutter-upload-image-to-firebase-storage">How to Upload Image to Firebase Storage</a>
 /// * <a href="https://pub.dev/packages/image_picker">Image Picker Package</a>
 class StorageService {
+  StorageService._();
+
   static final FirebaseStorage _store = FirebaseStorage.instance;
 
   static String? get _uid => FirebaseAuth.instance.currentUser?.uid;
@@ -56,21 +56,12 @@ class StorageService {
     return await _usersRef.child(_uid!).child("profile.png").getData();
   }
 
-  // static Future<String?> uploadProfileImg(Image image) async {
-  //   if (_uid == null) {
-  //     Logger.noUserError();
-  //     return null;
-  //   }
-  //
-  //   ByteData? byteData = await image.toByteData();
-  //
-  //   if (byteData != null) {
-  //     Uint8List data = byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
-  //     await _usersRef.child(_uid!).putData(data);
-  //
-  //     return await _usersRef.child(_uid!).getDownloadURL();
-  //   }
-  // }
+  /// Uses [ImagePicker] to load file from expected [ImageSource] and
+  /// returns a [File] on future complete.
+  static Future<File?> pickImageFrom(ImageSource source) async {
+    XFile? src = await ImagePicker().pickImage(source: source);
+    return src != null ? File(src.path) : null;
+  }
 
   // TODO: Construct methods for uploading and downloading images.
 }

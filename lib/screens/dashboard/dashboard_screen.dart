@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:paw_pals/constants/app_data.dart';
-import '../../widgets/bars/our_app_bar.dart';
+import 'package:paw_pals/controllers/file_controller.dart';
+import 'package:paw_pals/widgets/dialog/image_selector.dart';
+import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 
-/// This class will eventually become our home screen once the navbar
-/// is working as intended.
+/// This should be deleted end of sprint 4.
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
@@ -12,15 +12,15 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class DashboardScreenState extends State<DashboardScreen> {
+  FileController fileController = FileController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: OurAppBar.build("Dashboard (temp)"),
       body: Center(
-        child: Image(
-          image: AppData.tabbyCat,
-          height: 200,
+        child: ImageSelector(
+          controller: fileController,
         ),
       ),
     );

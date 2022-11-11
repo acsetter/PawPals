@@ -48,6 +48,7 @@ dependencies:
   cloud_firestore: ^4.0.3
   flutter_geo_hash: ^0.0.4
   location: ^4.4.0
+  image_picker: ^0.8.6
 
 dev_dependencies:
   flutter_test:
