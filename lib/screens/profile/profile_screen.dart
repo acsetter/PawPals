@@ -25,80 +25,52 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     // Every screen will use a scaffold as the outer-most widget.
     return Scaffold(
 
-    appBar: OurAppBar.build(screenTitle),
+        appBar: OurAppBar.build(screenTitle),
         body: CustomScrollView(
-          scrollDirection: Axis.vertical,
-          physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            physics: const NeverScrollableScrollPhysics(),
             slivers: [
-            SliverFillRemaining(
-            hasScrollBody: true,
-            child: Column(
-              children: [
-                FieldWrapper(
-                  child: ProfilePhotoWidget(
-                    onPressed: () {}, photoUrl: '',),
-                ),
-                const FieldWrapper(
-                  child: UserInformationWidget(),
-                ),
-                FormWrapper(
-                  children: [
-                FieldWrapper(
-                  child: OurOutlinedButton(
-                    // method invoked when a user presses this button
-                    onPressed: () {
-                      // This adds a page to the stack and displays the next screen.
-                      // You can keep stacking screens by calling
-                      // `Get.to(() => MyNextScreen())` on subsequent screens.
-                      Get.to(() => const EditProfileScreen());
-                    },
-                    label: buttonLabel,
-                    icon: AppIcons.edit,
-                       ),
-                    )
-                  ]
-                ),
-                const Divider(),
-                Expanded(
-            child: DummyGrid(AppData.post)
-
-                  ),
-
-
-    ]
-    )
+              SliverFillRemaining(
+                  hasScrollBody: true,
+                  child: Column(
+                      children: [
+                        FieldWrapper(
+                          child: ProfilePhotoWidget(
+                            onPressed: () {}, photoUrl: '',),
+                        ),
+                        const FieldWrapper(
+                          child: UserInformationWidget(),
+                        ),
+                        FormWrapper(
+                            children: [
+                              FieldWrapper(
+                                child: OurOutlinedButton(
+                                  // method invoked when a user presses this button
+                                  onPressed: () {
+                                    // This adds a page to the stack and displays the next screen.
+                                    // You can keep stacking screens by calling
+                                    // `Get.to(() => MyNextScreen())` on subsequent screens.
+                                    Get.to(() => const EditProfileScreen());
+                                  },
+                                  label: buttonLabel,
+                                  icon: AppIcons.edit,
+                                ),
+                              )
+                            ]
+                        ),
+                      const Divider(),
+                      const Expanded(
+                      child: ListGrid( post: [],)
+                      )
+                      ]
+                  )
+              )
+            ]
         )
-
-    ]),
     );
-    /*
-                GridView.count(
-                  // Create a grid with 2 columns. If you change the scrollDirection to
-                  // horizontal, this produces 2 rows.
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  physics: const ScrollPhysics(),
-                  // Generate 100 widgets that display their index in the List.
-                  children: List.generate(10, (index) {
-                    return Center(
-                      child: Image( // Creates a widget for displaying an image using Ink Package
-                        image: AppData.siameseCat,  // Grabbing photo from model
-                        fit: BoxFit.cover,  // Applies box mask to image
-                        width: 150, // Setting width/height of the user's post
-                        height: 150,
-                        // Allows user to press their profile photo
-                      ),
-                    );
-                  }),
-                ),*/
-
-
-
-
-  }
-}
+        }
+    }
 

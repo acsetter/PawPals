@@ -101,13 +101,13 @@ mixin FormValidation<T extends StatefulWidget> on State<T> {
 
 
   String? petAgeValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return ("No pet age");
+    if(value == null) {
+      return null;
     }
-    if (!RegExpressions.alpha.hasMatch(value)) {
-      return ("Invalid pet age");
+    final n = num.tryParse(value);
+    if(n == null) {
+      return '"$value" is not a valid number';
     }
-
     return null;
   }
 
@@ -115,7 +115,7 @@ mixin FormValidation<T extends StatefulWidget> on State<T> {
     if (value == null || value.isEmpty) {
       return ("No post description");
     }
-    if (!RegExpressions.alpha.hasMatch(value)) {
+    if (!RegExpressions.postDescription.hasMatch(value)) {
       return ("Invalid post description");
     }
 

@@ -3,56 +3,6 @@ import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/utils/app_utils.dart';
 import 'package:paw_pals/widgets/Post/post.dart';
 
-enum PetGenderOptionsPost { petGenderMale, petGenderFemale }
-
-enum PetFriendOptionsPost { petIsKidFriend, petIsPetFriend }
-
-isDatabaseNullChecker(var dataFromDatabase, int type) {
-  if (dataFromDatabase == null) {
-    switch (type) {
-      case 0:
-        return null;
-      case 1:
-        return null;
-      case 2:
-        return null;
-      case 3:
-        return null;
-      case 4:
-        return 0.0;
-      case 5:
-        return 25.0;
-      case 6:
-        return 100;
-      default:
-    }
-  } else {
-    return dataFromDatabase;
-  }
-}
-
-PetGender? dataPetGender = PostModel(postId: '', uid: '').petGender;
-bool? dataPetFriend = PostModel(postId: '', uid: '').isPetFriendly;
-bool? dataKidFriend = PostModel(postId: '', uid: '').isPetFriendly;
-PetGender? userPetGenderPref = isDatabaseNullChecker(dataPetGender, 1);
-bool? userIsPetFriendlyPref = isDatabaseNullChecker(dataPetFriend, 2);
-bool? userIsKidFriendlyPref = isDatabaseNullChecker(dataKidFriend, 3);
-
-
-
-petGenderBoxes(PetGender? dataFromDatabase) {
-  var temp;
-  if (dataFromDatabase == null) {
-    return temp = null;
-  }
-  if (dataFromDatabase == PetGender.male) {
-    return temp = PetGenderOptionsPost.petGenderMale;
-  }
-  if (dataFromDatabase == PetGender.female) {
-    return temp = PetGenderOptionsPost.petGenderFemale;
-  }
-}
-
 
 /// Model that defines the post data stored in the database.
 /// **WARNING:** [PostModel] fields are not null-safe and need to be handled as such.
@@ -91,9 +41,8 @@ class PostModel {
 
   /// Converts a [DocumentSnapshot] from [FirebaseFirestore] to a [PostModel].
   factory PostModel.fromFirestore(
-    DocumentSnapshot<Map<String, dynamic>> snapshot,
-    SnapshotOptions? options
-  ) {
+      DocumentSnapshot<Map<String, dynamic>> snapshot,
+      SnapshotOptions? options) {
     final data = snapshot.data();
     return PostModel(
       postId: data?["postId"],
@@ -114,22 +63,23 @@ class PostModel {
   }
 
   /// Converts the [PostModel] to json with including all non-null fields.
-  Map<String, dynamic> toFirestore() => {
-    if (postId != null) "postId": postId,
-    if (uid != null) "uid": uid,
-    if (timestamp != null) "timestamp": timestamp,
-    if (postDescription != null) "postDescription": postDescription,
-    if (longitude != null) "longitude": longitude,
-    if (latitude != null) "latitude": latitude,
-    if (geoHash != null) "geoHash": geoHash,
-    if (petName != null) "petName": petName,
-    if (petType != null) "petType": petType!.name,
-    if (petAge != null) "petAge": petAge,
-    if (petGender != null) "petGender": petGender!.name,
-    if (petPhotoUrl != null) "petPhotoUrl": petPhotoUrl,
-    if (isKidFriendly != null) "isKidFriendly": isKidFriendly,
-    if (isPetFriendly != null) "isPetFriendly": isPetFriendly,
-  };
+  Map<String, dynamic> toFirestore() =>
+      {
+        if (postId != null) "postId": postId,
+        if (uid != null) "uid": uid,
+        if (timestamp != null) "timestamp": timestamp,
+        if (postDescription != null) "postDescription": postDescription,
+        if (longitude != null) "longitude": longitude,
+        if (latitude != null) "latitude": latitude,
+        if (geoHash != null) "geoHash": geoHash,
+        if (petName != null) "petName": petName,
+        if (petType != null) "petType": petType!.name,
+        if (petAge != null) "petAge": petAge,
+        if (petGender != null) "petGender": petGender!.name,
+        if (petPhotoUrl != null) "petPhotoUrl": petPhotoUrl,
+        if (isKidFriendly != null) "isKidFriendly": isKidFriendly,
+        if (isPetFriendly != null) "isPetFriendly": isPetFriendly,
+      };
 
   PostModel copyWith({
     String? postId,
@@ -166,13 +116,14 @@ class PostModel {
   }
 
   static List<PostModel> listFromFirestore(list) =>
-    List<PostModel>.from(list.map((x) => PostModel.fromFirestore(x, null)));
+      List<PostModel>.from(list.map((x) => PostModel.fromFirestore(x, null)));
 
   @override
   String toString() {
     return "postId: $postId \n"
         "uid: $uid \n"
-        "timestamp: ${timestamp == null ? "null" : AppUtils.dateFromTimestamp(timestamp!)} \n"
+        "timestamp: ${timestamp == null ? "null" : AppUtils.dateFromTimestamp(
+        timestamp!)} \n"
         "postDescription: $postDescription \n"
         "longitude: $longitude \n"
         "latitude: $latitude \n"
@@ -185,4 +136,5 @@ class PostModel {
         "isKidFriendly: $isKidFriendly \n"
         "isPetFriendly: $isPetFriendly \n";
   }
+
 }

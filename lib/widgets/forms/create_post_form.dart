@@ -10,7 +10,7 @@ import '../../constants/app_icons.dart';
 import '../../constants/app_info.dart';
 import '../../constants/app_types.dart';
 import '../../models/post_model.dart';
-import '../../screens/post/post_screen.dart';
+import '../../screens/profile/profile_screen.dart';
 import '../buttons/contained_button.dart';
 import '../fields/our_text_field.dart';
 import '../fields/our_text_field_2.dart';
@@ -18,14 +18,8 @@ import '../wrappers/field_wrapper.dart';
 import '_form_validation.dart';
 
 
-
-PetGender? dataPetGender = PostModel(postId: '', uid: '',).petGender;
-bool? dataPetFriend = PostModel(postId: '', uid: '').isPetFriendly;
-bool? dataKidFriend = PostModel(postId: '', uid: '').isPetFriendly;
-
-
-
 class CreatePostForm extends StatefulWidget {
+
   const CreatePostForm({super.key});
 
   @override
@@ -36,12 +30,14 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
   final TextEditingController petNameController = TextEditingController();
   final TextEditingController petAgeController = TextEditingController();
   final TextEditingController postDescriptionController = TextEditingController();
-  late final List<PostModel> post;
+  PetType? _typeSelection;
+  PetGender? _genderSelection;
+  bool _kidFriendlySelection = false;
+  bool _petFriendlySelection = false;
 
 
   final _formKey = GlobalKey<FormState>();
-  PetGenderOptionsPost? _petGender;
-  PetFriendOptionsPost? _petFriend;
+
   String focusedField = "none";
 
   @override
@@ -79,7 +75,10 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
               maxLength: AppInfo.maxEmailLength,
             ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-              Text("Pet Gender", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
+              Text(
+                "Pet Type",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )
             ]),
             Wrap(
               alignment: WrapAlignment.center,
@@ -87,136 +86,174 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
               children: [
                 Row(mainAxisSize: MainAxisSize.min, children: [
                   Radio(
-                      activeColor: AppColors.primary,
-                      toggleable: true,
-                      value: PetGenderOptionsPost.petGenderMale,
-                      groupValue: _petGender,
-                      onChanged: ((PetGenderOptionsPost? value) {
+                    activeColor: AppColors.primary,
+                    toggleable: true,
+                    value: PetType.dog,
+                    groupValue: _typeSelection,
+                    onChanged: ((PetType? value) {
+                      if (_typeSelection != null && value == null ) {
+                        // unselect PetType preference
                         setState(() {
-                          _petGender = value;
-                          if (value == null) {
-                            userPetGenderPref = null;
-                          } else {
-                            userPetGenderPref = PetGender.male;
-                          }
-                          print(value);
+                          _typeSelection = null;
                         });
-                      })),
+                      } else if (value != null) {
+                        setState(() {
+                          _typeSelection = value;
+                        });
+                      }
+                    }),
+                  ),
+                  const Text("Dog"),
+                  Radio(
+                    activeColor: AppColors.primary,
+                    toggleable: true,
+                    value: PetType.cat,
+                    groupValue: _typeSelection,
+                    onChanged: ((PetType? value) {
+                      if (_typeSelection != null && value == null ) {
+                        // unselect PetType preference
+                        setState(() {
+                          _typeSelection = null;
+                        });
+                      } else if (value != null) {
+                        setState(() {
+                          _typeSelection = value;
+                        });
+                      }
+                    }),
+                  ),
+                  const Text("Cat"),
+                ]),
+              ],
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+              Text("Pet Gender", style: TextStyle(fontWeight: FontWeight.bold))
+            ]),
+            Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Row(mainAxisSize: MainAxisSize.min, children: [
+                  Radio(
+                    activeColor: AppColors.primary,
+                    toggleable: true,
+                    value: PetGender.male,
+                    groupValue: _genderSelection,
+                    onChanged: ((PetGender? value) {
+                      if (_genderSelection != null && value == null ) {
+                        // unselect PetGender preference
+                        setState(() {
+                          _genderSelection = null;
+                        });
+                      } else if (value != null) {
+                        setState(() {
+                          _genderSelection = value;
+                        });
+                      }
+                    }),
+                  ),
                   const Text("Male"),
                   Radio(
-                      activeColor: AppColors.primary,
-                      toggleable: true,
-                      value: PetGenderOptionsPost.petGenderFemale,
-                      groupValue: _petGender,
-                      onChanged: ((PetGenderOptionsPost? value) {
+                    activeColor: AppColors.primary,
+                    toggleable: true,
+                    value: PetGender.female,
+                    groupValue: _genderSelection,
+                    onChanged: ((PetGender? value) {
+                      if (_genderSelection != null && value == null ) {
+                        // unselect PetGender preference
                         setState(() {
-                          _petGender = value;
-                          if (value == null) {
-                            userPetGenderPref = null;
-                          } else {
-                            userPetGenderPref = PetGender.female;
-                          }
-                          print(value);
+                          _genderSelection = null;
                         });
-                      })),
+                      } else if (value != null) {
+                        setState(() {
+                          _genderSelection = value;
+                        });
+                      }
+                    }),
+                  ),
                   const Text("Female"),
                 ]),
               ],
             ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-              Text("Friendliness",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
+              Text("Pet friendliness",
+                  style: TextStyle(fontWeight: FontWeight.bold))
             ]),
             Wrap(
               alignment: WrapAlignment.center,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Row(mainAxisSize: MainAxisSize.min, children: [
-                  Radio(
-                      activeColor: AppColors.primary,
-                      toggleable: true,
-                      value: PetFriendOptionsPost.petIsKidFriend,
-                      groupValue: _petFriend,
-                      onChanged: ((PetFriendOptionsPost? value) {
+                  Checkbox(
+                    value: _kidFriendlySelection,
+                    onChanged: (val) {
+                      if (val != null) {
                         setState(() {
-                          _petFriend = value;
-                          if (value == null) {
-                            userIsPetFriendlyPref = null;
-                            userIsKidFriendlyPref = null;
-                          } else {
-                            userIsKidFriendlyPref = false;
-                            userIsPetFriendlyPref = true;
-                          }
-                          print(value);
+                          _kidFriendlySelection = val;
                         });
-                      })),
+                      }
+                    },
+                  ),
                   const Text("Kid Friendly"),
-                  Radio(
-                      activeColor: AppColors.primary,
-                      toggleable: true,
-                      value: PetFriendOptionsPost.petIsPetFriend,
-                      groupValue: _petFriend,
-                      onChanged: ((PetFriendOptionsPost? value) {
-                        setState(() {
-                          _petFriend = value;
-                          if (value == null) {
-                            userIsPetFriendlyPref = null;
-                            userIsKidFriendlyPref = null;
-                          } else {
-                            userIsKidFriendlyPref = true;
-                            userIsPetFriendlyPref = false;
-                          }
-                          print(value);
-                        });
-                      })),
+                  Checkbox(
+                      value: _petFriendlySelection,
+                      onChanged: (val) {
+                        if (val != null) {
+                          setState(() {
+                            _petFriendlySelection = val;
+                          });
+                        }
+                      }
+                  ),
                   const Text("Pet Friendly"),
                 ]),
               ],
             ),
-
-
-]
-
-
-            )
-            /*FieldWrapper(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      ContainedButton(
-                        icon: AppIcons.signUp,
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            FirestoreService
-                                .createPost()
-                                .then((String val) {
-                              if (val.isNotEmpty) {
-                                Get.snackbar("Error:", translate('errors.$val'),
+            FieldWrapper(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ContainedButton(
+                      icon: AppIcons.user,
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          FirestoreService.createPost(
+                              PostModel(
+                            petName: petNameController.text.trim(),
+                            petAge: int.parse(petAgeController.text.trim()),
+                            petGender: _genderSelection,
+                            petType: _typeSelection,
+                            isKidFriendly: _kidFriendlySelection,
+                            isPetFriendly: _petFriendlySelection,
+                            postDescription: postDescriptionController.text.trim()
+                              )).then((didComplete) {
+                              if (didComplete) {
+                                Get.offAll(const ProfileScreen()); // Goes back to profile screen
+                              } else { // Tells the user that an error occurred
+                                Get.snackbar('Error: unable to create post',
+                                    'Please try again.',
                                     snackPosition: SnackPosition.BOTTOM,
                                     duration: const Duration(seconds: 7),
                                     colorText: Theme.of(context).errorColor
                                 );
-                              } else {
-                                Get.offAll(const PostScreen());
                               }
-                            });
-                          }
-                        },
-                        label: translate("btn-labels.create-post"),
-                      )
-                    ],
-                  )
-
-             */
+                            }
 
 
+                          );
+                        }
+                      },
+                      label: "Create Post",
+
+                    )
+                  ],
+                )
+            ),
+          ]
+      )
     );
-
-  }
   }
 
-
-/*
   @override
   void dispose() {
     petNameController.dispose();
@@ -225,5 +262,3 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
     super.dispose();
   }
 }
-
- */

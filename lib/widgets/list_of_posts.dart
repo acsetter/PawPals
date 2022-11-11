@@ -5,10 +5,10 @@ import '../models/post_model.dart';
 
 
 
-class DummyGrid extends StatelessWidget {
-  const DummyGrid(this.post, {super.key});
-
+class ListGrid extends StatelessWidget {
   final List<PostModel> post;
+
+  const ListGrid({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {

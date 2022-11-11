@@ -28,28 +28,14 @@ class CreatePostScreen extends StatelessWidget {
         appBar: OurAppBar.build(screenTitle),
         // The main body of the Screen:
         body:
-        SingleChildScrollView(
+        const SingleChildScrollView(
         child:
-        FormWrapper(
-          children: [
-            const FieldWrapper(
-              child: CreatePostForm(),
-            ),
-            FieldWrapper(
-              child: OurOutlinedButton(
-                // method invoked when a user presses this button
-                  onPressed: () {
-                    // This adds a page to the stack and displays the next screen.
-                    // You can keep stacking screens by calling
-                    // `Get.to(() => MyNextScreen())` on subsequent screens.
-                    Get.to(() => const CreatePostScreen());
-                  },
-                  label: buttonLabel
-              ),
-            )
-          ],
+            FormWrapper(
+        children: [
+              CreatePostForm(),
+              ]),
         )
-        )
-    );
+            );
+
   }
 }
