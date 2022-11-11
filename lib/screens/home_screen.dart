@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:location/location.dart';
 
 import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/screens/dashboard/dashboard_screen.dart';
@@ -8,6 +10,7 @@ import 'package:paw_pals/screens/post/create_post_screen.dart';
 import 'package:paw_pals/screens/post/liked_post_screen.dart';
 import 'package:paw_pals/screens/post/post_screen.dart';
 import 'package:paw_pals/screens/temp_user_screen.dart';
+import 'package:paw_pals/services/location_services.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
@@ -34,8 +37,7 @@ class HomeScreenState extends State<HomeScreen> {
           children: [
             FieldWrapper(
                 child: Text("Our Screens:",
-                    style: Theme.of(context).textTheme.headline3)
-            ),
+                    style: Theme.of(context).textTheme.headline3)),
             FieldWrapper(
               child: OurOutlinedButton(
                 onPressed: () {
@@ -97,6 +99,24 @@ class HomeScreenState extends State<HomeScreen> {
                   // navigate(context, Temp_Home_Screen_Navigators.route_feed_screeen, isRootNavigator: false);
                 },
                 label: "Feed Example",
+              ),
+            ),
+            FieldWrapper(
+              child: OurOutlinedButton(
+                onPressed: () {
+                  LocationService.getLocation();
+                },
+                label: "Get Location",
+                icon: Icon(Icons.location_on_outlined),
+              ),
+            ),
+            FieldWrapper(
+              child: OurOutlinedButton(
+                onPressed: () {
+                  Geolocator.openLocationSettings();
+                },
+                label: "Go to Location Settings",
+                icon: Icon(Icons.location_searching),
               ),
             ),
           ],
