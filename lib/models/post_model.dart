@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/utils/app_utils.dart';
-import 'package:paw_pals/widgets/Post/post.dart';
 
 
 /// Model that defines the post data stored in the database.

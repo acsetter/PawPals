@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
 import 'package:paw_pals/widgets/list_of_posts.dart';
-import '../../constants/app_data.dart';
 import '../../constants/app_icons.dart';
+import '../../controllers/app_user.dart';
 import '../../models/post_model.dart';
 import '../../widgets/profile/profile_widget.dart';
 import '../../widgets/wrappers/field_wrapper.dart';
@@ -27,50 +27,55 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Every screen will use a scaffold as the outer-most widget.
     return Scaffold(
-
         appBar: OurAppBar.build(screenTitle),
-        body: CustomScrollView(
+        body: StreamBuilder<List<PostModel>?>(
+        stream: AppUser.instance.userPostsStream(),
+        builder: (BuildContext context, snapshot) {
+    List<PostModel> postModels = AppUser.instance.userPosts ?? [];
+
+        return CustomScrollView(
             scrollDirection: Axis.vertical,
             physics: const NeverScrollableScrollPhysics(),
             slivers: [
-              SliverFillRemaining(
-                  hasScrollBody: true,
-                  child: Column(
-                      children: [
-                        FieldWrapper(
-                          child: ProfilePhotoWidget(
-                            onPressed: () {}, photoUrl: '',),
-                        ),
-                        const FieldWrapper(
-                          child: UserInformationWidget(),
-                        ),
-                        FormWrapper(
-                            children: [
-                              FieldWrapper(
-                                child: OurOutlinedButton(
-                                  // method invoked when a user presses this button
-                                  onPressed: () {
-                                    // This adds a page to the stack and displays the next screen.
-                                    // You can keep stacking screens by calling
-                                    // `Get.to(() => MyNextScreen())` on subsequent screens.
-                                    Get.to(() => const EditProfileScreen());
-                                  },
-                                  label: buttonLabel,
-                                  icon: AppIcons.edit,
-                                ),
-                              )
-                            ]
-                        ),
+                SliverFillRemaining(
+                    hasScrollBody: true,
+                    child: Column(
+                    children: [
+                    FieldWrapper(
+                    child: ProfilePhotoWidget(onPressed: () {}, photoUrl: '',),
+                    ),
+                    const FieldWrapper(
+                    child: UserInformationWidget(),
+                    ),
+                    FormWrapper(
+                    children: [
+                    FieldWrapper(
+                      child: OurOutlinedButton(
+                      // method invoked when a user presses this button
+                      onPressed: () {
+                      // This adds a page to the stack and displays the next screen.
+                        Get.to(() => const EditProfileScreen());
+                        },
+                      label: buttonLabel,
+                      icon: AppIcons.edit,
+                    ),
+                    )
+                    ]
+                    ),
                       const Divider(),
-                      const Expanded(
-                      child: ListGrid( post: [],)
+                      Expanded(
+                        child:
+                        ListGrid(post: postModels),
                       )
-                      ]
-                  )
-              )
+                    ]
+                    )
+                )
             ]
+        );
+        }
         )
     );
-        }
-    }
+  }
+}
+
 
