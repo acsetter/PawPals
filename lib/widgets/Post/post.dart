@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:paw_pals/constants/app_data.dart';
 import '../../models/post_model.dart';
 
 class Post extends StatelessWidget {
-  final PostModel post = AppData.fakePost;
+  final PostModel post;
 
-  Post({super.key});
+  const Post({ Key? key, required this.post,}) : super(key:key);
   @override
   Widget build(BuildContext context){
     return Padding(
@@ -23,7 +22,7 @@ class Post extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AppData.siameseCat
+                    image: AssetImage(post.petPhotoUrl!)
                 ),
                 borderRadius: BorderRadius.circular(5.0),
                 boxShadow: [
@@ -31,7 +30,7 @@ class Post extends StatelessWidget {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 4,
                     blurRadius: 4,
-                    offset: Offset(3, 3),
+                    offset: const Offset(3, 3),
                   ),
                 ]
               ),
@@ -55,12 +54,12 @@ class Post extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${AppData.fakePost.petName}',
+                  Text('${post.petName}',
                   style: Theme.of(context).textTheme.headline4!.copyWith(
                     color: Colors.white,
                   ),
                   ),
-                  Text('4, Male, Wilmington',
+                  Text('${post.petAge}, ${post.petGender}, Wilmington',
                     style: Theme.of(context).textTheme.headline5!.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
@@ -75,8 +74,8 @@ class Post extends StatelessWidget {
                       width: 60,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AppData.siameseCat,
-                            fit: BoxFit.cover
+                            fit: BoxFit.cover,
+                            image: AssetImage(post.petPhotoUrl!)
                           ),
                         borderRadius: BorderRadius.circular(5.0),
                         ),

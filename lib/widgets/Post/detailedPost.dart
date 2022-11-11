@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:paw_pals/constants/app_data.dart';
 import '../../models/post_model.dart';
 
 class DetailedPost extends StatelessWidget{
-  final PostModel post = AppData.fakePost;
+  final PostModel post;
+
+  const DetailedPost({ Key? key, required this.post,}) : super(key:key);
 
 
   @override
@@ -26,10 +27,10 @@ class DetailedPost extends StatelessWidget{
                   Container(
                     height: MediaQuery.of(context).size.height*0.40,
                     width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage("assets/images/siamese_cat.jpg"),
-                            fit: BoxFit.fill
+                            fit: BoxFit.fill,
+                            image: AssetImage(post.petPhotoUrl!)
                         )
                     ),
                   ),
@@ -44,8 +45,8 @@ class DetailedPost extends StatelessWidget{
 
                       Container(
                         margin: const EdgeInsets.only(left:15),
-                        child: Text('${AppData.fakePost.petName}',
-                          style: TextStyle(fontFamily: "Proxima-Nova-Bold",
+                        child: Text('${post.petName}',
+                          style: const TextStyle(fontFamily: "Proxima-Nova-Bold",
                             fontSize: 30, color: Colors.black, fontWeight: FontWeight.w400
                           ),),
 
@@ -58,8 +59,8 @@ class DetailedPost extends StatelessWidget{
 
                   Container(
                     margin: const EdgeInsets.only(left: 15),
-                    child: Text('4, Male, Wilmington',
-                      style: TextStyle(fontFamily: "Proxima-Nova-Bold",
+                    child: Text('${post.petAge}, ${post.petGender}, Wilmington',
+                      style: const TextStyle(fontFamily: "Proxima-Nova-Bold",
                         fontSize: 25, color: Colors.black, fontWeight: FontWeight.w400
                       ),
                     ),
@@ -83,7 +84,7 @@ class DetailedPost extends StatelessWidget{
                   Container(
                     margin: const EdgeInsets.only(left: 15),
                     width: MediaQuery.of(context).size.width*0.85,
-                    child: const Text("Whiskers is looking for a furrever home. He loves to cuddle and lay in the sun.", style: TextStyle(fontFamily: "ProximaNova-Regular",
+                    child: Text('${post.postDescription}', style: const TextStyle(fontFamily: "ProximaNova-Regular",
                         fontSize: 15, color: Colors.black, fontWeight: FontWeight.w300
                     ),),
                   ),
@@ -105,25 +106,10 @@ class DetailedPost extends StatelessWidget{
                                 borderRadius: BorderRadius.circular(15.0),
                                 color: const Color(0xFF7FE9F6).withOpacity(0.25)
                             ),
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6 ),
-                              child: Text("Cat Friendly", style: TextStyle(fontFamily: "ProximaNova-Regular",
-                                  fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400
-                              ),),
-                            )
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                            height: 30,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15.0),
-                                color: const Color(0xFF33C0FF).withOpacity(0.25)
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6 ),
-                              child: Text("Dog Friendly", style: TextStyle(fontFamily: "ProximaNova-Regular",
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6 ),
+                              child: Text('${post.isPetFriendly}',
+                                style: const TextStyle(fontFamily: "ProximaNova-Regular",
                                   fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400
                               ),),
                             )
@@ -137,9 +123,9 @@ class DetailedPost extends StatelessWidget{
                                 borderRadius: BorderRadius.circular(15.0),
                                 color: const Color(0xFFFF9933).withOpacity(0.25)
                             ),
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6),
-                              child: Text("Kid Friendly", style: TextStyle(fontFamily: "ProximaNova-Regular",
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6),
+                              child: Text('${post.isKidFriendly}', style: const TextStyle(fontFamily: "ProximaNova-Regular",
                                   fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400
                               ),),
                             )

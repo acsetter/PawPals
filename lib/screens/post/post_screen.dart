@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/widgets/Post/DetailedPost.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 
@@ -7,13 +8,8 @@ import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 /// a place to organize widgets.
 class PostScreen extends StatelessWidget {
   final String screenTitle = "Post";
-  final String exampleText = "Post Screen";
-  final String buttonLabel = "Next Screen";
 
-  // This is the constructor. All widgets should have a Key key as optional
-  // parameter in their constructor. Key is something used by flutter engine
-  // at the step of recognizing which widget in a list as changed.
-  const PostScreen({super.key});
+  const PostScreen({super.key, required PostModel PostModel});
 
   // You must call @override on the build method
   @override
@@ -23,7 +19,8 @@ class PostScreen extends StatelessWidget {
       // The bar that goes across the top of the screen:
         appBar: OurAppBar.build(screenTitle),
         // The main body of the Screen:
-        body: DetailedPost()
+        body: const DetailedPost(),
+
           //children: [
             //FieldWrapper(
               //child: Text(exampleText, textAlign: TextAlign.center),
