@@ -90,7 +90,7 @@ class OurTextFieldState extends State<OurTextField> {
           obscureText: _textField.hideText ? !isVisible : false,
           autocorrect: _textField.autocorrect ?? true,
           maxLength: _textField.maxLength,
-          maxLines: _textField.maxLines,
+          maxLines: _textField.maxLines ?? 1,
           keyboardType:_textField.keyboard,
           inputFormatters: const [],
         )
