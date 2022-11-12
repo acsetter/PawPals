@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_icons.dart';
@@ -13,7 +10,6 @@ import '../../models/post_model.dart';
 import '../../screens/profile/profile_screen.dart';
 import '../buttons/contained_button.dart';
 import '../fields/our_text_field.dart';
-import '../fields/our_text_field_2.dart';
 import '../wrappers/field_wrapper.dart';
 import '_form_validation.dart';
 
@@ -57,7 +53,7 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
               icon: AppIcons.paw,
               maxLength: AppInfo.maxNameLength,
             ),
-            OurTextField2(
+            OurTextField(
               controller: petAgeController,
               keyboard: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
@@ -216,7 +212,9 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
                     ContainedButton(
                       icon: AppIcons.user,
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
+                        // if statement that validates the text fields and makes sure that the user
+                        // selects a gender and type, if not a snackbar is shown throwing the user an error
+                        if (_formKey.currentState!.validate() && _genderSelection != null && _typeSelection != null) {
                           FirestoreService.createPost(
                               PostModel(
                             petName: petNameController.text.trim(),
@@ -225,7 +223,7 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
                             petType: _typeSelection,
                             isKidFriendly: _kidFriendlySelection,
                             isPetFriendly: _petFriendlySelection,
-                            postDescription: postDescriptionController.text.trim()
+                            postDescription: postDescriptionController.text.trim(),
                               )).then((didComplete) {
                               if (didComplete) {
                                 Get.offAll(const ProfileScreen()); // Goes back to profile screen
@@ -238,9 +236,16 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
                                 );
                               }
                             }
-
-
                           );
+                        }
+                        // snackbar that let's the user know that they have either
+                        // not selected a gender, pet type, or both
+                        else {
+                          Get.snackbar('Error: No pet type and/or pet gender selected!',
+                              'Please try again.',
+                              snackPosition: SnackPosition.BOTTOM,
+                              duration: const Duration(seconds: 7),
+                        colorText: Theme.of(context).errorColor);
                         }
                       },
                       label: "Create Post",

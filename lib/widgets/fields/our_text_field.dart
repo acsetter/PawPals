@@ -27,7 +27,9 @@ class OurTextField extends StatefulWidget {
     this.autocorrect,
     this.maxLength,
     hideText,
-    showCounter
+    showCounter,
+    keyboard,
+    List? inputFormatters
   }): hideText = hideText ?? false,
       showCounter = showCounter ?? false;
 

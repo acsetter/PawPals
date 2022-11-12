@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/constants/app_types.dart';
