@@ -55,22 +55,27 @@ class StorageService {
   // static Future<Uint8List?> getPhotoBytes() async {
   //   return await _usersRef.child(_uid!).child("profile.png").getData();
   // }
-  
-  static Future<bool?> uploadProfileImage(File file) async {
+
+  /// Uploads an expected file as the logged-in user's profile image and
+  /// returns a download url upon successful storage of the image in the cloud.
+  static Future<String?> uploadProfileImage(File file) async {
     String ext = file.path.split('.').last;
+    // ensure the uploaded file is a supported image
     if (!validExts.contains(ext)) {
       Logger.log("File of extension type '$ext' is not supported", isError: true);
-      return false;
+      return null;
     }
+
     return await _usersRef.child(_uid!).putFile(file)
-        .then((p0) {
-          Logger.log(p0.ref.toString());
-          return true;
-        },
-        onError: (e) {
-          Logger.log(e.toString(), isError: true);
-          return false;
-        });
+      .then((snapshot) {
+        Logger.log("StorageService: uploaded ${snapshot.ref.name}");
+        return snapshot.ref.getDownloadURL()
+          .then((url) {
+            Logger.log("StorageService: retrieved url for ${snapshot.ref.name}");
+            return url;
+          }, onError: (e) => Logger.log(e.toString(), isError: true));
+      }, onError: (e) => Logger.log(e.toString(), isError: true)
+    );
   }
 
   static Future<bool?> uploadPostImage(File file, String postId) async {
@@ -81,10 +86,9 @@ class StorageService {
     }
     return await _usersRef.child(postId).putFile(file)
         .then((p0) {
-      Logger.log(p0.ref.toString());
-      return true;
-    },
-        onError: (e) {
+          Logger.log(p0.ref.toString());
+          return true;
+        }, onError: (e) {
           Logger.log(e.toString(), isError: true);
           return false;
         });

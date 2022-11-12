@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paw_pals/controllers/file_controller.dart';
-import 'package:paw_pals/widgets/dialog/image_selector.dart';
+import 'package:paw_pals/widgets/image_selector.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 
 /// This should be deleted end of sprint 4.

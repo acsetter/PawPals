@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:paw_pals/constants/app_info.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/pref_model.dart';
 import 'package:paw_pals/models/user_model.dart';
+import 'package:paw_pals/services/storage_service.dart';
 import 'package:paw_pals/utils/app_log.dart';
 
 import '../utils/app_utils.dart';
@@ -151,9 +154,9 @@ class FirestoreService {
   /// * [UserModel.last]
   /// * [UserModel.photoUrl]
   /// * [UserModel.likedPosts]
-  static Future<bool> updateUser(UserModel userModel) async {
+  static Future<bool> updateUser({required UserModel userModel, File? file}) async {
     // Restrict creating/overwriting if not authorized.
-    if (_uid == null || userModel.uid == null) {
+    if (_uid == null) {
       Logger.log("No User is logged into Firebase Auth.", isError: true);
       return false;
     }
@@ -163,7 +166,8 @@ class FirestoreService {
     }
 
     return await _userRef
-        .update(userModel.toFirestoreUpdate())
+        .update(userModel.copyWith(photoUrl: file != null ? await StorageService.uploadProfileImage(file):null)
+        .toFirestoreUpdate())
         .then((res) {
       Logger.log("Firestore doc updated for ${userModel.email}");
       return true;

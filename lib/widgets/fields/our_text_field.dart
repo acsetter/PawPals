@@ -33,7 +33,7 @@ class OurTextField extends StatefulWidget {
     hideText,
     showCounter,
     this.keyboard,
-    this.inputFormatters
+    this.inputFormatters,
   }): hideText = hideText ?? false,
       showCounter = showCounter ?? false;
 

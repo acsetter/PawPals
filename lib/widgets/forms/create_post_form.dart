@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
 import 'package:paw_pals/services/firestore_service.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_icons.dart';
-import '../../constants/app_info.dart';
-import '../../constants/app_types.dart';
-import '../../models/post_model.dart';
-import '../../screens/profile/profile_screen.dart';
-import '../buttons/contained_button.dart';
-import '../fields/our_text_field.dart';
-import '../wrappers/field_wrapper.dart';
-import '_form_validation.dart';
+import 'package:paw_pals/constants/app_colors.dart';
+import 'package:paw_pals/constants/app_icons.dart';
+import 'package:paw_pals/constants/app_info.dart';
+import 'package:paw_pals/constants/app_types.dart';
+import 'package:paw_pals/models/post_model.dart';
+import 'package:paw_pals/screens/profile/profile_screen.dart';
+import 'package:paw_pals/widgets/buttons/contained_button.dart';
+import 'package:paw_pals/widgets/fields/our_text_field.dart';
+import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
+import 'package:paw_pals/widgets/forms/_form_validation.dart';
 
 
 class CreatePostForm extends StatefulWidget {
-
   const CreatePostForm({super.key});
 
   @override
@@ -26,6 +26,8 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
   final TextEditingController petNameController = TextEditingController();
   final TextEditingController petAgeController = TextEditingController();
   final TextEditingController postDescriptionController = TextEditingController();
+
+
   PetType? _typeSelection;
   PetGender? _genderSelection;
   bool _kidFriendlySelection = false;

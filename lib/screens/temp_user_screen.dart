@@ -100,14 +100,6 @@ class TempUserScreen extends StatelessWidget {
                   },
                 ),
               ),
-              FieldWrapper(
-                child: OurOutlinedButton(
-                  label: "Like Post",
-                  onPressed: () {
-                    FirestoreService.updateUser(AppUser.instance.userModel!.copyWith(likedPosts: ["2zCvCx8e29t3Me37BFMm"]));
-                  },
-                ),
-              ),
             ]),
       ),
     );

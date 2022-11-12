@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paw_pals/services/firestore_service.dart';
+import 'package:paw_pals/widgets/image_selector.dart';
 import '../../constants/app_icons.dart';
 import '../../constants/app_info.dart';
 import '../../controllers/app_user.dart';
+import '../../controllers/file_controller.dart';
+import '../../models/user_model.dart';
 import '../buttons/contained_button.dart';
 import '../fields/our_text_field.dart';
 import '../forms/_form_validation.dart';
@@ -22,27 +25,35 @@ import '../wrappers/field_wrapper.dart';
 /// wanted to make is now passed to the database method updateUser(), a copy
 /// of the UserModel is necessary because this allows the changes to actually update
 /// to the database.
-
-
 class EditProfile extends StatefulWidget {
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
+  final UserModel? userModel;
 
-  EditProfile({super.key});
-
+  const EditProfile({super.key, this.userModel});
 
   @override
   State<EditProfile> createState() => EditProfileState();
-
 }
 
 class EditProfileState extends State<EditProfile> with FormValidation {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
+  final FileController fileController = FileController();
   final _formKey = GlobalKey<FormState>();
 
+  UserModel? get _userModel => super.widget.userModel;
 
   String focusedField = "none";
+
+  @override
+  void initState() {
+    // auto-fill text-fields if userModel data is not null.
+    if (_userModel != null) {
+      if (_userModel!.first != null) firstNameController.text = _userModel!.first!;
+      if (_userModel!.last != null) lastNameController.text = _userModel!.last!;
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +65,10 @@ class EditProfileState extends State<EditProfile> with FormValidation {
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            ImageSelector(
+              controller: fileController,
+              initialUrl: _userModel?.photoUrl,
+            ),
             OurTextField(
               labelText: translate("field-labels.first-name"),
               validator: firstNameValidator,
@@ -77,22 +92,19 @@ class EditProfileState extends State<EditProfile> with FormValidation {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             FirestoreService
-                                .updateUser(AppUser.instance.userModel!
-                                  .copyWith( // Using copyWith method and passing it the first and last name text controllers
-                                    first: firstNameController.text.trim(),
-                                    last: lastNameController.text.trim()))
-                                .then((didComplete) {
-                                  if (didComplete) {
-                                    Get.back(); // Goes back to profile photo
-                                  } else { // Tells the user that an error occurred
-                                    Get.snackbar('Error: unable to update profile',
-                                      'Please try again.',
-                                    snackPosition: SnackPosition.BOTTOM,
-                                    duration: const Duration(seconds: 7),
-                                    colorText: Theme.of(context).errorColor
-                                    );
-                                  }
-                            });
+                              .updateUser(
+                                userModel: AppUser.instance.userModel!.copyWith(
+                                  first: firstNameController.text.trim(),
+                                  last: lastNameController.text.trim()),
+                                file: fileController.value)
+                              .then((didComplete) => didComplete
+                                ? Get.back()
+                                : Get.snackbar(
+                                'Error: unable to update profile',
+                                'Please try again.',
+                                snackPosition: SnackPosition.BOTTOM,
+                                duration: const Duration(seconds: 7),
+                                colorText: Theme.of(context).errorColor));
                           }
                         }, label: 'Save Changes', //Button label
                       )
@@ -102,8 +114,5 @@ class EditProfileState extends State<EditProfile> with FormValidation {
           ]
       ),
     );
-
   }
-
-
 }
