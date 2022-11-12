@@ -26,4 +26,7 @@ class RegExpressions {
   
   /// Strings that are only valid usernames.
   static RegExp username = RegExp(r'^[a-z0-9_-]+$');
+
+  /// Strings that allow spaces, and punctuation for post descriptions.
+  static RegExp postDescription = RegExp(r'^[a-zA-Z0-9.?!_ -]*$');
 }
