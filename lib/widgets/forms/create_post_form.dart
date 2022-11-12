@@ -69,6 +69,7 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
               validator: postDescriptionValidator,
               icon: AppIcons.message,
               maxLength: AppInfo.maxEmailLength,
+              maxLines: 5
             ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
               Text(
@@ -214,7 +215,9 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
                       onPressed: () {
                         // if statement that validates the text fields and makes sure that the user
                         // selects a gender and type, if not a snackbar is shown throwing the user an error
-                        if (_formKey.currentState!.validate() && _genderSelection != null && _typeSelection != null) {
+                        if (_formKey.currentState!.validate()
+                            && _genderSelection != null
+                            && _typeSelection != null) {
                           FirestoreService.createPost(
                               PostModel(
                             petName: petNameController.text.trim(),
@@ -240,7 +243,7 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
                         }
                         // snackbar that let's the user know that they have either
                         // not selected a gender, pet type, or both
-                        else {
+                        else if (_genderSelection == null || _typeSelection == null){
                           Get.snackbar('Error: No pet type and/or pet gender selected!',
                               'Please try again.',
                               snackPosition: SnackPosition.BOTTOM,

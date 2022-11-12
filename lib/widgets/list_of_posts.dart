@@ -20,6 +20,8 @@ class ListGrid extends StatelessWidget {
 
         },
 
+
+
       );
   }
 }
@@ -91,6 +93,7 @@ class DetailScreen extends StatelessWidget {
                 children: [
                   Text("Pet Age: ${post!.petAge}"),
                   Text("Pet Gender: ${post!.petGender?.name}"),
+                  Text("Pet Type: ${post!.petType?.name}")
                 ],
               ),
               Text("Post Description: ${post!.postDescription}"),

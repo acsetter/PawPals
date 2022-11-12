@@ -115,9 +115,6 @@ mixin FormValidation<T extends StatefulWidget> on State<T> {
     if (value == null || value.isEmpty) {
       return ("No post description");
     }
-    if (!RegExpressions.postDescription.hasMatch(value)) {
-      return ("Invalid post description");
-    }
 
     return null;
   }
