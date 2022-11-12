@@ -49,6 +49,7 @@ dependencies:
   flutter_geo_hash: ^0.0.4
   location: ^4.4.0
   image_picker: ^0.8.6
+  cached_network_image: ^3.2.2
 
 dev_dependencies:
   flutter_test:
