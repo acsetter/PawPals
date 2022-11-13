@@ -3,6 +3,8 @@ import 'package:paw_pals/controllers/app_user.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 
+import '../../widgets/list_of_posts.dart';
+
 /// This is an example of a simple screen that extends a [StatelessWidget]
 /// Yes, technically the screen is a widget, but it's best to treat it like
 /// a place to organize widgets.
@@ -20,12 +22,12 @@ class LikedPostScreen extends StatelessWidget {
 
           // TODO: Feed postModel List to post list widget.
 
-          String postStr = "Liked Posts: \n";
-          for (PostModel post in postModels) {
-            postStr = "$postStr\n$post";
-          }
+          return Column(
+            children:[
+              ListGrid(post: postModels),
+          ]
+          );
 
-          return Text(postStr);
         },
       ),
     );

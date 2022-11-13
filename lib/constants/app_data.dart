@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/constants/app_types.dart';
@@ -58,6 +57,7 @@ class AppData {
       petName: "Bob",
       petType: PetType.cat,
       petAge: 7,
+      petGender: PetGender.male,
       petPhotoUrl: 'assets/images/tabby_cat.jpg',
     ),
     PostModel(
@@ -67,6 +67,7 @@ class AppData {
       petName: "Carl",
       petType: PetType.dog,
       petAge: 5,
+      petGender: PetGender.female,
       petPhotoUrl: 'assets/images/corgi.jpg',
     ),
     PostModel(
@@ -76,6 +77,7 @@ class AppData {
       petName: "Doug",
       petType: PetType.dog,
       petAge: 4,
+      petGender: PetGender.female,
       petPhotoUrl: 'assets/images/english_bulldog.jpg',
     ),
     PostModel(
@@ -85,6 +87,7 @@ class AppData {
       petName: "Earl",
       petType: PetType.dog,
       petAge: 9,
+      petGender: PetGender.male,
       petPhotoUrl: 'assets/images/siamese_cat.jpg',
     ),
     PostModel(
