@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../models/post_model.dart';
 
-
+/// Lists of Posts: creates Gridview that will return MyCardForDisplay.
+/// This widget is utilized on the user's profile and liked posts.
 class ListGrid extends StatelessWidget {
   final List<PostModel> post;
 
@@ -26,7 +28,9 @@ class ListGrid extends StatelessWidget {
   }
 }
 
-
+/// MyCardForDisplay will display the cards that occur within the gridview
+/// with an image of the corresponding pet and the ability to go to the
+/// detailed post screen when clicked on.
 class MyCardForDisplay extends StatelessWidget {
   const MyCardForDisplay(this.post, {super.key});
 
@@ -44,11 +48,10 @@ class MyCardForDisplay extends StatelessWidget {
                 padding: const EdgeInsets.all(4),
                 child: Column(
                   children: [
-                  Image.network(
-                  post.petPhotoUrl!,
+                  CachedNetworkImage(
                     fit: BoxFit.cover,
                     width: 160,
-                    height: 160
+                    height: 160, imageUrl: post.petPhotoUrl!,
                     //Image.asset(post.petPhotoUrl!, fit: BoxFit.fill),
                   )
                   ],
@@ -57,6 +60,9 @@ class MyCardForDisplay extends StatelessWidget {
   }
 }
 
+
+/// This detailed screen is temporary, it will be replaced by the
+/// detailed screen that Savannah has created.
 class DetailScreen extends StatelessWidget {
   const DetailScreen({super.key, this.post});
 
@@ -66,8 +72,8 @@ class DetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Widget contentToShow =
-    Image.network(
-        post!.petPhotoUrl!,
+    CachedNetworkImage(
+        imageUrl: post!.petPhotoUrl!,
         fit: BoxFit.cover,
         width: 160,
         height: 160);
@@ -105,10 +111,10 @@ class DetailScreen extends StatelessWidget {
                 children: [
                   Text("Pet Age: ${post!.petAge}"),
                   Text("Pet Gender: ${post!.petGender?.name}"),
-                  Text("Pet Type: ${post!.petType?.name}")
+                  Text("Pet Type: ${post!.petType?.name}"),
                 ],
               ),
-              Text("Post Description: ${post!.postDescription}"),
+            Flexible(child: Text("Post Description: ${post!.postDescription}"),)
       ]
           ),
       )
