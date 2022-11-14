@@ -25,13 +25,42 @@ class ProfilePhotoWidget extends StatelessWidget {
   @override // Overriding build method
   Widget build(BuildContext context) {
     return Center(
-      child: Ink.image( // Creates a widget for displaying an image using Ink Package
-        image: AppData.profileWoman,  // Grabbing photo from photoUrl defined by user model
-        fit: BoxFit.cover,  // Applies box mask to image
-        width: 128, // Setting width/height of the user's profile image
-        height: 128,
-        child: InkWell(onTap: onPressed),  // Allows user to press their profile photo
-      ),
+    child: StreamBuilder<UserModel?>(
+    // Stateful widget updates via a stream:
+        // stream: AppUser.instance.appUserChanges(),
+    // builder is called every time the stream ^ gets an update
+    builder: (BuildContext context, _)  {
+      // the '_' is the data-snapshot returned by the stream, which is
+      // fine to use, but we can also just fetch the same data
+      // directly from AppUser:
+      UserModel? userModel = AppUser.instance.userModel;
+
+      if (userModel != null) {
+        return Image.network(
+          userModel.photoUrl!,
+          fit: BoxFit.cover,
+          width: 128,
+          height: 128,
+          loadingBuilder: (BuildContext context, Widget child,
+              ImageChunkEvent? loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Center(
+              child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                    loadingProgress.expectedTotalBytes!
+                    : null,
+              ),
+            );
+          },
+        );
+      } else {
+        // This means the UI rendered before data was available
+        // which means we should show a loading screen
+        return const Text("Loading or error...");
+      }
+    }
+    ),
     );
   }
 }

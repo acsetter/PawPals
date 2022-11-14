@@ -44,8 +44,13 @@ class MyCardForDisplay extends StatelessWidget {
                 padding: const EdgeInsets.all(4),
                 child: Column(
                   children: [
-                    Text(post.petName!)
+                  Image.network(
+                  post.petPhotoUrl!,
+                    fit: BoxFit.cover,
+                    width: 160,
+                    height: 160
                     //Image.asset(post.petPhotoUrl!, fit: BoxFit.fill),
+                  )
                   ],
                 ),
               )));
@@ -60,13 +65,18 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Widget contentToShow;
+    Widget contentToShow =
+    Image.network(
+        post!.petPhotoUrl!,
+        fit: BoxFit.cover,
+        width: 160,
+        height: 160);
 
     if (post == null) {
       contentToShow = const Text("No posts yet");
     }
     else {
-      contentToShow = const Text("Photo display not yet implemented");
+      contentToShow;
       //Image.asset(post!.petPhotoUrl!);
     }
 
@@ -78,7 +88,9 @@ class DetailScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+            const Divider(),
             contentToShow,
+            const Divider(),
             Column(
               children: [
                 Text(post!.petName!,
