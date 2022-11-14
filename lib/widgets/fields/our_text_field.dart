@@ -16,7 +16,10 @@ class OurTextField extends StatefulWidget {
   final bool hideText;
   final bool? autocorrect;
   final int? maxLength;
+  final int? maxLines;
   final bool showCounter;
+  final TextInputType? keyboard;
+  final List<dynamic>? inputFormatters;
 
   const OurTextField({
     super.key,
@@ -26,8 +29,11 @@ class OurTextField extends StatefulWidget {
     this.icon,
     this.autocorrect,
     this.maxLength,
+    this.maxLines,
     hideText,
-    showCounter
+    showCounter,
+    this.keyboard,
+    this.inputFormatters,
   }): hideText = hideText ?? false,
       showCounter = showCounter ?? false;
 
@@ -84,6 +90,9 @@ class OurTextFieldState extends State<OurTextField> {
           obscureText: _textField.hideText ? !isVisible : false,
           autocorrect: _textField.autocorrect ?? true,
           maxLength: _textField.maxLength,
+          maxLines: _textField.maxLines ?? 1,
+          keyboardType:_textField.keyboard,
+          inputFormatters: const [],
         )
     );
   }

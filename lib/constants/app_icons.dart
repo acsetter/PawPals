@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 class AppIcons {
   const AppIcons._();
 
+  static Icon get addPhoto => const Icon(Icons.add_photo_alternate);
+  static Icon get imageErr => const Icon(Icons.broken_image);
+  static Icon get camera => const Icon(Icons.photo_camera);
   static Icon get email => const Icon(Icons.email);
+  static Icon get gallery => const Icon(Icons.collections);
+  static Icon get image => const Icon(Icons.image);
   static Icon get key => const Icon(Icons.key);
   static Icon get login => const Icon(Icons.login);
   static Icon get password => const Icon(Icons.lock);
@@ -20,6 +25,10 @@ class AppIcons {
   static Icon get visibilityOff => const Icon(Icons.visibility_off);
   static Icon get feed => const Icon(Icons.home);
   static Icon get edit => const Icon(Icons.edit);
+  static Icon get message => const Icon(Icons.message);
+  static Icon get cake => const Icon(Icons.cake);
+
+
 
   static Icon get likedPostsInactive => const Icon(Icons.favorite_border);
   static Icon get likedPostsActive => const Icon(Icons.favorite);

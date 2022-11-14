@@ -1,114 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:paw_pals/constants/app_colors.dart';
+import 'package:paw_pals/constants/app_info.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/models/pref_model.dart';
-
-enum PetTypeOptions { petTypeCat, petTypeDog }
-
-enum PetGenderOptions { petGenderMale, petGenderFemale }
-
-enum PetFriendOptions { petIsKidFriend, petIsPetFriend }
-
-List<PetType>? dataPetTypes = PreferencesModel().petTypes;
-PetGender? dataPetGender = PreferencesModel().petGender;
-bool? dataPetFriend = PreferencesModel().isPetFriendly;
-bool? dataKidFriend = PreferencesModel().isPetFriendly;
-int? dataMinAge = PreferencesModel().minAge;
-int? dataMaxAge = PreferencesModel().maxAge;
-int? dataSearchRadius = PreferencesModel().searchRadius;
-
-List<PetType>? userPetTypePref = isDatabaseNullChecker(dataPetTypes, 0);
-PetGender? userPetGenderPref = isDatabaseNullChecker(dataPetGender, 1);
-bool? userIsPetFriendlyPref = isDatabaseNullChecker(dataPetFriend, 2);
-bool? userIsKidFriendlyPref = isDatabaseNullChecker(dataKidFriend, 3);
-double? userMinAgePref = isDatabaseNullChecker(dataMinAge, 4);
-double? userMaxAgePref = isDatabaseNullChecker(dataMaxAge, 5);
-int? userSearchRadiusPref = isDatabaseNullChecker(dataSearchRadius, 6);
-
-isDatabaseNullChecker(var dataFromDatabase, int type) {
-  if (dataFromDatabase == null) {
-    switch (type) {
-      case 0:
-        return null;
-      case 1:
-        return null;
-      case 2:
-        return null;
-      case 3:
-        return null;
-      case 4:
-        return 0.0;
-      case 5:
-        return 25.0;
-      case 6:
-        return 100;
-      default:
-    }
-  } else {
-    return dataFromDatabase;
-  }
-}
-
-petTypeBoxes(List<PetType>? dataFromDatabse) {
-  var temp;
-  if (dataFromDatabse?.length == 0 ||
-      dataFromDatabse?.length == 2 ||
-      dataFromDatabse == null) {
-    temp = null;
-    return temp;
-  }
-  if (dataFromDatabse[0] == PetType.dog) {
-    temp = PetTypeOptions.petTypeDog;
-    return temp;
-  }
-  if (dataFromDatabse[0] == PetType.cat) {
-    temp = PetTypeOptions.petTypeCat;
-    return temp;
-  }
-}
-
-petGenderBoxes(PetGender? dataFromDatabase) {
-  var temp;
-  if (dataFromDatabase == null) {
-    return temp = null;
-  }
-  if (dataFromDatabase == PetGender.male) {
-    return temp = PetGenderOptions.petGenderMale;
-  }
-  if (dataFromDatabase == PetGender.female) {
-    return temp = PetGenderOptions.petGenderFemale;
-  }
-}
-
-petFriendBoxes(bool? dataFromDatabaseKid, bool? dataFromDatabasePet) {
-  var temp;
-  if (dataFromDatabaseKid == true && dataFromDatabasePet == true) {
-    return temp = null;
-  }
-  if (dataFromDatabaseKid == true && dataFromDatabasePet == false) {
-    return temp = PetFriendOptions.petIsKidFriend;
-  }
-  if (dataFromDatabaseKid == false && dataFromDatabasePet == true) {
-    return temp = PetFriendOptions.petIsPetFriend;
-  }
-}
-
-petAgeRangeStatePreserve(double? dataMinAge, double? dataMaxAge) {
-  List<double?> temp = [];
-  if (dataMinAge == Null && dataMaxAge == Null) {
-    return temp = [0, 25];
-  } else {
-    return temp = [dataMinAge, dataMaxAge];
-  }
-}
-
-petSearchRadiusStatePreserve(int? dataSearchRadius) {
-  if (dataSearchRadius == Null) {
-    return 100;
-  } else {
-    return dataSearchRadius;
-  }
-}
+import 'package:paw_pals/services/firestore_service.dart';
 
 class PreferenceForm extends StatefulWidget {
   const PreferenceForm({super.key});
@@ -118,30 +13,32 @@ class PreferenceForm extends StatefulWidget {
 }
 
 class _PreferenceFormState extends State<PreferenceForm> {
-  PetTypeOptions? _petType;
-  PetGenderOptions? _petGender;
-  PetFriendOptions? _petFriend;
+  PetType? _typeSelection;
+  PetGender? _genderSelection;
+  bool _kidFriendlySelection = false;
+  bool _petFriendlySelection = false;
+  int _minAgeSelection = AppInfo.minPetAge;
+  int _maxAgeSelection = AppInfo.maxPetAge;
+  int _searchRadius = 50;
+
+  @override
+  void initState() {
+    FirestoreService.getPreferences().then((prefModel) {
+      setState(() {
+        _typeSelection = prefModel?.petType ?? _typeSelection;
+        _genderSelection = prefModel?.petGender ?? _genderSelection;
+        _kidFriendlySelection = prefModel?.isKidFriendly ?? _kidFriendlySelection;
+        _petFriendlySelection = prefModel?.isPetFriendly ?? _petFriendlySelection;
+        _minAgeSelection = prefModel?.minAge ?? _minAgeSelection;
+        _maxAgeSelection = prefModel?.maxAge ?? _maxAgeSelection;
+        _searchRadius = prefModel?.searchRadius ?? _searchRadius;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var petTypeCheck = petTypeBoxes(userPetTypePref);
-    _petType = petTypeCheck;
-    var petGenderCheck = petGenderBoxes(userPetGenderPref);
-    _petGender = petGenderCheck;
-    var friendlyCheck =
-        petFriendBoxes(userIsKidFriendlyPref, userIsPetFriendlyPref);
-    _petFriend = friendlyCheck;
-
-    List<double?> petAgeRangeState =
-        petAgeRangeStatePreserve(userMinAgePref, userMaxAgePref);
-    RangeValues currentPetAgeRangeValues =
-        RangeValues(petAgeRangeState[0]!, petAgeRangeState[1]!);
-
-    int? petSearchRadiusState =
-        petSearchRadiusStatePreserve(userSearchRadiusPref);
-    int? maxRadiusLabel = petSearchRadiusState;
-    double currentRadiusValue = petSearchRadiusState!.toDouble();
-
     return Form(
         child: Column(
       children: [
@@ -157,38 +54,42 @@ class _PreferenceFormState extends State<PreferenceForm> {
           children: [
             Row(mainAxisSize: MainAxisSize.min, children: [
               Radio(
-                  activeColor: AppColors.primary,
-                  toggleable: true,
-                  value: PetTypeOptions.petTypeDog,
-                  groupValue: _petType,
-                  onChanged: ((PetTypeOptions? value) {
+                activeColor: AppColors.primary,
+                toggleable: true,
+                value: PetType.dog,
+                groupValue: _typeSelection,
+                onChanged: ((PetType? value) {
+                  if (_typeSelection != null && value == null ) {
+                    // unselect PetType preference
                     setState(() {
-                      _petType = value;
-                      if (value == null) {
-                        userPetTypePref = null;
-                      } else {
-                        userPetTypePref = [PetType.dog];
-                      }
-                      print(value);
+                      _typeSelection = null;
                     });
-                  })),
+                  } else if (value != null) {
+                    setState(() {
+                      _typeSelection = value;
+                    });
+                  }
+                }),
+              ),
               const Text("Dog"),
               Radio(
-                  activeColor: AppColors.primary,
-                  toggleable: true,
-                  value: PetTypeOptions.petTypeCat,
-                  groupValue: _petType,
-                  onChanged: ((PetTypeOptions? value) {
+                activeColor: AppColors.primary,
+                toggleable: true,
+                value: PetType.cat,
+                groupValue: _typeSelection,
+                onChanged: ((PetType? value) {
+                  if (_typeSelection != null && value == null ) {
+                    // unselect PetType preference
                     setState(() {
-                      _petType = value;
-                      if (value == null) {
-                        userPetTypePref = null;
-                      } else {
-                        userPetTypePref = [PetType.cat];
-                      }
-                      print(value);
+                      _typeSelection = null;
                     });
-                  })),
+                  } else if (value != null) {
+                    setState(() {
+                      _typeSelection = value;
+                    });
+                  }
+                }),
+              ),
               const Text("Cat"),
             ]),
           ],
@@ -202,38 +103,42 @@ class _PreferenceFormState extends State<PreferenceForm> {
           children: [
             Row(mainAxisSize: MainAxisSize.min, children: [
               Radio(
-                  activeColor: AppColors.primary,
-                  toggleable: true,
-                  value: PetGenderOptions.petGenderMale,
-                  groupValue: _petGender,
-                  onChanged: ((PetGenderOptions? value) {
+                activeColor: AppColors.primary,
+                toggleable: true,
+                value: PetGender.male,
+                groupValue: _genderSelection,
+                onChanged: ((PetGender? value) {
+                  if (_genderSelection != null && value == null ) {
+                    // unselect PetGender preference
                     setState(() {
-                      _petGender = value;
-                      if (value == null) {
-                        userPetGenderPref = null;
-                      } else {
-                        userPetGenderPref = PetGender.male;
-                      }
-                      print(value);
+                      _genderSelection = null;
                     });
-                  })),
+                  } else if (value != null) {
+                    setState(() {
+                      _genderSelection = value;
+                    });
+                  }
+                }),
+              ),
               const Text("Male"),
               Radio(
-                  activeColor: AppColors.primary,
-                  toggleable: true,
-                  value: PetGenderOptions.petGenderFemale,
-                  groupValue: _petGender,
-                  onChanged: ((PetGenderOptions? value) {
+                activeColor: AppColors.primary,
+                toggleable: true,
+                value: PetGender.female,
+                groupValue: _genderSelection,
+                onChanged: ((PetGender? value) {
+                  if (_genderSelection != null && value == null ) {
+                    // unselect PetGender preference
                     setState(() {
-                      _petGender = value;
-                      if (value == null) {
-                        userPetGenderPref = null;
-                      } else {
-                        userPetGenderPref = PetGender.female;
-                      }
-                      print(value);
+                      _genderSelection = null;
                     });
-                  })),
+                  } else if (value != null) {
+                    setState(() {
+                      _genderSelection = value;
+                    });
+                  }
+                }),
+              ),
               const Text("Female"),
             ]),
           ],
@@ -247,43 +152,27 @@ class _PreferenceFormState extends State<PreferenceForm> {
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             Row(mainAxisSize: MainAxisSize.min, children: [
-              Radio(
-                  activeColor: AppColors.primary,
-                  toggleable: true,
-                  value: PetFriendOptions.petIsKidFriend,
-                  groupValue: _petFriend,
-                  onChanged: ((PetFriendOptions? value) {
+              Checkbox(
+                value: _kidFriendlySelection,
+                onChanged: (val) {
+                  if (val != null) {
                     setState(() {
-                      _petFriend = value;
-                      if (value == null) {
-                        userIsPetFriendlyPref = null;
-                        userIsKidFriendlyPref = null;
-                      } else {
-                        userIsKidFriendlyPref = true;
-                        userIsPetFriendlyPref = false;
-                      }
-                      print(value);
+                      _kidFriendlySelection = val;
                     });
-                  })),
+                  }
+                },
+              ),
               const Text("Kid Friendly"),
-              Radio(
-                  activeColor: AppColors.primary,
-                  toggleable: true,
-                  value: PetFriendOptions.petIsPetFriend,
-                  groupValue: _petFriend,
-                  onChanged: ((PetFriendOptions? value) {
+              Checkbox(
+                value: _petFriendlySelection,
+                onChanged: (val) {
+                  if (val != null) {
                     setState(() {
-                      _petFriend = value;
-                      if (value == null) {
-                        userIsPetFriendlyPref = null;
-                        userIsKidFriendlyPref = null;
-                      } else {
-                        userIsKidFriendlyPref = false;
-                        userIsPetFriendlyPref = true;
-                      }
-                      print(value);
+                      _petFriendlySelection = val;
                     });
-                  })),
+                  }
+                }
+              ),
               const Text("Pet Friendly"),
             ]),
           ],
@@ -294,21 +183,20 @@ class _PreferenceFormState extends State<PreferenceForm> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("${userMinAgePref?.toInt()}"),
+            Text("$_minAgeSelection"),
             RangeSlider(
-              values: currentPetAgeRangeValues,
-              max: 25,
-              min: 0,
-              divisions: 25,
+              values: RangeValues(_minAgeSelection.toDouble(), _maxAgeSelection.toDouble()),
+              max: AppInfo.maxPetAge.toDouble(),
+              min: AppInfo.minPetAge.toDouble(),
+              divisions: AppInfo.maxPetAge - AppInfo.minPetAge,
               onChanged: (RangeValues values) {
                 setState(() {
-                  currentPetAgeRangeValues = values;
-                  userMinAgePref = currentPetAgeRangeValues.start;
-                  userMaxAgePref = currentPetAgeRangeValues.end;
+                  _minAgeSelection = values.start.toInt();
+                  _maxAgeSelection = values.end.toInt();
                 });
               },
             ),
-            Text("${userMaxAgePref?.toInt()}")
+            Text("$_maxAgeSelection")
           ],
         ),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
@@ -319,20 +207,17 @@ class _PreferenceFormState extends State<PreferenceForm> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Slider(
-              value: currentRadiusValue,
-              max: 100,
-              min: 5,
-              divisions: 100,
+              value: _searchRadius.toDouble(),
+              max: AppInfo.maxSearchRadius.toDouble(),
+              min: AppInfo.minSearchRadius.toDouble(),
+              divisions: AppInfo.maxSearchRadius - AppInfo.minSearchRadius,
               onChanged: (value) {
                 setState(() {
-                  currentRadiusValue = value;
-                  // minRange = currentRadiusValues.start.toInt();
-                  maxRadiusLabel = currentRadiusValue.toInt();
-                  userSearchRadiusPref = currentRadiusValue.toInt();
+                  _searchRadius = value.toInt();
                 });
               },
             ),
-            Text("$maxRadiusLabel mi")
+            Text("$_searchRadius mi")
           ],
         ),
         Row(
@@ -343,15 +228,19 @@ class _PreferenceFormState extends State<PreferenceForm> {
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary),
                 onPressed: () {
-                  print(
-                      // null will mean no preferance to the database
-                      "Pet Type Pref: $userPetTypePref\n"
-                      "Pet Gender Pref: $userPetGenderPref\n"
-                      "Is Kid Friendly: $userIsKidFriendlyPref\n"
-                      "Is Pet Friendly: $userIsPetFriendlyPref\n"
-                      "Pet Min Age Pref: ${userMinAgePref?.toInt()}\n"
-                      "Pet Max Age Pref: ${userMaxAgePref?.toInt()}\n"
-                      "Search Radius Pref: $userSearchRadiusPref\n");
+                  FirestoreService.updatePreferences(
+                    PreferencesModel(
+                      petType: _typeSelection,
+                      petGender: _genderSelection,
+                      minAge: _minAgeSelection,
+                      maxAge: _maxAgeSelection,
+                      searchRadius: _searchRadius,
+                      isPetFriendly: _petFriendlySelection,
+                      isKidFriendly: _kidFriendlySelection
+                    )
+                  ).then((val) {
+                    //TODO: Handle feed refresh when preferences update.
+                  });
                   //Where data will be sent to database maybe
                 },
                 child: Text("Save"))

@@ -1,34 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:paw_pals/controllers/app_user.dart';
+import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
-import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
-import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
+
+import '../../widgets/list_of_posts.dart';
 
 /// This is an example of a simple screen that extends a [StatelessWidget]
 /// Yes, technically the screen is a widget, but it's best to treat it like
 /// a place to organize widgets.
 class LikedPostScreen extends StatelessWidget {
-  final String screenTitle = "Liked Posts";
-  final String exampleText = "Liked Posts Screen";
-  final String buttonLabel = "Next Screen";
-
-  // This is the constructor. All widgets should have a Key key as optional
-  // parameter in their constructor. Key is something used by flutter engine
-  // at the step of recognizing which widget in a list as changed.
   const LikedPostScreen({super.key});
 
-  // You must call @override on the build method
   @override
   Widget build(BuildContext context) {
-    // Every screen will use a scaffold as the outer-most widget.
     return Scaffold(
-      appBar: OurAppBar.build(screenTitle),
-      body: FormWrapper(
-        children: [
-          FieldWrapper(
-            child: Text(exampleText, textAlign: TextAlign.center),
-          )
-        ],
-      )
+      appBar: OurAppBar.build("Liked Posts"),
+      body: StreamBuilder<List<PostModel>?>(
+        stream: AppUser.instance.likedPostsStream(),
+        builder: (BuildContext context, snapshot) {
+          List<PostModel> postModels = AppUser.instance.likedPosts ?? [];
+
+          // TODO: Feed postModel List to post list widget.
+
+          return Column(
+            children:[
+              ListGrid(post: postModels),
+          ]
+          );
+
+        },
+      ),
     );
   }
 }
