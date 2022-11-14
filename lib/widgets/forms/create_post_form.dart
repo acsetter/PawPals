@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:paw_pals/controllers/file_controller.dart';
 
 import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/constants/app_colors.dart';
@@ -9,6 +10,7 @@ import 'package:paw_pals/constants/app_info.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/screens/profile/profile_screen.dart';
+import 'package:paw_pals/widgets/app_image.dart';
 import 'package:paw_pals/widgets/buttons/contained_button.dart';
 import 'package:paw_pals/widgets/fields/our_text_field.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
@@ -26,6 +28,7 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
   final TextEditingController petNameController = TextEditingController();
   final TextEditingController petAgeController = TextEditingController();
   final TextEditingController postDescriptionController = TextEditingController();
+  final FileController fileController = FileController();
 
 
   PetType? _typeSelection;
@@ -48,6 +51,10 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            AppImage(
+              controller: fileController,
+              shape: BoxShape.rectangle,
+            ),
             OurTextField(
               controller: petNameController,
               labelText: "Pet Name",
@@ -219,7 +226,9 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
                         // selects a gender and type, if not a snackbar is shown throwing the user an error
                         if (_formKey.currentState!.validate()
                             && _genderSelection != null
-                            && _typeSelection != null) {
+                            && _typeSelection != null
+                            && fileController.value != null
+                        ) {
                           FirestoreService.createPost(
                               PostModel(
                             petName: petNameController.text.trim(),
@@ -229,7 +238,7 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
                             isKidFriendly: _kidFriendlySelection,
                             isPetFriendly: _petFriendlySelection,
                             postDescription: postDescriptionController.text.trim(),
-                              )).then((didComplete) {
+                              ), fileController.value!).then((didComplete) {
                               if (didComplete) {
                                 Get.offAll(const ProfileScreen()); // Goes back to profile screen
                               } else { // Tells the user that an error occurred

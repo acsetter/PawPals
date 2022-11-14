@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:paw_pals/constants/app_data.dart';
 import 'package:paw_pals/services/firestore_service.dart';
-import 'package:paw_pals/widgets/image_selector.dart';
-import '../../constants/app_icons.dart';
-import '../../constants/app_info.dart';
-import '../../controllers/app_user.dart';
-import '../../controllers/file_controller.dart';
-import '../../models/user_model.dart';
-import '../buttons/contained_button.dart';
-import '../fields/our_text_field.dart';
-import '../forms/_form_validation.dart';
-import '../wrappers/field_wrapper.dart';
+import 'package:paw_pals/widgets/app_image.dart';
+import 'package:paw_pals/constants/app_icons.dart';
+import 'package:paw_pals/constants/app_info.dart';
+import 'package:paw_pals/controllers/app_user.dart';
+import 'package:paw_pals/controllers/file_controller.dart';
+import 'package:paw_pals/models/user_model.dart';
+import 'package:paw_pals/widgets/buttons/contained_button.dart';
+import 'package:paw_pals/widgets/fields/our_text_field.dart';
+import 'package:paw_pals/widgets/forms/_form_validation.dart';
+import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 
 
 /// The EditProfile widget CURRENTLY allows the user to change their first and
@@ -59,15 +60,14 @@ class EditProfileState extends State<EditProfile> with FormValidation {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      onChanged: () {
-        // may be useful for validation
-      },
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ImageSelector(
+            AppImage(
+              imageUrl: _userModel?.photoUrl,
               controller: fileController,
-              initialUrl: _userModel?.photoUrl,
+              defaultImage: AppData.defaultProfile,
+              shape: BoxShape.circle,
             ),
             OurTextField(
               labelText: translate("field-labels.first-name"),
