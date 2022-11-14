@@ -59,6 +59,8 @@ class AppData {
       petAge: 7,
       petGender: PetGender.male,
       petPhotoUrl: 'assets/images/tabby_cat.jpg',
+      latitude: 34.2259,
+      longitude: -77.8734
     ),
     PostModel(
       postId: "2",
@@ -69,6 +71,8 @@ class AppData {
       petAge: 5,
       petGender: PetGender.female,
       petPhotoUrl: 'assets/images/corgi.jpg',
+      latitude: 34.2312,
+      longitude: -77.8826
     ),
     PostModel(
       postId: "3",
@@ -79,6 +83,8 @@ class AppData {
       petAge: 4,
       petGender: PetGender.female,
       petPhotoUrl: 'assets/images/english_bulldog.jpg',
+      latitude: 34.2341,
+      longitude: -77.9442
     ),
     PostModel(
       postId: "4",
@@ -89,6 +95,8 @@ class AppData {
       petAge: 9,
       petGender: PetGender.male,
       petPhotoUrl: 'assets/images/siamese_cat.jpg',
+      latitude: 34.2267,
+      longitude: -78.0377
     ),
     PostModel(
       postId: "5",
@@ -97,6 +105,8 @@ class AppData {
       petName: "You're Out of Pets!",
       petAge: 0,
       petPhotoUrl: 'assets/images/profile_man.jpg',
+      latitude: 35.0414,
+      longitude: -78.8713
     ),
     PostModel(
       postId: "6",
@@ -105,6 +115,8 @@ class AppData {
       petName: "null",
       petAge: 0,
       petPhotoUrl: 'assets/images/profile_man.jpg',
+      latitude: 33.9071,
+      longitude: -78.0284
     ),
   ];
 
