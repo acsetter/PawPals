@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:paw_pals/controllers/app_user.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
+import '../../models/user_model.dart';
 import '../../widgets/profile/edit_profile_widget.dart';
 
 
 class EditProfileScreen extends StatelessWidget {
-  final String screenTitle = "Edit Profile";
   final String exampleText = "The Edit Profile Screen.";
   final String buttonLabel = "Save Changes";
 
@@ -21,10 +22,21 @@ class EditProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Edit Profile"),
       ),
-      body: SingleChildScrollView(
-          child: FormWrapper(
-            children: [EditProfile()],
-          )
+      body: StreamBuilder(
+        stream: AppUser.instance.appUserChanges(),
+        builder: (context, snapshot) {
+          if (AppUser.instance.userModel != null) {
+            UserModel? userModel = AppUser.instance.userModel;
+
+            return SingleChildScrollView(
+                child: FormWrapper(
+                  children: [EditProfile(userModel: userModel)],
+                )
+            );
+          }
+
+          return const Center(child: CircularProgressIndicator());
+        },
       ),
     );
   }
