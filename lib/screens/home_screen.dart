@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:location/location.dart';
 
 import 'package:paw_pals/constants/app_icons.dart';
-import 'package:paw_pals/screens/dashboard/dashboard_screen.dart';
 import 'package:paw_pals/screens/profile/profile_screen.dart';
 import 'package:paw_pals/screens/post/create_post_screen.dart';
 import 'package:paw_pals/screens/post/liked_post_screen.dart';
@@ -45,15 +44,6 @@ class HomeScreenState extends State<HomeScreen> {
                 },
                 label: "Login Screen",
                 icon: AppIcons.login,
-              ),
-            ),
-            FieldWrapper(
-              child: OurOutlinedButton(
-                onPressed: () {
-                  Get.to(() => const DashboardScreen());
-                },
-                label: "Dashboard (temp)",
-                icon: AppIcons.paw,
               ),
             ),
             FieldWrapper(

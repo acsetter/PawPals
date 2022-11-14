@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:paw_pals/constants/app_data.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/pref_model.dart';
@@ -78,33 +77,6 @@ class TempUserScreen extends StatelessWidget {
                   onPressed: () {
                     AuthService.signOut().then((value) =>
                         Get.offAll(const LoginScreen()));
-                  },
-                ),
-              ),
-              FieldWrapper(
-                child: OurOutlinedButton(
-                  label: "Generate posts",
-                  onPressed: () {
-                    FirestoreService.createPost(
-                        AppData.feedPost1
-                    );
-                    FirestoreService.createPost(
-                        AppData.feedPost2
-                    );
-                    FirestoreService.createPost(
-                        AppData.feedPost3
-                    );
-                    FirestoreService.createPost(
-                        AppData.feedPost4
-                    );
-                  },
-                ),
-              ),
-              FieldWrapper(
-                child: OurOutlinedButton(
-                  label: "Like Post",
-                  onPressed: () {
-                    FirestoreService.updateUser(AppUser.instance.userModel!.copyWith(likedPosts: ["2zCvCx8e29t3Me37BFMm"]));
                   },
                 ),
               ),

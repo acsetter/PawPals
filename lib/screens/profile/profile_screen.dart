@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
         body: StreamBuilder<List<PostModel>?>(
         stream: AppUser.instance.userPostsStream(),
         builder: (BuildContext context, snapshot) {
-    List<PostModel> postModels = AppUser.instance.userPosts ?? [];
+          List<PostModel> postModels = AppUser.instance.userPosts ?? [];
 
         return CustomScrollView(
             scrollDirection: Axis.vertical,

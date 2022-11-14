@@ -8,6 +8,7 @@ class AppData {
   const AppData._();
 
   static AssetImage get logo => const AssetImage('assets/images/logo.png');
+  static AssetImage get defaultProfile => const AssetImage('assets/images/default_profile.png');
 
   static AssetImage get corgi => const AssetImage('assets/images/corgi.jpg');
   static AssetImage get englishBulldog => const AssetImage('assets/images/english_bulldog.jpg');
