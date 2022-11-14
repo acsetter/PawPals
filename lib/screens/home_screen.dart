@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/screens/profile/profile_screen.dart';
 import 'package:paw_pals/screens/post/create_post_screen.dart';
