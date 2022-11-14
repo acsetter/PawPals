@@ -10,6 +10,7 @@ class DetailedPost extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
+
     return Scaffold(
 
         body: Container(
@@ -59,7 +60,7 @@ class DetailedPost extends StatelessWidget{
 
                   Container(
                     margin: const EdgeInsets.only(left: 15),
-                    child: Text('${post.petAge}, ${post.petGender}, Wilmington',
+                    child: Text('${post.petAge}, ${post.petGender?.name}, Wilmington',
                       style: const TextStyle(fontFamily: "Proxima-Nova-Bold",
                         fontSize: 25, color: Colors.black, fontWeight: FontWeight.w400
                       ),
