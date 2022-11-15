@@ -249,7 +249,10 @@ class _PreferenceFormState extends State<PreferenceForm> {
                     // the list of posts and returns the new list
                     LocationService.updatePostListWithSearchRadius(
                         oldPostModelList: AppData.post,
-                        userPreferenceModel: FirestoreService.getPreferences());    
+                        userPreferenceModel: FirestoreService.getPreferences()); 
+                        setState(() {
+                          
+                        }); 
                   });
                   //Where data will be sent to database maybe
                 },

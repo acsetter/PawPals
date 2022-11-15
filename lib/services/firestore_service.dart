@@ -345,15 +345,15 @@ class FirestoreService {
   /// constraints specified by the expected [PreferencesModel]. Note: due to
   /// Firestore limitations, search radius cannot be queried and must be
   /// filtered client side.
-  static Future<List<PostModel>?> getFeedPosts(PreferencesModel prefModel) async {
+  static Future<List<PostModel>?> getFeedPosts(PreferencesModel? prefModel) async {
     return await _posts
       // .where("uid", isNotEqualTo: _uid)
-      .where("isKidFriendly", isEqualTo: prefModel.isKidFriendly)
-      .where("isPetFriendly", isEqualTo: prefModel.isPetFriendly)
-      .where("petAge", isGreaterThanOrEqualTo: prefModel.minAge ?? AppInfo.minPetAge)
-      .where("petAge", isLessThanOrEqualTo: prefModel.maxAge ?? AppInfo.maxPetAge)
-      .where("petGender", isEqualTo: prefModel.petGender?.name)
-      .where("petType", isEqualTo: prefModel.petType?.name)
+      .where("isKidFriendly", isEqualTo: prefModel?.isKidFriendly)
+      .where("isPetFriendly", isEqualTo: prefModel?.isPetFriendly)
+      .where("petAge", isGreaterThanOrEqualTo: prefModel?.minAge ?? AppInfo.minPetAge)
+      .where("petAge", isLessThanOrEqualTo: prefModel?.maxAge ?? AppInfo.maxPetAge)
+      .where("petGender", isEqualTo: prefModel?.petGender?.name)
+      .where("petType", isEqualTo: prefModel?.petType?.name)
       .withConverter(
         fromFirestore: PostModel.fromFirestore,
         toFirestore: (snapshot, _) => snapshot.toFirestore())
