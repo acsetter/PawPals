@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/post_model.dart';
+import 'Post/DetailedPost.dart';
 
 
 class ListGrid extends StatelessWidget {
@@ -37,7 +38,7 @@ class MyCardForDisplay extends StatelessWidget {
     return
       GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailScreen(post: post),));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailedPost(post: post),));
           },
           child: Card(
               child: Padding(

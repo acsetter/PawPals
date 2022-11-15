@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import '../../models/post_model.dart';
 
 class DetailedPost extends StatelessWidget{
-  final PostModel post;
+  final PostModel? post;
 
   const DetailedPost({super.key, required this.post});
 
 
   @override
   Widget build(BuildContext context) {
+
+    if(post?.isPetFriendly == null){
+
+
+    }
 
 
     return Scaffold(
@@ -26,12 +31,12 @@ class DetailedPost extends StatelessWidget{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height*0.40,
+                    height: MediaQuery.of(context).size.width,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage(post.petPhotoUrl!)
+                            fit: BoxFit.cover,
+                            image: NetworkImage(post!.petPhotoUrl!)
                         )
                     ),
                   ),
@@ -46,7 +51,7 @@ class DetailedPost extends StatelessWidget{
 
                       Container(
                         margin: const EdgeInsets.only(left:15),
-                        child: Text('${post.petName}',
+                        child: Text('${post?.petName}',
                           style: const TextStyle(fontFamily: "Proxima-Nova-Bold",
                             fontSize: 30, color: Colors.black, fontWeight: FontWeight.w400
                           ),),
@@ -60,7 +65,7 @@ class DetailedPost extends StatelessWidget{
 
                   Container(
                     margin: const EdgeInsets.only(left: 15),
-                    child: Text('${post.petAge}, ${post.petGender?.name}, Wilmington',
+                    child: Text('${post?.petAge}, ${post?.petGender?.name}, Wilmington',
                       style: const TextStyle(fontFamily: "Proxima-Nova-Bold",
                         fontSize: 25, color: Colors.black, fontWeight: FontWeight.w400
                       ),
@@ -85,7 +90,7 @@ class DetailedPost extends StatelessWidget{
                   Container(
                     margin: const EdgeInsets.only(left: 15),
                     width: MediaQuery.of(context).size.width*0.85,
-                    child: Text('${post.postDescription}', style: const TextStyle(fontFamily: "ProximaNova-Regular",
+                    child: Text('${post?.postDescription}', style: const TextStyle(fontFamily: "ProximaNova-Regular",
                         fontSize: 15, color: Colors.black, fontWeight: FontWeight.w300
                     ),),
                   ),
@@ -105,14 +110,28 @@ class DetailedPost extends StatelessWidget{
                             height: 30,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15.0),
-                                color: const Color(0xFF7FE9F6).withOpacity(0.25)
+                                color: const Color(0xFF00C853).withOpacity(0.25)
                             ),
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6 ),
-                              child: Text('${post.isPetFriendly}',
-                                style: const TextStyle(fontFamily: "ProximaNova-Regular",
-                                  fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400
-                              ),),
+                              child:LayoutBuilder(builder: (context, constraints) {
+                                if(post?.isPetFriendly == true){
+                                  return const Text('Pet Friendly',
+                                    style: TextStyle(fontFamily: "ProximaNova-Regular",
+                                        fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400
+                                    ),);
+                                }else{
+                                  return Container(
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      color: const Color(0xFFFF3D00).withOpacity(0.25)),
+                                      child: const Text('Not Pet Friendly',
+                                    style: TextStyle(fontFamily: "ProximaNova-Regular",
+                                        fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400
+                                    ),));
+                                }
+                              })
                             )
                         ),
                         const SizedBox(
@@ -126,9 +145,24 @@ class DetailedPost extends StatelessWidget{
                             ),
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6),
-                              child: Text('${post.isKidFriendly}', style: const TextStyle(fontFamily: "ProximaNova-Regular",
-                                  fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400
-                              ),),
+                                child:LayoutBuilder(builder: (context, constraints) {
+                                  if(post?.isKidFriendly == true){
+                                    return const Text('Kid Friendly',
+                                      style: TextStyle(fontFamily: "ProximaNova-Regular",
+                                          fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400
+                                      ),);
+                                  }else{
+                                    return Container(
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(15.0),
+                                            color: const Color(0xFF00C853).withOpacity(0.25)
+                                        ),child: const Text('Not Kid Friendly',
+                                      style: TextStyle(fontFamily: "ProximaNova-Regular",
+                                          fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400
+                                      ),));
+                                  }
+                                })
                             )
                         ),
                       ],
