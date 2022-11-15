@@ -98,6 +98,7 @@ class HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   // returns a OurLocation model won't see anything from it
                   LocationService.getLocation();
+                  
                   // currently checks distance from user to dummy data posts
                   // and returns that new list of posts
                   // currently prints information to console
