@@ -10,12 +10,6 @@ class DetailedPost extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    if(post?.isPetFriendly == null){
-
-
-    }
-
-
     return Scaffold(
 
 
