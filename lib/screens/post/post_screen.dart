@@ -20,7 +20,10 @@ class PostScreen extends StatelessWidget {
       // The bar that goes across the top of the screen:
         appBar: OurAppBar.build(screenTitle),
         // The main body of the Screen:
-        body: DetailedPost(post:post),
+        body:
+             DetailedPost(post:post),
+
+
 
           //children: [
             //FieldWrapper(
