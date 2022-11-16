@@ -8,7 +8,6 @@ import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/screens/profile/profile_screen.dart';
 import 'package:paw_pals/screens/post/create_post_screen.dart';
 import 'package:paw_pals/screens/post/liked_post_screen.dart';
-import 'package:paw_pals/screens/post/post_screen.dart';
 import 'package:paw_pals/screens/temp_user_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/services/location_services.dart';
@@ -71,16 +70,6 @@ class HomeScreenState extends State<HomeScreen> {
                   Get.to(() => const LikedPostScreen());
                 },
                 label: "Liked Posts",
-              ),
-            ),
-            FieldWrapper(
-              child: OurOutlinedButton(
-                onPressed: () {
-                  Get.to(() => const PostScreen());
-                  // The new navigation required for the NavBar
-                  // navigate(context, Temp_Home_Screen_Navigators.route_post_screen, isRootNavigator: false);
-                },
-                label: "Post Example",
               ),
             ),
             FieldWrapper(

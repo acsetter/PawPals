@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../models/post_model.dart';
+import 'Post/DetailedPost.dart';
 
 /// Lists of Posts: creates Gridview that will return MyCardForDisplay.
 /// This widget is utilized on the user's profile and liked posts.
@@ -41,7 +42,7 @@ class MyCardForDisplay extends StatelessWidget {
     return
       GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailScreen(post: post),));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailedPost(post: post),));
           },
           child: Card(
               child: Padding(
