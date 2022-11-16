@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:paw_pals/Blocks/swipe_block.dart';
+import 'package:paw_pals/screens/post/liked_post_screen.dart';
+import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/widgets/screencards.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/utils/app_log.dart';
@@ -8,14 +11,26 @@ import 'package:paw_pals/utils/app_log.dart';
 import '../../widgets/bars/our_app_bar_pref.dart';
 
 
-class FeedScreen extends StatelessWidget {
-  final String screenTitle = "Feed Screen";
+class FeedScreen extends StatefulWidget {
 
   const FeedScreen({super.key});
 
   @override
+  State<FeedScreen> createState() => _FeedScreenState();
+}
+
+class _FeedScreenState extends State<FeedScreen> {
+  final String screenTitle = "Feed Screen";
+
+
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return 
+    StreamBuilder(
+      stream: FirestoreService.prefModelStream,
+      builder: (context, snapshot) => 
+    Scaffold(
       appBar: OurAppBarPref.build(screenTitle, context),
         body: BlocBuilder<SwipeBlock, SwipeState>(
           builder: (context, state) {
@@ -46,68 +61,7 @@ class FeedScreen extends StatelessWidget {
                     }
                     else if (drag.velocity.pixelsPerSecond.dx > 500 && state.posts.length > 2) {
                       showFloatingRightSnackBar(context);
-                      showDialog(context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('${state.posts[0].petName}'),
-                            content: Text('${state.posts[0].postDescription}'),
-                            shape: RoundedRectangleBorder(
-                              side: const BorderSide(color: Colors.green),
-                              borderRadius: BorderRadius.circular(10)
-                              ),
-                            actions: [
-                              TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  style: ButtonStyle(
-                                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                                    backgroundColor: MaterialStateProperty.all(Colors.red),
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        side: const BorderSide(color: Colors.red),
-                                        borderRadius: BorderRadius.circular(20)
-                                      )
-                                      ),
-
-                                    ),
-                                  child: const Text('Go\nBack'),
-                                  ),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                style: ButtonStyle(
-                                  foregroundColor: MaterialStateProperty.all(Colors.white),
-                                  backgroundColor: MaterialStateProperty.all(Colors.purpleAccent),
-                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                          side: const BorderSide(color: Colors.purpleAccent),
-                                          borderRadius: BorderRadius.circular(20)
-                                      )
-                                  ),
-
-                                ),
-                                child: const Text('See\nProfile'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  context.read<SwipeBlock>().add(
-                                      SwipeRight(post: state.posts[0]));
-                                },
-                                style: ButtonStyle(
-                                  foregroundColor: MaterialStateProperty.all(Colors.white),
-                                  backgroundColor: MaterialStateProperty.all(Colors.green),
-
-                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                  side: const BorderSide(color: Colors.green),
-                                  borderRadius: BorderRadius.circular(20),
-                                  )
-                                ),
-                              ),
-                                child: const Text('To\nLiked Posts!'),
-
-
-                              )],
-                          ));
-                        ;
+                  context.read<SwipeBlock>().add(SwipeRight(post: state.posts[0]));
                     } else {
                         Logger.log('Stay');
                     }
@@ -120,23 +74,40 @@ class FeedScreen extends StatelessWidget {
             else { return const Text('Something Went Wrong');
           }
         }
-      ),
+      ),)
     );
   }
-  void showFloatingRightSnackBar(BuildContext context){
-    const snackBar = SnackBar(
-      content: Text(
-        "Like",
-        style: TextStyle(fontSize: 24),
-        textAlign: TextAlign.center,
-      ),
-      backgroundColor: Colors.greenAccent,
-      duration: Duration(milliseconds: 300),
-      shape: StadiumBorder(),
 
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
+  void showFloatingRightSnackBar(BuildContext context) {
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Row(
+        children: const <Widget>[
+          Icon(
+              Icons.favorite_outline
+          ),
+          Text(
+            "    Like!",
+            style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+        ]
+    ),
+    backgroundColor: Colors.green,
+    duration: const Duration(seconds: 1),
+    shape: const StadiumBorder(),
+    action: SnackBarAction(
+      label: "Go To Liked Posts!",
+      textColor: Colors.yellowAccent,
+      onPressed: () {
+        Get.to(() => const LikedPostScreen());
+      },
+    ),
+  ),
+  );
+}
 
   void showFloatingLeftSnackBar(BuildContext context){
     const snackBar = SnackBar(
@@ -151,6 +122,7 @@ class FeedScreen extends StatelessWidget {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
   void showFloatingEndSnackBar(BuildContext context){
     const snackBar = SnackBar(
       content: Text(
