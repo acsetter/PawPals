@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+
+import 'package:paw_pals/constants/app_data.dart';
+
 import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/screens/profile/profile_screen.dart';
 import 'package:paw_pals/screens/post/create_post_screen.dart';
 import 'package:paw_pals/screens/post/liked_post_screen.dart';
 import 'package:paw_pals/screens/temp_user_screen.dart';
+import 'package:paw_pals/services/firestore_service.dart';
+import 'package:paw_pals/services/location_services.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
@@ -31,8 +37,7 @@ class HomeScreenState extends State<HomeScreen> {
           children: [
             FieldWrapper(
                 child: Text("Our Screens:",
-                    style: Theme.of(context).textTheme.headline3)
-            ),
+                    style: Theme.of(context).textTheme.headline3)),
             FieldWrapper(
               child: OurOutlinedButton(
                 onPressed: () {
@@ -75,6 +80,34 @@ class HomeScreenState extends State<HomeScreen> {
                   // navigate(context, Temp_Home_Screen_Navigators.route_feed_screeen, isRootNavigator: false);
                 },
                 label: "Feed Example",
+              ),
+            ),
+            FieldWrapper(
+              child: OurOutlinedButton(
+                onPressed: () {
+                  // returns a OurLocation model won't see anything from it
+                  LocationService.getLocation();
+                  
+                  // currently checks distance from user to dummy data posts
+                  // and returns that new list of posts
+                  // currently prints information to console
+                  LocationService.updatePostListWithSearchRadius(
+                        oldPostModelList: AppData.post,
+                        userPreferenceModel: FirestoreService.getPreferences());
+                },
+                label: "Get Location",
+                icon: Icon(Icons.location_on_outlined),
+              ),
+            ),
+            FieldWrapper(
+              child: OurOutlinedButton(
+                onPressed: () {
+                  // this was a interesting capability didn't know if we wanted
+                  // to use it
+                  Geolocator.openLocationSettings();
+                },
+                label: "Go to Location Settings",
+                icon: Icon(Icons.location_searching),
               ),
             ),
           ],

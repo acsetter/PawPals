@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:paw_pals/constants/app_colors.dart';
+import 'package:paw_pals/constants/app_data.dart';
 import 'package:paw_pals/constants/app_info.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/models/pref_model.dart';
 import 'package:paw_pals/services/firestore_service.dart';
+import 'package:paw_pals/services/location_services.dart';
 
 class PreferenceForm extends StatefulWidget {
   const PreferenceForm({super.key});
@@ -27,8 +30,10 @@ class _PreferenceFormState extends State<PreferenceForm> {
       setState(() {
         _typeSelection = prefModel?.petType ?? _typeSelection;
         _genderSelection = prefModel?.petGender ?? _genderSelection;
-        _kidFriendlySelection = prefModel?.isKidFriendly ?? _kidFriendlySelection;
-        _petFriendlySelection = prefModel?.isPetFriendly ?? _petFriendlySelection;
+        _kidFriendlySelection =
+            prefModel?.isKidFriendly ?? _kidFriendlySelection;
+        _petFriendlySelection =
+            prefModel?.isPetFriendly ?? _petFriendlySelection;
         _minAgeSelection = prefModel?.minAge ?? _minAgeSelection;
         _maxAgeSelection = prefModel?.maxAge ?? _maxAgeSelection;
         _searchRadius = prefModel?.searchRadius ?? _searchRadius;
@@ -59,7 +64,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
                 value: PetType.dog,
                 groupValue: _typeSelection,
                 onChanged: ((PetType? value) {
-                  if (_typeSelection != null && value == null ) {
+                  if (_typeSelection != null && value == null) {
                     // unselect PetType preference
                     setState(() {
                       _typeSelection = null;
@@ -78,7 +83,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
                 value: PetType.cat,
                 groupValue: _typeSelection,
                 onChanged: ((PetType? value) {
-                  if (_typeSelection != null && value == null ) {
+                  if (_typeSelection != null && value == null) {
                     // unselect PetType preference
                     setState(() {
                       _typeSelection = null;
@@ -108,7 +113,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
                 value: PetGender.male,
                 groupValue: _genderSelection,
                 onChanged: ((PetGender? value) {
-                  if (_genderSelection != null && value == null ) {
+                  if (_genderSelection != null && value == null) {
                     // unselect PetGender preference
                     setState(() {
                       _genderSelection = null;
@@ -127,7 +132,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
                 value: PetGender.female,
                 groupValue: _genderSelection,
                 onChanged: ((PetGender? value) {
-                  if (_genderSelection != null && value == null ) {
+                  if (_genderSelection != null && value == null) {
                     // unselect PetGender preference
                     setState(() {
                       _genderSelection = null;
@@ -164,15 +169,14 @@ class _PreferenceFormState extends State<PreferenceForm> {
               ),
               const Text("Kid Friendly"),
               Checkbox(
-                value: _petFriendlySelection,
-                onChanged: (val) {
-                  if (val != null) {
-                    setState(() {
-                      _petFriendlySelection = val;
-                    });
-                  }
-                }
-              ),
+                  value: _petFriendlySelection,
+                  onChanged: (val) {
+                    if (val != null) {
+                      setState(() {
+                        _petFriendlySelection = val;
+                      });
+                    }
+                  }),
               const Text("Pet Friendly"),
             ]),
           ],
@@ -185,7 +189,8 @@ class _PreferenceFormState extends State<PreferenceForm> {
           children: [
             Text("$_minAgeSelection"),
             RangeSlider(
-              values: RangeValues(_minAgeSelection.toDouble(), _maxAgeSelection.toDouble()),
+              values: RangeValues(
+                  _minAgeSelection.toDouble(), _maxAgeSelection.toDouble()),
               max: AppInfo.maxPetAge.toDouble(),
               min: AppInfo.minPetAge.toDouble(),
               divisions: AppInfo.maxPetAge - AppInfo.minPetAge,
@@ -228,18 +233,26 @@ class _PreferenceFormState extends State<PreferenceForm> {
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary),
                 onPressed: () {
-                  FirestoreService.updatePreferences(
-                    PreferencesModel(
-                      petType: _typeSelection,
-                      petGender: _genderSelection,
-                      minAge: _minAgeSelection,
-                      maxAge: _maxAgeSelection,
-                      searchRadius: _searchRadius,
-                      isPetFriendly: _petFriendlySelection,
-                      isKidFriendly: _kidFriendlySelection
-                    )
-                  ).then((val) {
+                  FirestoreService.updatePreferences(PreferencesModel(
+                          petType: _typeSelection,
+                          petGender: _genderSelection,
+                          minAge: _minAgeSelection,
+                          maxAge: _maxAgeSelection,
+                          searchRadius: _searchRadius,
+                          isPetFriendly: _petFriendlySelection,
+                          isKidFriendly: _kidFriendlySelection))
+                      .then((val) {
                     //TODO: Handle feed refresh when preferences update.
+
+                    // currently used to update and test to see if search radius
+                    // logic is working. This is what would be called to update
+                    // the list of posts and returns the new list
+                    LocationService.updatePostListWithSearchRadius(
+                        oldPostModelList: AppData.post,
+                        userPreferenceModel: FirestoreService.getPreferences()); 
+                        setState(() {
+                          
+                        }); 
                   });
                   //Where data will be sent to database maybe
                 },
