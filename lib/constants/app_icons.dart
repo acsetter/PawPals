@@ -13,6 +13,7 @@ class AppIcons {
   static Icon get image => const Icon(Icons.image);
   static Icon get key => const Icon(Icons.key);
   static Icon get login => const Icon(Icons.login);
+  static Icon get logout => const Icon(Icons.logout);
   static Icon get password => const Icon(Icons.lock);
   static Icon get retypePassword => const Icon(Icons.lock_reset);
   static Icon get username => const Icon(Icons.assignment_ind);
