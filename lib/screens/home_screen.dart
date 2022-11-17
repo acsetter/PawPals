@@ -3,20 +3,16 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 import 'package:paw_pals/constants/app_data.dart';
-
 import 'package:paw_pals/constants/app_icons.dart';
-import 'package:paw_pals/screens/profile/profile_screen.dart';
-import 'package:paw_pals/screens/post/create_post_screen.dart';
-import 'package:paw_pals/screens/post/liked_post_screen.dart';
-import 'package:paw_pals/screens/temp_user_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/services/location_services.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
-
-import 'Feed/feed_screen.dart';
+import 'package:paw_pals/services/auth_service.dart';
+import 'package:paw_pals/screens/Feed/feed_screen.dart';
+import 'package:paw_pals/screens/login_screen.dart';
 
 /// The app's home screen. User should be directed here if authenticated
 /// and the contents should be the app's primary content (in this case a feed).
@@ -41,40 +37,6 @@ class HomeScreenState extends State<HomeScreen> {
             FieldWrapper(
               child: OurOutlinedButton(
                 onPressed: () {
-                  Get.to(() => TempUserScreen());
-                },
-                label: "Login Screen",
-                icon: AppIcons.login,
-              ),
-            ),
-            FieldWrapper(
-              child: OurOutlinedButton(
-                onPressed: () {
-                  Get.to(() => const ProfileScreen());
-                },
-                label: "My Profile",
-                icon: AppIcons.user,
-              ),
-            ),
-            FieldWrapper(
-              child: OurOutlinedButton(
-                onPressed: () {
-                  Get.to(() => const CreatePostScreen());
-                },
-                label: "Create Post",
-              ),
-            ),
-            FieldWrapper(
-              child: OurOutlinedButton(
-                onPressed: () {
-                  Get.to(() => const LikedPostScreen());
-                },
-                label: "Liked Posts",
-              ),
-            ),
-            FieldWrapper(
-              child: OurOutlinedButton(
-                onPressed: () {
                   Get.to(() => const FeedScreen());
                   // The new navigation required for the NavBar
                   // navigate(context, Temp_Home_Screen_Navigators.route_feed_screeen, isRootNavigator: false);
@@ -96,7 +58,7 @@ class HomeScreenState extends State<HomeScreen> {
                         userPreferenceModel: FirestoreService.getPreferences());
                 },
                 label: "Get Location",
-                icon: Icon(Icons.location_on_outlined),
+                icon: const Icon(Icons.location_on_outlined),
               ),
             ),
             FieldWrapper(
@@ -107,7 +69,17 @@ class HomeScreenState extends State<HomeScreen> {
                   Geolocator.openLocationSettings();
                 },
                 label: "Go to Location Settings",
-                icon: Icon(Icons.location_searching),
+                icon: const Icon(Icons.location_searching),
+              ),
+            ),
+            FieldWrapper(
+              child: OurOutlinedButton(
+                onPressed: () {
+                  AuthService.signOut().then((value) =>
+                      Get.offAll(const LoginScreen()));
+                },
+                label: "Logout",
+                icon: AppIcons.logout,
               ),
             ),
           ],
