@@ -66,7 +66,7 @@ class ScreenCards extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {
-                            Get.to(() => const PostScreen());
+                            Get.to(() => PostScreen(post: post));
                           },
                           child: Text('${post.petName}, ${post.petAge}',
                               style: Theme.of(context)

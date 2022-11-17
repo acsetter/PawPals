@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:paw_pals/models/post_model.dart';
-import 'package:paw_pals/widgets/Post/DetailedPost.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
+
+import '../../widgets/Post/DetailedPost.dart';
 
 /// This is an example of a simple screen that extends a [StatelessWidget]
 /// Yes, technically the screen is a widget, but it's best to treat it like
@@ -16,11 +17,8 @@ class PostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-
-        appBar: OurAppBar.build(screenTitle),
-        // The main body of the Screen:
-        body:
-             DetailedPost(post:post),
-            );
+      appBar: OurAppBar.build(screenTitle),
+      body: DetailedPost(post: post),
+    );
   }
 }
