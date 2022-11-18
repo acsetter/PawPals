@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:paw_pals/controllers/app_user.dart';
-import 'package:paw_pals/models/post_model.dart';
+import 'package:paw_pals/widgets/Post/liked_post_builder.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
+import 'package:paw_pals/models/user_model.dart';
 
-import '../../widgets/list_of_posts.dart';
-
-/// This is an example of a simple screen that extends a [StatelessWidget]
-/// Yes, technically the screen is a widget, but it's best to treat it like
-/// a place to organize widgets.
+/// The screen that displays the logged-in user's list of liked posts.
 class LikedPostScreen extends StatelessWidget {
   const LikedPostScreen({super.key});
 
@@ -15,19 +13,15 @@ class LikedPostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: OurAppBar.build("Liked Posts"),
-      body: StreamBuilder<List<PostModel>?>(
-        stream: AppUser.instance.likedPostsStream(),
-        builder: (BuildContext context, snapshot) {
-          List<PostModel> postModels = AppUser.instance.likedPosts ?? [];
-
-          // TODO: Feed postModel List to post list widget.
-
-          return Column(
-            children:[
-              ListGrid(post: postModels),
-          ]
-          );
-
+      // get the UserModel of the logged-in user via AppUser singleton
+      body: StreamBuilder<UserModel?>(
+        stream: AppUser.instance.appUserChanges(),
+        builder: (context, snapshot) {
+          if (AppUser.instance.userModel != null) {
+            return LikedPostBuilder(userModel: AppUser.instance.userModel!);
+          }
+          // show loading indicator if UserModel is null.
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );
