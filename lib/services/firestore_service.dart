@@ -309,6 +309,7 @@ class FirestoreService {
   static Future<List<PostModel>?> getPostsByUser(String uid) async {
     return await _posts
         .where("uid", isEqualTo: uid)
+        .orderBy("timestamp", descending: true)
         .withConverter(
           fromFirestore: PostModel.fromFirestore,
           toFirestore: (snapshot, _) => snapshot.toFirestore())
