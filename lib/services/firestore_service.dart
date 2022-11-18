@@ -322,6 +322,7 @@ class FirestoreService {
   /// Gets a list of [PostModel]s from an expected [UserModel] from the database.
   static Future<List<PostModel>?> likedPostsByUser(UserModel userModel) => _posts
       .where("postId", whereIn: userModel.likedPosts ?? ["_"])
+      .orderBy("timestamp", descending: true)
       .withConverter(
       fromFirestore: PostModel.fromFirestore,
       toFirestore: (snapshot, _) => snapshot.toFirestore())
