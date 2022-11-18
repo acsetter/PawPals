@@ -306,9 +306,10 @@ class FirestoreService {
 
   /// Queries the Firestore post collection for all posts associated with the
   /// uid of the expected [UserModel] and returns a list of [PostModel]s.
-  static Future<List<PostModel>?> getPostsByUser(UserModel userModel) async {
+  static Future<List<PostModel>?> getPostsByUser(String uid) async {
     return await _posts
-        .where("uid", isEqualTo: userModel.uid)
+        .where("uid", isEqualTo: uid)
+        .orderBy("timestamp", descending: true)
         .withConverter(
           fromFirestore: PostModel.fromFirestore,
           toFirestore: (snapshot, _) => snapshot.toFirestore())
