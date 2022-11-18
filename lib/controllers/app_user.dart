@@ -24,7 +24,7 @@ class AppUser extends ChangeNotifier {
 
   final StreamController<UserModel?> _userController = StreamController<UserModel?>.broadcast();
   final StreamController<List<PostModel>?> _likedPostsController = StreamController<List<PostModel>>.broadcast();
-  final StreamController<List<PostModel>?> _userPostsController = StreamController<List<PostModel>>.broadcast();
+  final StreamController<List<PostModel>?> _userPostsController = StreamController<List<PostModel>?>.broadcast();
   UserModel? _userModel;
   List<PostModel>? _userPosts;
   List<PostModel>? _likedPosts;
@@ -76,6 +76,11 @@ class AppUser extends ChangeNotifier {
       _userModel = userModel;
       notifyListeners();
     });
+
+    _userPostsSub = FirestoreService.appUserPostsStream.listen((userPosts) {
+      _userPosts = userPosts;
+      _updateUserPostsStream();
+    });
   }
 
   void _unsubscribe() {
@@ -116,7 +121,7 @@ class AppUser extends ChangeNotifier {
 
   void _updateUserPostsStream() async {
     if (userModel != null) {
-      _userPosts = await FirestoreService.getPostsByUser(userModel!);
+      // _userPosts = await FirestoreService.getPostsByUser(userModel!);
       _userPostsController.sink.add(_userPosts);
     }
   }

@@ -56,6 +56,8 @@ class EditProfileState extends State<EditProfile> with FormValidation {
           children: [
             AppImage(
               imageUrl: _userModel?.photoUrl,
+              width: 128,
+              height: 128,
               controller: fileController,
               defaultImage: AppData.defaultProfile,
               shape: BoxShape.circle,
