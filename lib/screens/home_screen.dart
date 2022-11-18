@@ -72,16 +72,6 @@ class HomeScreenState extends State<HomeScreen> {
                 icon: const Icon(Icons.location_searching),
               ),
             ),
-            FieldWrapper(
-              child: OurOutlinedButton(
-                onPressed: () {
-                  AuthService.signOut().then((value) =>
-                      Get.offAll(const LoginScreen()));
-                },
-                label: "Logout",
-                icon: AppIcons.logout,
-              ),
-            ),
           ],
         ),
       ),

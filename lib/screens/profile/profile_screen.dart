@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/profile/profile_builder.dart';
 
+import '../../widgets/bars/our_app_bar_profile.dart';
+
 class ProfileScreen extends StatelessWidget {
   final String? uid;
   const ProfileScreen({
@@ -14,7 +16,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Every screen will use a scaffold as the outer-most widget.
     return Scaffold(
-      appBar: OurAppBar.build("Profile"),
+      appBar: OurAppBarProfile.build("My Profile", context),
       body: uid == null ? 
       StreamBuilder<User?>(stream: FirebaseAuth.instance.userChanges(), 
         builder: (context, snapshot) {
