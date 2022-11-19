@@ -23,7 +23,6 @@ class ProfileScreen extends StatelessWidget {
           if (snapshot.hasData) {
             return ProfileBuilder(uid: uid ?? snapshot.data!.uid);
           }
-
           return const Center(child: CircularProgressIndicator());
         },
       ) : ProfileBuilder(uid: uid!),

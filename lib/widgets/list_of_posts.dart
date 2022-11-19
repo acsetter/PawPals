@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:paw_pals/services/firestore_service.dart';
 import '../models/post_model.dart';
+import '../models/user_model.dart';
 import 'Post/DetailedPost.dart';
 
 /// Lists of Posts: creates Gridview that will return MyCardForDisplay.
@@ -44,6 +47,25 @@ class MyCardForDisplay extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailedPost(post: post),));
           },
+      onLongPress:
+          () {
+        showModalBottomSheet<void>(context: context,
+            builder: (BuildContext context) {
+              return Wrap(
+                  children: <Widget>[
+                    ListTile(
+                      leading: const Icon(Icons.delete),
+                      title: const Text('Delete'),
+                      onTap: () {
+                        FirestoreService.deleteItems(post);
+                      },
+                    ),
+                  ]
+              );
+            }
+        );
+      },
+
           child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(4),
@@ -57,7 +79,9 @@ class MyCardForDisplay extends StatelessWidget {
                   )
                   ],
                 ),
-              )));
+              )
+          )
+      );
   }
 }
 

@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-
 import 'package:paw_pals/constants/app_data.dart';
-import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/services/location_services.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 import 'package:paw_pals/widgets/buttons/our_outlined_button.dart';
-import 'package:paw_pals/services/auth_service.dart';
 import 'package:paw_pals/screens/Feed/feed_screen.dart';
-import 'package:paw_pals/screens/login_screen.dart';
 
 /// The app's home screen. User should be directed here if authenticated
 /// and the contents should be the app's primary content (in this case a feed).

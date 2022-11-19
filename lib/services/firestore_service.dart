@@ -330,6 +330,25 @@ class FirestoreService {
         (snapshot) => List<PostModel>.from(snapshot.docs.map((doc) => doc.data())),
         onError: (e) => Logger.log(e.toString(), isError: true));
 
+
+
+  /// Deletes a post from the database.
+  static Future<bool> deleteItems(PostModel postModel) {
+    return _posts
+        .doc(postModel.postId)
+        .delete()
+        .then((res) {
+        Logger.log("Post ${postModel.postId} deleted.");
+        return true;
+        }, onError: (e) {
+        Logger.log(e.toString(), isError: true);
+        return false;
+    }
+    );
+
+  }
+
+
   /// Query all users and return if given username is unique.
   /// Returns null if error occurs.
   static Future<bool?> isUsernameUnique(String username) async {
