@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:paw_pals/Blocks/swipe_block.dart';
-import 'package:paw_pals/models/post_model.dart';
-import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/screens/post/liked_post_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
-import 'package:paw_pals/widgets/Post/liked_post_builder.dart';
 import 'package:paw_pals/widgets/screencards.dart';
-import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/utils/app_log.dart';
 
 import '../../controllers/app_user.dart';
@@ -26,11 +22,9 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   final String screenTitle = "Feed Screen";
 
-
-
   @override
   Widget build(BuildContext context) {
-    List inactiveMatches = [];
+
     return 
     StreamBuilder(
       stream: FirestoreService.prefModelStream,
