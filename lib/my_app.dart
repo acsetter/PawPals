@@ -38,6 +38,8 @@ class _MyAppState extends State<MyApp> {
 
     List<PostModel>? list = await FirestoreService.getFeedPosts(PreferencesModel()); 
     list ??= AppData.post;
+    list.add(AppData.post[0]);
+    list.add(AppData.post[1]);
 
     postModelList = list;
   }
