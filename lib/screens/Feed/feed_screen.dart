@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:paw_pals/Blocks/swipe_block.dart';
+import 'package:paw_pals/models/post_model.dart';
+import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/screens/post/liked_post_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
+import 'package:paw_pals/widgets/Post/liked_post_builder.dart';
 import 'package:paw_pals/widgets/screencards.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/utils/app_log.dart';
 
+import '../../controllers/app_user.dart';
 import '../../widgets/bars/our_app_bar_pref.dart';
 
 
@@ -26,13 +30,16 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List inactiveMatches = [];
     return 
     StreamBuilder(
       stream: FirestoreService.prefModelStream,
       builder: (context, snapshot) => 
     Scaffold(
+
       appBar: OurAppBarPref.build(screenTitle, context),
         body: BlocBuilder<SwipeBlock, SwipeState>(
+
           builder: (context, state) {
             if(state is SwipeLoading){
               return const Center(
@@ -58,10 +65,16 @@ class _FeedScreenState extends State<FeedScreen> {
                       showFloatingLeftSnackBar(context);
                       context.read<SwipeBlock>()
                           .add(SwipeLeft(post: state.posts[0]));
+
                     }
                     else if (drag.velocity.pixelsPerSecond.dx > 500 && state.posts.length > 2) {
+
+                      AppUser.instance.likePost(state.posts[0].postId.toString());
                       showFloatingRightSnackBar(context);
                   context.read<SwipeBlock>().add(SwipeRight(post: state.posts[0]));
+
+
+                      //FirestoreService.likedPostsByUser(FirestoreService.getUser() as UserModel);
                     } else {
                         Logger.log('Stay');
                     }
