@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:paw_pals/widgets/buttons/app_button.dart';
 import '../../constants/app_icons.dart';
 import '../../screens/login_screen.dart';
 import '../../services/auth_service.dart';
-import '../buttons/our_outlined_button.dart';
 
 class LogoutAppBarPopup {
   LogoutAppBarPopup._();
