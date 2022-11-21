@@ -290,6 +290,22 @@ class FirestoreService {
     });
   }
 
+  /// Deletes a post that the user has created from the database
+  static Future<bool> deletePosts(PostModel postModel) {
+    return _posts
+        .doc(postModel.postId)
+        .delete()
+        .then((res) {
+      Logger.log("Post ${postModel.postId} deleted.");
+      return true;
+    }, onError: (e)
+    {
+      Logger.log(e.toString(), isError: true);
+      return false;
+    }
+    );
+  }
+
   /// Gets a list of [PostModel]s from a list of postId strings from the
   /// database.
   static Future<List<PostModel>?> getPostsFromIds(List<String>? idList) async {

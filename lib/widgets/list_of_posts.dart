@@ -56,7 +56,7 @@ class MyCardForDisplay extends StatelessWidget {
                         leading: const Icon(Icons.delete),
                         title: const Text('Delete'),
                         onTap: () {
-                          FirestoreService.deletePost(post);
+                          FirestoreService.deletePosts(post);
                         },
                       ),
                     ]
