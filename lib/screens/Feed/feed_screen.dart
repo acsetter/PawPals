@@ -55,13 +55,13 @@ class _FeedScreenState extends State<FeedScreen> {
                       context.read<SwipeBlock>()
                           .add(SwipeLeft(post: state.posts[-1]));
                     }
-                    if (drag.velocity.pixelsPerSecond.dx < -500 && state.posts.length > 2 ){
+                    if (drag.velocity.pixelsPerSecond.dx < -200 && state.posts.length > 2 ){
                       showFloatingLeftSnackBar(context);
                       context.read<SwipeBlock>()
                           .add(SwipeLeft(post: state.posts[0]));
 
                     }
-                    else if (drag.velocity.pixelsPerSecond.dx > 500 && state.posts.length > 2) {
+                    else if (drag.velocity.pixelsPerSecond.dx > 200 && state.posts.length > 2) {
 
                       AppUser.instance.likePost(state.posts[0].postId.toString());
                       showFloatingRightSnackBar(context);
@@ -69,10 +69,12 @@ class _FeedScreenState extends State<FeedScreen> {
 
 
                       //FirestoreService.likedPostsByUser(FirestoreService.getUser() as UserModel);
-                    } else {
+                    } else if (drag.velocity.pixelsPerSecond.dx < 200 && drag.velocity.pixelsPerSecond.dx > -200){
                         Logger.log('Stay');
                     }
+                    else{Logger.log('Stay');}
                   },
+
                   child: ScreenCards(post: state.posts[0]),
                 )
               ],
@@ -117,6 +119,7 @@ class _FeedScreenState extends State<FeedScreen> {
 }
 
   void showFloatingLeftSnackBar(BuildContext context){
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     const snackBar = SnackBar(
       content: Text(
         "Dislike",
@@ -131,6 +134,7 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   void showFloatingEndSnackBar(BuildContext context){
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     const snackBar = SnackBar(
       content: Text(
         "Out of Posts!",
