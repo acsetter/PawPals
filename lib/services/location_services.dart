@@ -29,7 +29,7 @@ class LocationService {
         return;
       }
     }
-
+// 34.2261, -77.8718 
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
@@ -52,22 +52,23 @@ class LocationService {
   /// used to get the new list of post models for the screen
   /// based on the search radius
   /// returns a list of post models
-  static updatePostListWithSearchRadius(
+  static Future<List<PostModel>?> updatePostListWithSearchRadius(
       {required List<PostModel> oldPostModelList,
-      required Future<PreferencesModel?> userPreferenceModel}) async {
+      required PreferencesModel? userPreferenceModel}) async {
     print('List length before search radius: ${oldPostModelList.length}');
     PostModel postModel;
     double postModelDistance;
     List<PostModel> newPostModelList = [];
     OurLocation userLocation = await getLocation();
-    int? searchRadius;
-    userPreferenceModel
-        .then((value) => searchRadius = value?.searchRadius)
-        .then(
-            (value) => print('Checking to see if posts are <= $searchRadius miles away'));
+    int? searchRadius = userPreferenceModel?.searchRadius;
     searchRadius ??= 150;
 
+
     for (postModel in oldPostModelList) {
+
+      postModel.latitude ??= userLocation.latitude;
+      postModel.longitude ??= userLocation.longitude;
+
       postModelDistance = await getDistance(
           userLatitude: userLocation.latitude,
           userLongitude: userLocation.longitude,
