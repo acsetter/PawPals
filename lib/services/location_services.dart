@@ -1,5 +1,9 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:flutter_geo_hash/geohash.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:location/location.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/pref_model.dart';
@@ -13,7 +17,9 @@ import 'package:paw_pals/models/pref_model.dart';
 class LocationService {
   /// Gets the users location. This also handles asking for permission to use
   /// location and the things like that. Returns the longitude, latitude and
-  /// a geoHash of the users location.
+  /// a geoHash of the users location as a OurLocation Object.
+  /// When location is turned off returns OurLocation object with the
+  /// latitude and longitude of uncw to use. HQ for Paw Pals
   static getLocation() async {
     Location location = new Location();
 
@@ -26,15 +32,29 @@ class LocationService {
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
-        return;
+        String? hash =
+            myGeoHash.geoHashForLocation(GeoPoint(34.2261, -77.8718));
+        Get.snackbar('Location Services Off\nTap To Go To Settings', 'Using Paw Pals HQ Location: UNCW',
+            snackPosition: SnackPosition.BOTTOM,
+            duration: const Duration(seconds: 10),
+            onTap: (snack) => Geolocator.openLocationSettings());
+        return OurLocation(
+            latitude: 34.2261, longitude: -77.8718, geoHash: hash);
       }
     }
-// 34.2261, -77.8718 
+// 34.2261, -77.8718
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        return;
+        String? hash =
+            myGeoHash.geoHashForLocation(GeoPoint(34.2261, -77.8718));
+        Get.snackbar('Location Services Off\nTap To Go To Settings', 'Using Paw Pals HQ Location: UNCW',
+            snackPosition: SnackPosition.BOTTOM,
+            duration: const Duration(seconds: 10),
+            onTap: (snack) => Geolocator.openLocationSettings());
+        return OurLocation(
+            latitude: 34.2261, longitude: -77.8718, geoHash: hash);
       }
     }
 
@@ -63,9 +83,9 @@ class LocationService {
     int? searchRadius = userPreferenceModel?.searchRadius;
     searchRadius ??= 150;
 
-
     for (postModel in oldPostModelList) {
 
+      // If post has no lat and long use users current lat and long
       postModel.latitude ??= userLocation.latitude;
       postModel.longitude ??= userLocation.longitude;
 

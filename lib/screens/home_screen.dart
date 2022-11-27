@@ -47,17 +47,6 @@ class HomeScreenState extends State<HomeScreen> {
             FieldWrapper(
               child: OurOutlinedButton(
                 onPressed: () {
-                  // this was a interesting capability didn't know if we wanted
-                  // to use it
-                  Geolocator.openLocationSettings();
-                },
-                label: "Go to Location Settings",
-                icon: const Icon(Icons.location_searching),
-              ),
-            ),
-            FieldWrapper(
-              child: OurOutlinedButton(
-                onPressed: () {
                   AuthService.signOut().then((value) =>
                       Get.offAll(const LoginScreen()));
                 },
