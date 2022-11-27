@@ -34,7 +34,7 @@ class LocationService {
       if (!_serviceEnabled) {
         String? hash =
             myGeoHash.geoHashForLocation(GeoPoint(34.2261, -77.8718));
-        Get.snackbar('Location Services Off\nTap To Go To Settings', 'Using Paw Pals HQ Location: UNCW',
+        Get.snackbar('Location Services: OFF\nTap To Go To Settings', 'Using Paw Pals HQ Location: UNCW',
             snackPosition: SnackPosition.BOTTOM,
             duration: const Duration(seconds: 10),
             onTap: (snack) => Geolocator.openLocationSettings());
@@ -49,7 +49,7 @@ class LocationService {
       if (_permissionGranted != PermissionStatus.granted) {
         String? hash =
             myGeoHash.geoHashForLocation(GeoPoint(34.2261, -77.8718));
-        Get.snackbar('Location Services Off\nTap To Go To Settings', 'Using Paw Pals HQ Location: UNCW',
+        Get.snackbar('Location Services: OFF\nTap To Go To Settings', 'Using Paw Pals HQ Location: UNCW',
             snackPosition: SnackPosition.BOTTOM,
             duration: const Duration(seconds: 10),
             onTap: (snack) => Geolocator.openLocationSettings());
@@ -62,6 +62,10 @@ class LocationService {
 
     String? hash = myGeoHash.geoHashForLocation(
         GeoPoint(_locationData.latitude!, _locationData.longitude!));
+    Get.snackbar('Location Services: ON\nTap To Go To Settings', 'Using Users Location',
+            snackPosition: SnackPosition.BOTTOM,
+            duration: const Duration(seconds: 7),
+            onTap: (snack) => Geolocator.openLocationSettings());
 
     return OurLocation(
         latitude: _locationData.latitude,
