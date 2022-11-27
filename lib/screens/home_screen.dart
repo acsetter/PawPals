@@ -47,23 +47,6 @@ class HomeScreenState extends State<HomeScreen> {
             FieldWrapper(
               child: OurOutlinedButton(
                 onPressed: () {
-                  // returns a OurLocation model won't see anything from it
-                  LocationService.getLocation();
-                  
-                  // currently checks distance from user to dummy data posts
-                  // and returns that new list of posts
-                  // currently prints information to console
-                  LocationService.updatePostListWithSearchRadius(
-                        oldPostModelList: AppData.post,
-                        userPreferenceModel: FirestoreService.getPreferences());
-                },
-                label: "Get Location",
-                icon: const Icon(Icons.location_on_outlined),
-              ),
-            ),
-            FieldWrapper(
-              child: OurOutlinedButton(
-                onPressed: () {
                   // this was a interesting capability didn't know if we wanted
                   // to use it
                   Geolocator.openLocationSettings();
