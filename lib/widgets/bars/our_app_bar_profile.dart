@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'logout_popup.dart';
 
-
+/// An app bar for the user's profile that will display the logout button.
 class OurAppBarProfile {
   OurAppBarProfile._();
 
@@ -15,4 +15,4 @@ class OurAppBarProfile {
         actions: [LogoutAppBarPopup.build(context)],
       );
     }
-}
+  }

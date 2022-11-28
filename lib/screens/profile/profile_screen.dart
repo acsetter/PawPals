@@ -1,11 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:paw_pals/widgets/profile/profile_builder.dart';
-
+import '../../controllers/app_user.dart';
+import '../../widgets/bars/our_app_bar.dart';
 import '../../widgets/bars/our_app_bar_profile.dart';
 
+
+/// A screen that displays either the user's own profile and other profiles
+/// depending on if the profile uid matches the uid of the current user.
 class ProfileScreen extends StatelessWidget {
   final String? uid;
+
+
   const ProfileScreen({
     super.key,
     this.uid
@@ -13,18 +19,24 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Every screen will use a scaffold as the outer-most widget.
-    return Scaffold(
-      appBar: OurAppBarProfile.build("Profile", context),
-      body: uid == null ?
-      StreamBuilder<User?>(stream: FirebaseAuth.instance.userChanges(), 
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ProfileBuilder(uid: uid ?? snapshot.data!.uid);
+
+    if (uid == null) {
+      return StreamBuilder<User?>(stream: FirebaseAuth.instance.userChanges(),
+          builder: (context, snapshot) {
+            if (AppUser.instance.userModel != null) {
+              return Scaffold(
+                appBar: OurAppBarProfile.build("My Profile", context),
+                body: ProfileBuilder(uid: AppUser.instance.userModel!.uid!,),
+              );
+            }
+            return const Center(child: CircularProgressIndicator());
           }
-          return const Center(child: CircularProgressIndicator());
-        },
-      ) : ProfileBuilder(uid: uid!),
+      );
+    }
+
+    return Scaffold(
+      appBar: OurAppBar.build("Profile"),
+      body: ProfileBuilder(uid: uid!),
     );
   }
 }

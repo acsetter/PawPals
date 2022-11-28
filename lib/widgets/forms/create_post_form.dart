@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:paw_pals/controllers/file_controller.dart';
-
 import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/constants/app_colors.dart';
 import 'package:paw_pals/constants/app_icons.dart';
@@ -17,6 +16,11 @@ import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/forms/_form_validation.dart';
 
 
+/// A form to create a post.
+///
+/// The user must choose a pet name, age, post description, photo, type,
+/// and gender before they are allowed to create the post.  Upon validation
+/// the form is sent to
 class CreatePostForm extends StatefulWidget {
   const CreatePostForm({super.key});
 

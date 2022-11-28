@@ -4,6 +4,11 @@ import '../../constants/app_icons.dart';
 import '../../screens/login_screen.dart';
 import '../../services/auth_service.dart';
 
+
+/// A a popup that is called by the profile appbar to allow the user to sign
+/// out of their profile.
+///
+/// The user should be taken to the login screen if they press the logout button.
 class LogoutAppBarPopup {
   LogoutAppBarPopup._();
 

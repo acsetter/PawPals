@@ -6,8 +6,11 @@ import '../../models/user_model.dart';
 
 
 /// Utilizes CachedNetworkImage to display a photo
-/// of the user's choosing on their profile page.  If no profile photo is chosen
-/// yet, a default profile photo will display.
+/// of the user's choosing on their profile page.
+///
+/// If no profile photo is chosen yet, a default profile photo will display.
+/// If the user has not updated their profile photo, a default image
+/// displays.
 class ProfilePhotoWidget extends StatelessWidget {
   final String photoUrl;
   final VoidCallback onPressed;
@@ -73,6 +76,7 @@ class ProfilePhotoWidget extends StatelessWidget {
 
 /// The UserInformationWidget allows for the stream of data from
 /// the database to be displayed on the user's profile page.
+///
 /// If the UI renders before the data does, a "Loading or error" message will
 /// be displayed while the data continues to load up.
 class UserInformationWidget extends StatelessWidget {

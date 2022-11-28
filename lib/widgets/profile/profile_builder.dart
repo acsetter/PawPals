@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/screens/profile/edit_profile_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
@@ -12,6 +11,7 @@ import 'package:paw_pals/widgets/buttons/app_button.dart';
 import 'package:paw_pals/widgets/list_of_posts.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
+import '../../controllers/app_user.dart';
 
 /// Builds a generalized profile screen based on an expected userModel.
 /// This widget enables refresh on pull down to update the user profile.
@@ -49,13 +49,17 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
         ),
         FormWrapper(children: [
           FieldWrapper(
+            child: Visibility(
+              visible: AppUser.instance.userModel!.uid == uid,
             child: AppButton(
               appButtonType: AppButtonType.outlined,
               label: "Edit Profile",
               onPressed: () => Get.to(const EditProfileScreen()),
             ),
           )
-        ]),
+          )
+        ]
+        ),
         const Divider(),
       ]);
   }
