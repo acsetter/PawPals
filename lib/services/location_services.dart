@@ -36,7 +36,7 @@ class LocationService {
             myGeoHash.geoHashForLocation(GeoPoint(34.2261, -77.8718));
         Get.snackbar('Location Services: OFF\nTap To Go To Settings', 'Using Paw Pals HQ Location: UNCW',
             snackPosition: SnackPosition.BOTTOM,
-            duration: const Duration(seconds: 10),
+            duration: const Duration(seconds: 5),
             onTap: (snack) => Geolocator.openLocationSettings());
         return OurLocation(
             latitude: 34.2261, longitude: -77.8718, geoHash: hash);
@@ -51,7 +51,7 @@ class LocationService {
             myGeoHash.geoHashForLocation(GeoPoint(34.2261, -77.8718));
         Get.snackbar('Location Services: OFF\nTap To Go To Settings', 'Using Paw Pals HQ Location: UNCW',
             snackPosition: SnackPosition.BOTTOM,
-            duration: const Duration(seconds: 10),
+            duration: const Duration(seconds: 5),
             onTap: (snack) => Geolocator.openLocationSettings());
         return OurLocation(
             latitude: 34.2261, longitude: -77.8718, geoHash: hash);
@@ -64,7 +64,7 @@ class LocationService {
         GeoPoint(_locationData.latitude!, _locationData.longitude!));
     Get.snackbar('Location Services: ON\nTap To Go To Settings', 'Using Users Location',
             snackPosition: SnackPosition.BOTTOM,
-            duration: const Duration(seconds: 7),
+            duration: const Duration(seconds: 5),
             onTap: (snack) => Geolocator.openLocationSettings());
 
     return OurLocation(
@@ -79,7 +79,6 @@ class LocationService {
   static Future<List<PostModel>?> updatePostListWithSearchRadius(
       {required List<PostModel> oldPostModelList,
       required PreferencesModel? userPreferenceModel}) async {
-    print('List length before search radius: ${oldPostModelList.length}');
     PostModel postModel;
     double postModelDistance;
     List<PostModel> newPostModelList = [];
@@ -98,12 +97,10 @@ class LocationService {
           userLongitude: userLocation.longitude,
           postLatitude: postModel.latitude,
           postLongitude: postModel.longitude);
-      if (postModelDistance <= searchRadius!) {
-        print('Current post distance from user: ${postModelDistance}');
+      if (postModelDistance <= searchRadius) {
         newPostModelList.add(postModel);
       }
     }
-    print('List length after search radius: ${newPostModelList.length}');
 
     return newPostModelList;
   }
