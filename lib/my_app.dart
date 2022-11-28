@@ -3,6 +3,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:paw_pals/constants/app_theme.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/pref_model.dart';
+import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/screens/home_screen.dart';
 import 'package:paw_pals/screens/login_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
@@ -33,11 +34,21 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _getPosts() async {
+    UserModel? userModel = await FirestoreService.getUser();
+
     PreferencesModel? preferencesModel = await FirestoreService.getPreferences();
     preferencesModel ??= PreferencesModel();
+    //List<PostModel>? likedPosts = await FirestoreService.likedPostsByUser(userModel!);
 
-    List<PostModel>? list = await FirestoreService.getFeedPosts(PreferencesModel()); 
+    List<PostModel>? list = await FirestoreService.getFeedPosts(PreferencesModel());
     list ??= AppData.post;
+    list.add(AppData.post[0]);
+    list.add(AppData.post[1]);
+    for(var i =0; i< list.length; i++){
+      if (list[i].uid == userModel?.uid){
+        list.removeAt(i);
+      }
+    }
 
     postModelList = list;
   }

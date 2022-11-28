@@ -5,9 +5,9 @@ import 'package:paw_pals/Blocks/swipe_block.dart';
 import 'package:paw_pals/screens/post/liked_post_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/widgets/screencards.dart';
-import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/utils/app_log.dart';
 
+import '../../controllers/app_user.dart';
 import '../../widgets/bars/our_app_bar_pref.dart';
 
 
@@ -22,17 +22,18 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   final String screenTitle = "Feed Screen";
 
-
-
   @override
   Widget build(BuildContext context) {
+
     return 
     StreamBuilder(
       stream: FirestoreService.prefModelStream,
       builder: (context, snapshot) => 
     Scaffold(
+
       appBar: OurAppBarPref.build(screenTitle, context),
         body: BlocBuilder<SwipeBlock, SwipeState>(
+
           builder: (context, state) {
             if(state is SwipeLoading){
               return const Center(
@@ -54,18 +55,26 @@ class _FeedScreenState extends State<FeedScreen> {
                       context.read<SwipeBlock>()
                           .add(SwipeLeft(post: state.posts[-1]));
                     }
-                    if (drag.velocity.pixelsPerSecond.dx < -500 && state.posts.length > 2 ){
+                    if (drag.velocity.pixelsPerSecond.dx < -200 && state.posts.length > 2 ){
                       showFloatingLeftSnackBar(context);
                       context.read<SwipeBlock>()
                           .add(SwipeLeft(post: state.posts[0]));
+
                     }
-                    else if (drag.velocity.pixelsPerSecond.dx > 500 && state.posts.length > 2) {
+                    else if (drag.velocity.pixelsPerSecond.dx > 200 && state.posts.length > 2) {
+
+                      AppUser.instance.likePost(state.posts[0].postId.toString());
                       showFloatingRightSnackBar(context);
                   context.read<SwipeBlock>().add(SwipeRight(post: state.posts[0]));
-                    } else {
+
+
+                      //FirestoreService.likedPostsByUser(FirestoreService.getUser() as UserModel);
+                    } else if (drag.velocity.pixelsPerSecond.dx < 200 && drag.velocity.pixelsPerSecond.dx > -200){
                         Logger.log('Stay');
                     }
+                    else{Logger.log('Stay');}
                   },
+
                   child: ScreenCards(post: state.posts[0]),
                 )
               ],
@@ -110,6 +119,7 @@ class _FeedScreenState extends State<FeedScreen> {
 }
 
   void showFloatingLeftSnackBar(BuildContext context){
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     const snackBar = SnackBar(
       content: Text(
         "Dislike",
@@ -124,6 +134,7 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   void showFloatingEndSnackBar(BuildContext context){
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     const snackBar = SnackBar(
       content: Text(
         "Out of Posts!",
