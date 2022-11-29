@@ -243,12 +243,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
                           isKidFriendly: _kidFriendlySelection))
                       .then((val) {
                     //TODO: Handle feed refresh when preferences update.
-
-                    // currently used to update and test to see if search radius
-                    // logic is working. This is what would be called to update
-                    // the list of posts and returns the new list
                   });
-                  //Where data will be sent to database maybe
                 },
                 child: Text("Save"))
           ],

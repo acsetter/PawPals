@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
     preferencesModel ??= PreferencesModel();
     //List<PostModel>? likedPosts = await FirestoreService.likedPostsByUser(userModel!);
 
-    List<PostModel>? list = await FirestoreService.getFeedPosts(PreferencesModel());
+    List<PostModel>? list = await FirestoreService.getFeedPosts(preferencesModel);
     list ??= AppData.post;
     list.add(AppData.post[0]);
     list.add(AppData.post[1]);
