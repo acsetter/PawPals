@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:paw_pals/services/firestore_service.dart';
-import '../controllers/app_user.dart';
-import '../models/post_model.dart';
-import 'Post/DetailedPost.dart';
+import 'package:paw_pals/controllers/app_user.dart';
+import 'package:paw_pals/models/post_model.dart';
+import 'package:paw_pals/widgets/Post/DetailedPost.dart';
 
 /// Builds a Gridview that will return MyCardForDisplay.
 ///

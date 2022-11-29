@@ -72,7 +72,7 @@ class HomeScreenState extends State<HomeScreen> {
             FieldWrapper(
               child: OurOutlinedButton(
                 onPressed: () {
-                  Get.to(const ProfileScreen(uid: "Z0wrpvjwA7epJUSfF6ueboY5j9j2"));
+                  Get.to(const ProfileScreen(uid: "RWxgvP2YmdeM3hj2JUL5omtybPl2"));
                   // The new navigation required for the NavBar
                   // navigate(context, Temp_Home_Screen_Navigators.route_feed_screeen, isRootNavigator: false);
                 },

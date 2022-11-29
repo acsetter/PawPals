@@ -18,12 +18,10 @@ class ProfileBuilder extends StatefulWidget {
   /// The user id of the user to show a profile page for.
   final String uid;
 
-
   const ProfileBuilder({
     super.key,
     required this.uid,
   });
-
 
   @override
   State<ProfileBuilder> createState() => _ProfileBuilderState();

@@ -16,7 +16,6 @@ import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 
 /// The EditProfile widget allows the user to change their first name,
 /// last name, and profile photo.
-
 class EditProfile extends StatefulWidget {
   final UserModel? userModel;
 

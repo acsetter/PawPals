@@ -34,12 +34,10 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
   final TextEditingController postDescriptionController = TextEditingController();
   final FileController fileController = FileController();
 
-
   PetType? _typeSelection;
   PetGender? _genderSelection;
   bool _kidFriendlySelection = false;
   bool _petFriendlySelection = false;
-
 
   final _formKey = GlobalKey<FormState>();
 

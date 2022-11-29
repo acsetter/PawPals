@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../constants/app_icons.dart';
-import '../../screens/login_screen.dart';
-import '../../services/auth_service.dart';
+import 'package:paw_pals/constants/app_icons.dart';
+import 'package:paw_pals/screens/login_screen.dart';
+import 'package:paw_pals/services/auth_service.dart';
 
 
 /// A a popup that is called by the profile appbar to allow the user to sign

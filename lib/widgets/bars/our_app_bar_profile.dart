@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'logout_popup.dart';
+import 'package:paw_pals/widgets/bars/logout_popup.dart';
 
 /// An app bar for the user's profile that will display the logout button.
 class OurAppBarProfile {
   OurAppBarProfile._();
-
 
   static AppBar build(
       String title,
