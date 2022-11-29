@@ -1,10 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/screens/profile/edit_profile_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
-import 'package:paw_pals/widgets/profile/profile_widget.dart';
 import 'package:paw_pals/constants/app_data.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/widgets/app_image.dart';
@@ -31,10 +30,12 @@ class ProfileBuilder extends StatefulWidget {
 
 class _ProfileBuilderState extends State<ProfileBuilder> {
   String get uid => super.widget.uid;
+
   late Future<UserModel?> userModelFuture;
   late Future<List<PostModel>?> userPostsFuture;
 
   Widget buildUserInfo(BuildContext context, UserModel userModel) {
+
     return Column(children: [
         FieldWrapper(
           child: AppImage(
@@ -44,18 +45,25 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
             defaultImage: AppData.defaultProfile,
           ),
         ),
-        const FieldWrapper(
-          child: UserInformationWidget(),
+        FieldWrapper(
+          child: Text('  ${userModel.username}\n${userModel.first} ${userModel.last}',
+        style: const TextStyle(
+        fontWeight: FontWeight.bold, fontSize: 24)
+          )
         ),
         FormWrapper(children: [
           FieldWrapper(
+            child: Visibility(
+              visible: FirebaseAuth.instance.currentUser?.uid == uid,
             child: AppButton(
               appButtonType: AppButtonType.outlined,
               label: "Edit Profile",
               onPressed: () => Get.to(const EditProfileScreen()),
             ),
           )
-        ]),
+          )
+        ]
+        ),
         const Divider(),
       ]);
   }
@@ -75,7 +83,8 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
           scrollDirection: Axis.vertical,
           physics: const BouncingScrollPhysics(),
           slivers: [
-            SliverToBoxAdapter(child: FutureBuilder(
+            SliverToBoxAdapter(
+                child: FutureBuilder(
                 future: userModelFuture,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {

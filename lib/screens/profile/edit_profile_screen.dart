@@ -1,11 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:paw_pals/controllers/app_user.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
-import '../../models/user_model.dart';
-import '../../widgets/profile/edit_profile_widget.dart';
+import 'package:paw_pals/models/user_model.dart';
+import 'package:paw_pals/widgets/profile/edit_profile_widget.dart';
 
-
+/// A screen that allows the user to change certain personal information.
+///
+/// This screen is navigated to from the user's profile page.
+/// If the user successfully edits their information it will be updated on
+/// their my profile screen.
+/// If the user decides they do not want to make changes, they may hit the
+/// back button to abort.
 class EditProfileScreen extends StatelessWidget {
   final String exampleText = "The Edit Profile Screen.";
   final String buttonLabel = "Save Changes";

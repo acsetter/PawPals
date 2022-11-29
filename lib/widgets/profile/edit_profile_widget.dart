@@ -14,9 +14,8 @@ import 'package:paw_pals/widgets/forms/_form_validation.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 
 
-/// The EditProfile widget allows the user to change their first and
-/// last name and profile photo.
-
+/// The EditProfile widget allows the user to change their first name,
+/// last name, and profile photo.
 class EditProfile extends StatefulWidget {
   final UserModel? userModel;
 
@@ -27,6 +26,7 @@ class EditProfile extends StatefulWidget {
 }
 
 class EditProfileState extends State<EditProfile> with FormValidation {
+  // Instantiating editable text fields and file controlelr
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final FileController fileController = FileController();
@@ -53,6 +53,7 @@ class EditProfileState extends State<EditProfile> with FormValidation {
       key: _formKey,
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          // Children display information that is changeable
           children: [
             AppImage(
               imageUrl: _userModel?.photoUrl,
@@ -83,15 +84,18 @@ class EditProfileState extends State<EditProfile> with FormValidation {
                       ContainedButton(
                         icon: AppIcons.edit,
                         onPressed: () {
+                          // If all forms are valid, the instance of the user will be updated
                           if (_formKey.currentState!.validate()) {
                             FirestoreService
                               .updateUser(
+                              // Updates user information of text fields and file controller
                                 userModel: AppUser.instance.userModel!.copyWith(
                                   first: firstNameController.text.trim(),
                                   last: lastNameController.text.trim()),
                                 file: fileController.value)
                               .then((didComplete) => didComplete
                                 ? Get.back()
+                                // Returns a snackbar with an error message if user could not be updated.
                                 : Get.snackbar(
                                 'Error: unable to update profile',
                                 'Please try again.',
