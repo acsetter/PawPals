@@ -26,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
             if (AppUser.instance.userModel != null) {
               return Scaffold(
                 appBar: OurAppBarProfile.build("My Profile", context),
-                body: ProfileBuilder(uid: AppUser.instance.userModel!.uid!,),
+                body: ProfileBuilder(uid: AppUser.instance.userModel!.uid!),
               );
             }
             return const Center(child: CircularProgressIndicator());
