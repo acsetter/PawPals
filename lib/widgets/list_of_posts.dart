@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import '../models/post_model.dart';
-import 'Post/DetailedPost.dart';
+import 'package:paw_pals/services/firestore_service.dart';
+import 'package:paw_pals/controllers/app_user.dart';
+import 'package:paw_pals/models/post_model.dart';
+import 'package:paw_pals/widgets/Post/DetailedPost.dart';
 
-/// Lists of Posts: creates Gridview that will return MyCardForDisplay.
-/// This widget is utilized on the user's profile and liked posts.
+/// Builds a Gridview that will return MyCardForDisplay.
+///
+/// A list of posts from the post model is pumped into this widget
+/// in order to build a grid style list of posts.
 class ListGrid extends StatelessWidget {
   final List<PostModel> post;
 
@@ -32,6 +36,10 @@ class ListGrid extends StatelessWidget {
 /// MyCardForDisplay will display the cards that occur within the gridview
 /// with an image of the corresponding pet and the ability to go to the
 /// detailed post screen when clicked on.
+///
+/// If the user is on their own profile, they are able to long press
+/// on a card to delete the post.
+/// The user is not allowed to delete posts from other user's profiles.
 class MyCardForDisplay extends StatelessWidget {
   const MyCardForDisplay(this.post, {super.key});
 
@@ -42,8 +50,30 @@ class MyCardForDisplay extends StatelessWidget {
     return
       GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailedPost(post: post),));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailedPost(post: post)));
           },
+      // Long press on a card, if the post id of the card matches with the instance of the current user logged in
+      onLongPress: () {
+        if (post.uid == AppUser.instance.userModel!.uid) {
+          showModalBottomSheet<void>(context: context,
+              builder: (BuildContext context) {
+                return Wrap(
+                    children: <Widget>[
+                      ListTile(
+                        leading: const Icon(Icons.delete),
+                        title: const Text('Delete'),
+                        // The user may delete a post that they have created
+                        onTap: () {
+                          FirestoreService.deletePosts(post);
+                        },
+                      ),
+                    ]
+                );
+              }
+          );
+        }
+      },
+          // Builds the card that is displayed within each tile of the grid
           child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(4),
@@ -53,74 +83,14 @@ class MyCardForDisplay extends StatelessWidget {
                     fit: BoxFit.cover,
                     width: 160,
                     height: 160, imageUrl: post.petPhotoUrl!,
-                    //Image.asset(post.petPhotoUrl!, fit: BoxFit.fill),
                   )
                   ],
                 ),
-              )));
+              )
+          )
+      );
   }
 }
 
-
-/// This detailed screen is temporary, it will be replaced by the
-/// detailed screen that Savannah has created.
-class DetailScreen extends StatelessWidget {
-  const DetailScreen({super.key, this.post});
-
-  final PostModel? post;
-
-  @override
-  Widget build(BuildContext context) {
-
-    Widget contentToShow =
-    CachedNetworkImage(
-        imageUrl: post!.petPhotoUrl!,
-        fit: BoxFit.cover,
-        width: 160,
-        height: 160);
-
-    if (post == null) {
-      contentToShow = const Text("No posts yet");
-    }
-    else {
-      contentToShow;
-      //Image.asset(post!.petPhotoUrl!);
-    }
-
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Detailed Post"),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            const Divider(),
-            contentToShow,
-            const Divider(),
-            Column(
-              children: [
-                Text(post!.petName!,
-                    style: TextStyle(
-                    color: Colors.grey[700],
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-                     ),
-              ],
-            ),
-              Column(
-                children: [
-                  Text("Pet Age: ${post!.petAge}"),
-                  Text("Pet Gender: ${post!.petGender?.name}"),
-                  Text("Pet Type: ${post!.petType?.name}"),
-                ],
-              ),
-            Flexible(child: Text("Post Description: ${post!.postDescription}"),)
-      ]
-          ),
-      )
-    );
-  }
-}
 
 
