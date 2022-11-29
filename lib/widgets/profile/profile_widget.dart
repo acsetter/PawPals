@@ -12,11 +12,6 @@ class ProfilePhotoWidget extends StatelessWidget {
   final String photoUrl;
   final VoidCallback onPressed;
 
-  /* This is the constructor. All widgets should have a Key key as optional
-  parameter in their constructor. Key is something used by flutter engine
-  at the step of recognizing which widget in a list as changed.
-  You must call @override on the build method */
-
   const ProfilePhotoWidget({
     Key? key,
     required this.onPressed, required this.photoUrl,

@@ -2,10 +2,11 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
 import 'package:paw_pals/services/firestore_service.dart';
-import '../models/post_model.dart';
+import 'package:paw_pals/models/post_model.dart';
 
 /// The data-controller for the user of the app.
 /// This class is a singleton accessed by calling `AppUser.instance`.
@@ -23,11 +24,7 @@ class AppUser extends ChangeNotifier {
   static final AppUser _instance = AppUser._();
 
   final StreamController<UserModel?> _userController = StreamController<UserModel?>.broadcast();
-  final StreamController<List<PostModel>?> _likedPostsController = StreamController<List<PostModel>>.broadcast();
-  final StreamController<List<PostModel>?> _userPostsController = StreamController<List<PostModel>>.broadcast();
   UserModel? _userModel;
-  List<PostModel>? _userPosts;
-  List<PostModel>? _likedPosts;
   StreamSubscription<User?>? _authSub;
   StreamSubscription<UserModel?>? _firestoreSub;
   StreamSubscription<List<PostModel>?>? _userPostsSub;
@@ -44,18 +41,44 @@ class AppUser extends ChangeNotifier {
   /// Notifies about changes to the authenticated user's [UserModel].
   Stream<UserModel?> appUserChanges() => _userController.stream;
 
-  Stream<List<PostModel>?> likedPostsStream() => _likedPostsController.stream;
-
-  Stream<List<PostModel>?> userPostsStream() => _userPostsController.stream;
-
   /// Get the authenticated user's [UserModel].
   UserModel? get userModel => _userModel;
 
-  /// Get the user's liked [PostModel]s.
-  List<PostModel>? get likedPosts => _likedPosts;
+  /// Likes a post identified by an expected postId. Returns true or false
+  /// based on whether the furutre completed with or without error.
+  Future<bool> likePost(String postId) async {
+    if (userModel == null) {
+      Logger.noUserError();
+      return false;
+    }
 
-  /// Get the user's [PostModel]s.
-  List<PostModel>? get userPosts => _userPosts;
+    if (userModel!.likedPosts!.contains(postId)) {
+      Logger.log("Cannot like $postId. Already in user's list of liked posts.");
+      return false;
+    }
+
+    UserModel copy = userModel!.copyWith();
+    copy.likedPosts!.add(postId);
+
+    return await FirestoreService.updateUser(userModel: copy);
+  }
+
+  /// Unlikes a post identified by an expected postId. Returns true or false
+  /// based on whether the furutre completed with or without error.
+  Future<bool> unlikePost(String postId) async {
+    if (userModel == null) {
+      Logger.noUserError();
+      return false;
+    }
+
+    UserModel copy = userModel!.copyWith();
+    if (copy.likedPosts!.remove(postId)) {
+      return await FirestoreService.updateUser(userModel: copy);
+    }
+
+    Logger.log("Cannot unlike $postId. Not in user's list of liked posts.");
+    return false;
+  }
 
   void _subscribe() {
     // Listen for changes to the authenticated user
@@ -103,22 +126,6 @@ class AppUser extends ChangeNotifier {
   void _updateUserStream() {
     // send the updated UserModel to stream listeners.
     _userController.sink.add(_userModel);
-    _updateLikedPostsStream();
-    _updateUserPostsStream();
-  }
-
-  void _updateLikedPostsStream() async {
-    if (userModel != null) {
-      _likedPosts = await FirestoreService.likedPostsByUser(userModel!);
-      _likedPostsController.sink.add(_likedPosts);
-    }
-  }
-
-  void _updateUserPostsStream() async {
-    if (userModel != null) {
-      _userPosts = await FirestoreService.getPostsByUser(userModel!);
-      _userPostsController.sink.add(_userPosts);
-    }
   }
 
   @override

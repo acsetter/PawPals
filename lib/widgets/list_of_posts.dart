@@ -15,7 +15,7 @@ class ListGrid extends StatelessWidget {
     return GridView.builder(
         itemCount: post.length,
         shrinkWrap: true,
-        physics: const AlwaysScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2),
         itemBuilder: (context, index) {

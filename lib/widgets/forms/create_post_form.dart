@@ -240,6 +240,7 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
                             postDescription: postDescriptionController.text.trim(),
                               ), fileController.value!).then((didComplete) {
                               if (didComplete) {
+                                Get.appUpdate();
                                 Get.offAll(const ProfileScreen()); // Goes back to profile screen
                               } else { // Tells the user that an error occurred
                                 Get.snackbar('Error: unable to create post',
