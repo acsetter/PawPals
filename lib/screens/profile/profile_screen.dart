@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:paw_pals/widgets/profile/profile_builder.dart';
-import '../../controllers/app_user.dart';
 import '../../widgets/bars/our_app_bar.dart';
 import '../../widgets/bars/our_app_bar_profile.dart';
 
@@ -23,10 +22,10 @@ class ProfileScreen extends StatelessWidget {
     if (uid == null) {
       return StreamBuilder<User?>(stream: FirebaseAuth.instance.userChanges(),
           builder: (context, snapshot) {
-            if (AppUser.instance.userModel != null) {
+            if (FirebaseAuth.instance.currentUser?.uid != null) {
               return Scaffold(
                 appBar: OurAppBarProfile.build("My Profile", context),
-                body: ProfileBuilder(uid: AppUser.instance.userModel!.uid!),
+                body: ProfileBuilder(uid: FirebaseAuth.instance.currentUser!.uid),
               );
             }
             return const Center(child: CircularProgressIndicator());

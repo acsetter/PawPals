@@ -84,7 +84,7 @@ class FirestoreService {
 
   /// Fetches the [UserModel] from the expected uid from Firestore.
   static Future<UserModel?> getUserById(String uid) async {
-    return await _users.doc(_uid)
+    return await _users.doc(uid)
       .withConverter(
         fromFirestore: UserModel.fromFirestore, 
         toFirestore: (UserModel user, _) => user.toFirestore())
