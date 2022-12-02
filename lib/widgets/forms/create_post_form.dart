@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:paw_pals/controllers/app_user.dart';
 import 'package:paw_pals/controllers/file_controller.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/constants/app_colors.dart';
@@ -32,19 +33,58 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
   final TextEditingController petNameController = TextEditingController();
   final TextEditingController petAgeController = TextEditingController();
   final TextEditingController postDescriptionController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final FileController fileController = FileController();
 
   PetType? _typeSelection;
   PetGender? _genderSelection;
   bool _kidFriendlySelection = false;
   bool _petFriendlySelection = false;
+  bool _isSubmitted = false;
 
   final _formKey = GlobalKey<FormState>();
 
-  String focusedField = "none";
+  @override
+  void initState() {
+    emailController.text = AppUser.instance.userModel?.email ?? "";
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_isSubmitted) {
+      FirestoreService.createPost(
+        PostModel(
+          petName: petNameController.text.trim(),
+          petAge: int.parse(petAgeController.text.trim()),
+          petGender: _genderSelection,
+          petType: _typeSelection,
+          isKidFriendly: _kidFriendlySelection,
+          isPetFriendly: _petFriendlySelection,
+          postDescription: postDescriptionController.text.trim(),
+          username: AppUser.instance.userModel?.username,
+          email: emailController.text.trim(),
+        ), fileController.value!)
+          .then((didComplete) {
+            if (didComplete) {
+              Get.appUpdate();
+              Get.offAll(const ProfileScreen());
+            } else {
+              Get.snackbar(
+                "Error: unable to create post",
+                "Please try again.",
+                snackPosition: SnackPosition.BOTTOM,
+                duration: const Duration(seconds: 7),
+                colorText: Theme.of(context).errorColor,
+              );
+              setState(() {
+                _isSubmitted = false;
+              });
+            }
+      });
+
+      return const Center(child: CircularProgressIndicator());
+    }
     return Form(
       key: _formKey,
       onChanged: () {
@@ -73,6 +113,14 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
               validator: petAgeValidator,
               icon: AppIcons.cake,
               maxLength: AppInfo.maxPasswordLength,
+            ),
+            OurTextField(
+              controller: emailController,
+              labelText: "Contact Email",
+              validator: emailValidator,
+              icon: AppIcons.email,
+              maxLength: AppInfo.maxEmailLength,
+              // initialValue: AppUser.instance.userModel?.username,
             ),
             OurTextField(
               controller: postDescriptionController,
@@ -231,28 +279,16 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
                             && _typeSelection != null
                             && fileController.value != null
                         ) {
-                          FirestoreService.createPost(
-                              PostModel(
-                            petName: petNameController.text.trim(),
-                            petAge: int.parse(petAgeController.text.trim()),
-                            petGender: _genderSelection,
-                            petType: _typeSelection,
-                            isKidFriendly: _kidFriendlySelection,
-                            isPetFriendly: _petFriendlySelection,
-                            postDescription: postDescriptionController.text.trim(),
-                              ), fileController.value!).then((didComplete) {
-                              if (didComplete) {
-                                Get.appUpdate();
-                                Get.offAll(const ProfileScreen()); // Goes back to profile screen
-                              } else { // Tells the user that an error occurred
-                                Get.snackbar('Error: unable to create post',
-                                    'Please try again.',
-                                    snackPosition: SnackPosition.BOTTOM,
-                                    duration: const Duration(seconds: 7),
-                                    colorText: Theme.of(context).errorColor
-                                );
-                              }
-                            }
+                          setState(() {
+                            _isSubmitted = true;
+                          });
+                        } else if (fileController.value == null) {
+                          Get.snackbar(
+                            "Error: no pet photo provided",
+                            "Please add a pet photo.",
+                            snackPosition: SnackPosition.BOTTOM,
+                            duration: const Duration(seconds: 7),
+                            colorText: Theme.of(context).errorColor
                           );
                         }
                         // snackbar that let's the user know that they have either

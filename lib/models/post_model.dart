@@ -22,6 +22,7 @@ class PostModel {
   bool? isKidFriendly;
   bool? isPetFriendly;
   String? email;
+  String? username;
 
   PostModel({
     this.postId,
@@ -39,6 +40,7 @@ class PostModel {
     this.isKidFriendly,
     this.isPetFriendly,
     this.email,
+    this.username,
   });
 
   /// Converts a [DocumentSnapshot] from [FirebaseFirestore] to a [PostModel].
@@ -62,6 +64,7 @@ class PostModel {
       isKidFriendly: data?["isKidFriendly"],
       isPetFriendly: data?["isPetFriendly"],
       email: data?["email"],
+      username: data?["username"],
     );
   }
 
@@ -83,6 +86,7 @@ class PostModel {
         if (isKidFriendly != null) "isKidFriendly": isKidFriendly,
         if (isPetFriendly != null) "isPetFriendly": isPetFriendly,
         if (email != null) "email": email,
+        if (username != null) "username": username,
       };
 
   PostModel copyWith({
@@ -101,6 +105,7 @@ class PostModel {
     bool? isKidFriendly,
     bool? isPetFriendly,
     String? email,
+    String? username,
   }) {
     return PostModel(
       postId: postId ?? this.postId,
@@ -118,6 +123,7 @@ class PostModel {
       isKidFriendly: isKidFriendly ?? this.isKidFriendly,
       isPetFriendly: isPetFriendly ?? this.isPetFriendly,
       email: email ?? this.email,
+      username: username ?? this.username,
     );
   }
 
@@ -141,7 +147,8 @@ class PostModel {
         "petPhotoUrl: $petPhotoUrl \n"
         "isKidFriendly: $isKidFriendly \n"
         "isPetFriendly: $isPetFriendly \n"
-        "email: $email \n";
+        "email: $email \n"
+        "username: $username \n";
   }
 
 }
