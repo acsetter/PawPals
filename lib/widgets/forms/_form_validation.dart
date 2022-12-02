@@ -21,10 +21,7 @@ mixin FormValidation<T extends StatefulWidget> on State<T> {
   /// Validate password for login.
   String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return translate("errors.empty-email");
-    }
-    if (!RegExpressions.eightChars.hasMatch(value)) {
-      return translate("errors.weak-password");
+      return translate("errors.empty-password");
     }
 
     return null;
