@@ -46,6 +46,7 @@ dependencies:
   deep_pick: ^0.10.0
   get: ^4.6.5
   cloud_firestore: ^4.0.3
+  fake_cloud_firestore: ^2.0.1
   flutter_geo_hash: ^0.0.4
   location: ^4.4.0
   image_picker: ^0.8.6
