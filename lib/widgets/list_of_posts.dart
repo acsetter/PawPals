@@ -72,6 +72,25 @@ class MyCardForDisplay extends StatelessWidget {
               }
           );
         }
+        else{
+          showModalBottomSheet<void>(context: context,
+              builder: (BuildContext context) {
+                return Wrap(
+                    children: <Widget>[
+                      ListTile(
+                        leading: const Icon(Icons.cancel),
+                        title: const Text('Unlike'),
+                        // The user may delete a post that they have created
+                        onTap: () {
+                          AppUser.instance.unlikePost(post.postId!);
+                        },
+                      ),
+                    ]
+                );
+              }
+          );
+
+        }
       },
           // Builds the card that is displayed within each tile of the grid
           child: Card(
