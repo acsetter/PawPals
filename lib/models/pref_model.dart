@@ -43,8 +43,8 @@ class PreferencesModel {
 
   /// Converts the [PreferencesModel] to json with including all non-null fields.
   Map<String, dynamic> toFirestore() => {
-    if (petType != null) "petType": petType!.name,
-    if (petGender != null) "petGender": petGender!.name,
+    "petType": petType?.name,
+    "petGender": petGender?.name,
     if (minAge != null) "minAge": minAge,
     if (maxAge != null) "maxAge": maxAge,
     if (searchRadius != null) "searchRadius": searchRadius,
