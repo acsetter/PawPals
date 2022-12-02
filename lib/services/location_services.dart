@@ -1,5 +1,9 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:flutter_geo_hash/geohash.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:location/location.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/pref_model.dart';
@@ -13,7 +17,9 @@ import 'package:paw_pals/models/pref_model.dart';
 class LocationService {
   /// Gets the users location. This also handles asking for permission to use
   /// location and the things like that. Returns the longitude, latitude and
-  /// a geoHash of the users location.
+  /// a geoHash of the users location as a OurLocation Object.
+  /// When location is turned off returns OurLocation object with the
+  /// latitude and longitude of uncw to use. HQ for Paw Pals
   static getLocation() async {
     Location location = new Location();
 
@@ -26,15 +32,29 @@ class LocationService {
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
-        return;
+        String? hash =
+            myGeoHash.geoHashForLocation(GeoPoint(34.2261, -77.8718));
+        Get.snackbar('Location Services: OFF\nTap To Go To Settings', 'Using Paw Pals HQ Location: UNCW',
+            snackPosition: SnackPosition.BOTTOM,
+            duration: const Duration(seconds: 5),
+            onTap: (snack) => Geolocator.openLocationSettings());
+        return OurLocation(
+            latitude: 34.2261, longitude: -77.8718, geoHash: hash);
       }
     }
-
+// 34.2261, -77.8718
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        return;
+        String? hash =
+            myGeoHash.geoHashForLocation(GeoPoint(34.2261, -77.8718));
+        Get.snackbar('Location Services: OFF\nTap To Go To Settings', 'Using Paw Pals HQ Location: UNCW',
+            snackPosition: SnackPosition.BOTTOM,
+            duration: const Duration(seconds: 5),
+            onTap: (snack) => Geolocator.openLocationSettings());
+        return OurLocation(
+            latitude: 34.2261, longitude: -77.8718, geoHash: hash);
       }
     }
 
@@ -42,6 +62,10 @@ class LocationService {
 
     String? hash = myGeoHash.geoHashForLocation(
         GeoPoint(_locationData.latitude!, _locationData.longitude!));
+    Get.snackbar('Location Services: ON\nTap To Go To Settings', 'Using Users Location',
+            snackPosition: SnackPosition.BOTTOM,
+            duration: const Duration(seconds: 5),
+            onTap: (snack) => Geolocator.openLocationSettings());
 
     return OurLocation(
         latitude: _locationData.latitude,
@@ -52,33 +76,31 @@ class LocationService {
   /// used to get the new list of post models for the screen
   /// based on the search radius
   /// returns a list of post models
-  static updatePostListWithSearchRadius(
+  static Future<List<PostModel>?> updatePostListWithSearchRadius(
       {required List<PostModel> oldPostModelList,
-      required Future<PreferencesModel?> userPreferenceModel}) async {
-    print('List length before search radius: ${oldPostModelList.length}');
+      required PreferencesModel? userPreferenceModel}) async {
     PostModel postModel;
     double postModelDistance;
     List<PostModel> newPostModelList = [];
     OurLocation userLocation = await getLocation();
-    int? searchRadius;
-    userPreferenceModel
-        .then((value) => searchRadius = value?.searchRadius)
-        .then(
-            (value) => print('Checking to see if posts are <= $searchRadius miles away'));
+    int? searchRadius = userPreferenceModel?.searchRadius;
     searchRadius ??= 150;
 
     for (postModel in oldPostModelList) {
+
+      // If post has no lat and long use users current lat and long
+      postModel.latitude ??= userLocation.latitude;
+      postModel.longitude ??= userLocation.longitude;
+
       postModelDistance = await getDistance(
           userLatitude: userLocation.latitude,
           userLongitude: userLocation.longitude,
           postLatitude: postModel.latitude,
           postLongitude: postModel.longitude);
-      if (postModelDistance <= searchRadius!) {
-        print('Current post distance from user: ${postModelDistance}');
+      if (postModelDistance <= searchRadius) {
         newPostModelList.add(postModel);
       }
     }
-    print('List length after search radius: ${newPostModelList.length}');
 
     return newPostModelList;
   }

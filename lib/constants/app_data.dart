@@ -52,54 +52,6 @@ class AppData {
 
   static List<PostModel> post = [
     PostModel(
-      postId: "1",
-      uid: "1",
-      postDescription: "Bob is an adventurous Cat!",
-      petName: "Bob",
-      petType: PetType.cat,
-      petAge: 7,
-      petGender: PetGender.male,
-      petPhotoUrl: 'assets/images/tabby_cat.jpg',
-      latitude: 34.2259,
-      longitude: -77.8734
-    ),
-    PostModel(
-      postId: "2",
-      uid: "2",
-      postDescription: "Carl likes to sleep and chew on bones!",
-      petName: "Carl",
-      petType: PetType.dog,
-      petAge: 5,
-      petGender: PetGender.female,
-      petPhotoUrl: 'assets/images/corgi.jpg',
-      latitude: 34.2312,
-      longitude: -77.8826
-    ),
-    PostModel(
-      postId: "3",
-      uid: "3",
-      postDescription: "Doug likes alot of treats!",
-      petName: "Doug",
-      petType: PetType.dog,
-      petAge: 4,
-      petGender: PetGender.female,
-      petPhotoUrl: 'assets/images/english_bulldog.jpg',
-      latitude: 34.2341,
-      longitude: -77.9442
-    ),
-    PostModel(
-      postId: "4",
-      uid: "4",
-      postDescription: "Earl is Lazy!",
-      petName: "Earl",
-      petType: PetType.dog,
-      petAge: 9,
-      petGender: PetGender.male,
-      petPhotoUrl: 'assets/images/siamese_cat.jpg',
-      latitude: 34.2267,
-      longitude: -78.0377
-    ),
-    PostModel(
       postId: "5",
       uid: "5",
       postDescription: "Please update your preferences to\nSee more pets!",

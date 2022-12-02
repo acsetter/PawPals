@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paw_pals/constants/app_colors.dart';
-import 'package:paw_pals/constants/app_data.dart';
 import 'package:paw_pals/constants/app_info.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/models/pref_model.dart';
+import 'package:paw_pals/screens/Feed/feed_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
-import 'package:paw_pals/services/location_services.dart';
 
 class PreferenceForm extends StatefulWidget {
   const PreferenceForm({super.key});
@@ -242,21 +241,11 @@ class _PreferenceFormState extends State<PreferenceForm> {
                           isPetFriendly: _petFriendlySelection,
                           isKidFriendly: _kidFriendlySelection))
                       .then((val) {
-                    //TODO: Handle feed refresh when preferences update.
-
-                    // currently used to update and test to see if search radius
-                    // logic is working. This is what would be called to update
-                    // the list of posts and returns the new list
-                    LocationService.updatePostListWithSearchRadius(
-                        oldPostModelList: AppData.post,
-                        userPreferenceModel: FirestoreService.getPreferences()); 
-                        setState(() {
-                          
-                        }); 
+                    Get.appUpdate();
+                    Get.offAll(const FeedScreen());
                   });
-                  //Where data will be sent to database maybe
                 },
-                child: Text("Save"))
+                child: const Text("Save"))
           ],
         )
       ],
