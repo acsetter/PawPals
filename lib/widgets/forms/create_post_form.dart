@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
 import 'package:paw_pals/controllers/app_user.dart';
 import 'package:paw_pals/controllers/file_controller.dart';
 import 'package:paw_pals/services/firestore_service.dart';

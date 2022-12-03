@@ -1,3 +1,5 @@
+import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'app_log.dart';
 
