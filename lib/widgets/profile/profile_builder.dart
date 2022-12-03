@@ -108,7 +108,7 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
     return RefreshIndicator(
         onRefresh: refresh,
         child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           slivers: [
             SliverToBoxAdapter(
               child: FutureBuilder(

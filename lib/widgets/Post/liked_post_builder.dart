@@ -31,7 +31,8 @@ class _LikedPostBuilderState extends State<LikedPostBuilder> {
     return RefreshIndicator(
       onRefresh: refresh,
       child: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         slivers: [
           FutureBuilder(
             future: likedPostsFuture,
