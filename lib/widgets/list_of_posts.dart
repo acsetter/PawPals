@@ -10,6 +10,8 @@ import 'package:paw_pals/widgets/Post/DetailedPost.dart';
 import 'package:paw_pals/utils/app_log.dart';
 import 'package:paw_pals/constants/app_types.dart';
 
+import '../screens/post/liked_post_screen.dart';
+
 
 /// Builds a Gridview that will return MyCardForDisplay.
 ///
@@ -85,6 +87,7 @@ class MyCardForDisplay extends StatelessWidget {
                         // The user may delete a post that they have created
                         onTap: () {
                           AppUser.instance.unlikePost(post.postId!);
+                          Get.offAll(const LikedPostScreen());
                         },
                       ),
                     ]
