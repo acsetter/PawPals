@@ -1,15 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+
 import 'package:paw_pals/Blocks/swipe_block.dart';
 import 'package:paw_pals/screens/post/liked_post_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/widgets/screencards.dart';
 import 'package:paw_pals/utils/app_log.dart';
-
-import '../../controllers/app_user.dart';
-import '../../widgets/bars/our_app_bar_pref.dart';
-
+import 'package:paw_pals/constants/app_data.dart';
+import 'package:paw_pals/controllers/app_user.dart';
+import 'package:paw_pals/models/post_model.dart';
+import 'package:paw_pals/widgets/bars/our_app_bar_pref.dart';
 
 class FeedScreen extends StatefulWidget {
 
@@ -20,70 +22,91 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+  FeedScreen get parent => super.widget;
+
   final String screenTitle = "Feed Screen";
+
+  Future<List<PostModel>> fetchPosts() async {
+    List<PostModel>? posts = await FirestoreService.getPreferences()
+        .then((prefModel) => FirestoreService.getFeedPosts(prefModel));
+    posts ??= AppData.post;
+    posts.add(AppData.post[0]);
+    posts.add(AppData.post[1]);
+    for(var i =0; i< posts.length; i++) {
+      if (posts[i].uid == FirebaseAuth.instance.currentUser?.uid){
+        posts.removeAt(i);
+      }
+    }
+    return posts;
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    return 
-    StreamBuilder(
-      stream: FirestoreService.prefModelStream,
-      builder: (context, snapshot) => 
-    Scaffold(
-
-      appBar: OurAppBarPref.build(screenTitle, context),
-        body: BlocBuilder<SwipeBlock, SwipeState>(
-
-          builder: (context, state) {
-            if(state is SwipeLoading){
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            else if (state is SwipeLoaded){
-              return Column(children: [
-                Draggable(
-                  feedback: ScreenCards(post: state.posts[0]),
-                  childWhenDragging: ScreenCards(post: state.posts[1]),
-                  onDragEnd: (drag) {
-                    if(state.posts.length == 2){
-                      showFloatingEndSnackBar(context);
-
-                    }
-                    // ignore: unnecessary_null_comparison
-                    else if(state.posts[2] == null && state.posts.length > 2){
-                      context.read<SwipeBlock>()
-                          .add(SwipeLeft(post: state.posts[-1]));
-                    }
-                    if (drag.velocity.pixelsPerSecond.dx < -200 && state.posts.length > 2 ){
-                      showFloatingLeftSnackBar(context);
-                      context.read<SwipeBlock>()
-                          .add(SwipeLeft(post: state.posts[0]));
-
-                    }
-                    else if (drag.velocity.pixelsPerSecond.dx > 200 && state.posts.length > 2) {
-
-                      AppUser.instance.likePost(state.posts[0].postId.toString());
-                      showFloatingRightSnackBar(context);
-                  context.read<SwipeBlock>().add(SwipeRight(post: state.posts[0]));
-
-
-                      //FirestoreService.likedPostsByUser(FirestoreService.getUser() as UserModel);
-                    } else if (drag.velocity.pixelsPerSecond.dx < 200 && drag.velocity.pixelsPerSecond.dx > -200){
-                        Logger.log('Stay');
-                    }
-                    else{Logger.log('Stay');}
-                  },
-
-                  child: ScreenCards(post: state.posts[0]),
+    return FutureBuilder(
+      future: fetchPosts(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                  create: (_) => SwipeBlock()..add(LoadPosts(posts: snapshot.data!))
+              )
+            ],
+            child: StreamBuilder(
+                stream: FirestoreService.prefModelStream,
+                builder: (context, snapshot) => Scaffold(
+                  appBar: OurAppBarPref.build(screenTitle, context),
+                  body: BlocBuilder<SwipeBlock, SwipeState>(
+                      builder: (context, state) {
+                        if(state is SwipeLoading){
+                          return const Center(child: CircularProgressIndicator(),);
+                        }
+                        else if (state is SwipeLoaded){
+                          return Column(
+                            children: [
+                              Draggable(
+                                feedback: ScreenCards(post: state.posts[0]),
+                                childWhenDragging: ScreenCards(post: state.posts[1]),
+                                onDragEnd: (drag) {
+                                  if(state.posts.length == 2){
+                                    showFloatingEndSnackBar(context);
+                                  }
+                                  // ignore: unnecessary_null_comparison
+                                  else if(state.posts[2] == null && state.posts.length > 2) {
+                                    context.read<SwipeBlock>()
+                                      .add(SwipeLeft(post: state.posts[-1]));
+                                  }
+                                  if (drag.velocity.pixelsPerSecond.dx < -200 && state.posts.length > 2 ) {
+                                    showFloatingLeftSnackBar(context);
+                                    context.read<SwipeBlock>()
+                                        .add(SwipeLeft(post: state.posts[0]));
+                                  } else if (drag.velocity.pixelsPerSecond.dx > 200 && state.posts.length > 2) {
+                                    AppUser.instance.likePost(state.posts[0].postId.toString());
+                                    showFloatingRightSnackBar(context);
+                                    context.read<SwipeBlock>()
+                                      .add(SwipeRight(post: state.posts[0]));
+                                  } else if (drag.velocity.pixelsPerSecond.dx < 200 && drag.velocity.pixelsPerSecond.dx > -200) {
+                                    Logger.log('Stay');
+                                  } else {
+                                    Logger.log('Stay');
+                                  }
+                                },
+                                child: ScreenCards(post: state.posts[0]),
+                              )
+                            ],
+                          );
+                        } else {
+                          return const Text('Something Went Wrong');
+                        }
+                      }
+                  ),
                 )
-              ],
-              );
-            }
-            else { return const Text('Something Went Wrong');
-          }
+            ),
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
         }
-      ),)
+      },
     );
   }
 
@@ -91,18 +114,16 @@ class _FeedScreenState extends State<FeedScreen> {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Row(
-        children: const <Widget>[
-          Icon(
-              Icons.favorite_outline
+      children: const <Widget>[
+        Icon(Icons.favorite_outline),
+        Text("    Like!",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold
           ),
-          Text(
-            "    Like!",
-            style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-        ]
+          textAlign: TextAlign.center,
+        ),
+      ]
     ),
     backgroundColor: Colors.green,
     duration: const Duration(seconds: 1),
