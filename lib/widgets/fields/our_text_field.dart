@@ -20,6 +20,7 @@ class OurTextField extends StatefulWidget {
   final bool showCounter;
   final TextInputType? keyboard;
   final List<dynamic>? inputFormatters;
+  final String? initialValue;
 
   const OurTextField({
     super.key,
@@ -34,6 +35,7 @@ class OurTextField extends StatefulWidget {
     showCounter,
     this.keyboard,
     this.inputFormatters,
+    this.initialValue,
   }): hideText = hideText ?? false,
       showCounter = showCounter ?? false;
 
@@ -93,6 +95,7 @@ class OurTextFieldState extends State<OurTextField> {
           maxLines: _textField.maxLines ?? 1,
           keyboardType:_textField.keyboard,
           inputFormatters: const [],
+          initialValue: _textField.initialValue,
         )
     );
   }

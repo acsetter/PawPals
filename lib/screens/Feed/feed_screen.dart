@@ -24,7 +24,7 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   FeedScreen get parent => super.widget;
 
-  final String screenTitle = "Feed Screen";
+  final String screenTitle = "Feed";
 
   Future<List<PostModel>> fetchPosts() async {
     List<PostModel>? posts = await FirestoreService.getPreferences()
@@ -33,10 +33,17 @@ class _FeedScreenState extends State<FeedScreen> {
     posts.add(AppData.post[0]);
     posts.add(AppData.post[1]);
     for(var i =0; i< posts.length; i++) {
-      if (posts[i].uid == FirebaseAuth.instance.currentUser?.uid){
+      if (posts[i].uid == FirebaseAuth.instance.currentUser?.uid) {
+        posts.removeAt(i);
+      }
+
+      var likedPosts = AppUser.instance.userModel?.likedPosts;
+      if (likedPosts != null &&
+          likedPosts.any((pid) => pid == posts?[i].postId)) {
         posts.removeAt(i);
       }
     }
+
     return posts;
   }
 

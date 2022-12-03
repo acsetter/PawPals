@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -340,16 +341,29 @@ class FirestoreService {
   }
 
   /// Gets a list of [PostModel]s from an expected [UserModel] from the database.
-  static Future<List<PostModel>?> likedPostsByUser(UserModel userModel) => _posts
-      .where("postId", whereIn: userModel.likedPosts ?? ["_"])
-      .orderBy("timestamp", descending: true)
-      .withConverter(
-      fromFirestore: PostModel.fromFirestore,
-      toFirestore: (snapshot, _) => snapshot.toFirestore())
-      .get()
-      .then(
-        (snapshot) => List<PostModel>.from(snapshot.docs.map((doc) => doc.data())),
-        onError: (e) => Logger.log(e.toString(), isError: true));
+  static Future<List<PostModel>?> likedPostsByUser(UserModel userModel) async {
+    List<String>? qList = userModel.likedPosts?.toList();
+    List<PostModel> posts = [];
+    if (qList == null || qList.isEmpty) return null;
+
+    while (qList.isNotEmpty) {
+      int n = min(qList.length, 10);
+      await _posts
+          .where("postId", whereIn: qList.sublist(0, n).toList())
+          // .orderBy("timestamp", descending: true)
+          .withConverter(
+          fromFirestore: PostModel.fromFirestore,
+          toFirestore: (snapshot, _) => snapshot.toFirestore())
+          .get()
+          .then(
+              (snapshot) => posts.addAll(snapshot.docs.map((doc) => doc.data())),
+          onError: (e) => Logger.log(e.toString(), isError: true));
+
+      qList.removeRange(0, n);
+    }
+
+    return posts;
+  }
 
   /// Query all users and return if given username is unique.
   /// Returns null if error occurs.
