@@ -1,5 +1,3 @@
-import 'dart:math';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'app_log.dart';
 
@@ -42,5 +40,25 @@ class AppUtils {
   static String dateFromTimestamp(int timestamp) {
     var dt = DateTime.fromMillisecondsSinceEpoch(timestamp);
     return "${dt.month}/${dt.day}/${dt.year} ${dt.hour}:${dt.minute}";
+  }
+
+  static String relDateFromTimestamp(int timestamp) {
+    int dT = DateTime.now().millisecondsSinceEpoch - timestamp;
+    if (dT < 60000) return "Just Now";
+
+    int m = dT ~/ 60000;
+    if (m < 60) return "$m minute${m > 1 ? 's' : ''} ago";
+
+    int h = dT ~/ 3600000;
+    if (h < 24) return "$h hour${h > 1 ? 's' : ''} ago";
+
+    int d = dT ~/ 86400000;
+    if (d < 7) return "$d day${d > 1 ? 's' : ''} ago";
+
+    int w = dT ~/ 604800000;
+    if (w < 3) return "$w week${w > 1 ? 's' : ''} ago";
+
+    var date = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    return "on ${date.month}/${date.day}/${date.year}";
   }
 }

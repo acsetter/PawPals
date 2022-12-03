@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/utils/app_utils.dart';
 
-
 /// Model that defines the post data stored in the database.
 /// **WARNING:** [PostModel] fields are not null-safe and need to be handled as such.
 class PostModel {

@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:paw_pals/widgets/profile/profile_builder.dart';
-import '../../widgets/bars/our_app_bar.dart';
-import '../../widgets/bars/our_app_bar_profile.dart';
+import 'package:paw_pals/widgets/bars/our_app_bar.dart';
+import 'package:paw_pals/widgets/bars/our_app_bar_profile.dart';
 
 
 /// A screen that displays either the user's own profile and other profiles

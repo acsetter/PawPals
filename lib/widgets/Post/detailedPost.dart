@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:paw_pals/controllers/app_user.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:paw_pals/constants/app_types.dart';
@@ -29,12 +30,27 @@ class DetailedPost extends StatelessWidget{
     );
   }
 
+  Widget buildBtn(BuildContext context) {
+    if (AppUser.instance.userModel?.uid == post.uid) {
+      // TODO: Possible add an edit-post and delete-post button
+      return const Text(''); 
+    }
+    
+    return AppButton(
+      appButtonType: AppButtonType.outlined,
+      icon: AppIcons.email,
+      label: "Email Owner",
+      onPressed: () {
+        if (post.email != null) _launchEmail(post.email!);
+      },
+    );
+  }
+
   Future<void> _launchEmail(String email) async {
     if (await canLaunchUrlString('mailto:$email')) {
       await launchUrlString('mailto:$email');
     } else {
       Logger.log("Error launching email client for $email", isError: true);
-      // Get.snackbar("Error launching email client", '');
     }
   }
 
@@ -123,7 +139,7 @@ class DetailedPost extends StatelessWidget{
                     padding: EdgeInsets.only(right: 5),
                     child: Icon(Icons.calendar_month, size: 15),
                   ),
-                  Text("Posted on ${AppUtils.dateFromTimestamp(post.timestamp!)} by "),
+                  Text("Posted ${AppUtils.relDateFromTimestamp(post.timestamp!)} by "),
                   InkWell(
                     child: Text(uname, style: TextStyle(
                       color: Theme.of(context).colorScheme.primary
@@ -188,14 +204,7 @@ class DetailedPost extends StatelessWidget{
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-              child: AppButton(
-                appButtonType: AppButtonType.outlined,
-                icon: AppIcons.email,
-                label: "Email Owner",
-                onPressed: () {
-                  if (post.email != null) _launchEmail(post.email!);
-                },
-              ),
+              child: buildBtn(context)
             ),
           ],
         ),
