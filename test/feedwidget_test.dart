@@ -6,6 +6,7 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,13 +34,12 @@ void main() {
     // Build our app and trigger a frame.
     //await Firebase.initializeApp();
 
-    await tester.pumpWidget(const MyApp());
-    var button = find.text("Feed Example");
-    expect(button,findsWidgets);
-    print("Feed Example");
-    await tester.tap(button);
-    await tester.pump();
-    expect(find.text("Feed Screen"), findsWidgets);
+    await tester.pumpWidget(const FeedScreen());
+    var loading = find.byType(Draggable);
+    expect(loading,findsOneWidget);
+
+
+
 
     /*await tester.pumpWidget(const FeedScreen());
     card = find.byType(StreamBuilder);*/

@@ -58,10 +58,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   appBar: OurAppBarPref.build(screenTitle, context),
                   body: BlocBuilder<SwipeBlock, SwipeState>(
                       builder: (context, state) {
-                        if(state is SwipeLoading){
-                          return const Center(child: CircularProgressIndicator(),);
-                        }
-                        else if (state is SwipeLoaded){
+                        if (state is SwipeLoaded){
                           return Column(
                             children: [
                               Draggable(
