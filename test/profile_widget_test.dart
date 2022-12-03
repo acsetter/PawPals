@@ -1,29 +1,42 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:paw_pals/constants/app_types.dart';
-import 'package:paw_pals/screens/post/create_post_screen.dart';
+import 'package:paw_pals/morganmockfirebase.dart';
 import 'package:paw_pals/screens/profile/profile_screen.dart';
 import 'package:paw_pals/utils/app_localizations.dart';
-import 'package:paw_pals/widgets/buttons/contained_button.dart';
+import 'package:paw_pals/widgets/app_image.dart';
+import 'package:paw_pals/widgets/list_of_posts.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:paw_pals/screens/profile/edit_profile_screen.dart';
-import 'package:paw_pals/utils/app_localizations.dart';
-import 'package:paw_pals/widgets/buttons/contained_button.dart';
 
+/// Morgan Widget Testing - Profile Screen
 
 void main() {
+
+
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  setupFirebaseAuthMocks();
+
+  setUpAll(() async {
+    await Firebase.initializeApp();
+  });
+
   testWidgets("Profile Screen Test", (tester) async {
     await tester.pumpWidget(const GetMaterialApp(
       home: ProfileScreen(),
       localizationsDelegates: [AppLocalizations.delegate],
     ));
-    await tester.pumpAndSettle();
 
+    final profilePhotoFinder = find.ancestor(
+        of: find.byType(AppImage), matching: find.byType(Column));
+    expect(profilePhotoFinder, findsWidgets);
 
-  });
+    final usernameFirstLastFinder = find.byType(Text);
+    expect(usernameFirstLastFinder, findsWidgets);
+
+    final profilePostsFinder = find.byType(ListGrid);
+    expect(profilePostsFinder, findsOneWidget);
+  }
+  );
 }
