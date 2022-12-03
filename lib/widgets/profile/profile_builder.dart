@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/screens/profile/edit_profile_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
@@ -30,6 +31,7 @@ class ProfileBuilder extends StatefulWidget {
 
 class _ProfileBuilderState extends State<ProfileBuilder> {
   String get uid => super.widget.uid;
+  ScrollController scrollController = ScrollController();
 
   late Future<UserModel?> userModelFuture;
   late Future<List<PostModel>?> userPostsFuture;
@@ -46,11 +48,36 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
           ),
         ),
         FieldWrapper(
-          child: Text('  ${userModel.username}\n${userModel.first} ${userModel.last}',
-        style: const TextStyle(
-        fontWeight: FontWeight.bold, fontSize: 24)
-          )
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('${userModel.first} ${userModel.last}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24
+                )
+              )
+            ],
+          ),
         ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(right: 5),
+            child: Icon(AppIcons.username.icon,
+              color: Theme.of(context).colorScheme.primary,
+              size: 22,
+            ),
+          ),
+          Text('${userModel.username}',
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 24
+              )
+          )
+        ],
+      ),
         FormWrapper(children: [
           FieldWrapper(
             child: Visibility(
@@ -77,35 +104,35 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    ScrollPhysics physics = const BouncingScrollPhysics();
     return RefreshIndicator(
         onRefresh: refresh,
-        child:CustomScrollView(
-          scrollDirection: Axis.vertical,
-          physics: const BouncingScrollPhysics(),
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           slivers: [
             SliverToBoxAdapter(
-                child: FutureBuilder(
+              child: FutureBuilder(
                 future: userModelFuture,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return buildUserInfo(context, snapshot.data!);
                   }
                   return const Center(child: CircularProgressIndicator());
-                }),),
-            SliverFillRemaining(
-                hasScrollBody: true,
-                child: FutureBuilder(
-                    future: userPostsFuture,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return ListGrid(post: snapshot.data!);
-                      }
-
-                      return const Center(child: CircularProgressIndicator());
-                    }),
+                }
+              ),
             ),
-          ]
-      ));
+            FutureBuilder(
+                future: userPostsFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListGrid(posts: snapshot.data!);
+                  }
+                  return const SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()));
+                }
+            ),
+          ],
+        ),
+    );
   }
 
   /// method invoked when the user pulls down to refresh the profile

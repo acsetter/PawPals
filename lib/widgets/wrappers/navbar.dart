@@ -1,15 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paw_pals/constants/app_colors.dart';
+import 'package:paw_pals/controllers/app_user.dart';
 import 'package:paw_pals/screens/home_screen.dart';
-import 'package:paw_pals/screens/login_screen.dart';
 import 'package:paw_pals/screens/post/create_post_screen.dart';
 import 'package:paw_pals/screens/post/liked_post_screen.dart';
 import 'package:paw_pals/screens/profile/profile_screen.dart';
 
 import '../../constants/app_icons.dart';
-import '../../utils/app_log.dart';
+import '../../models/user_model.dart';
 
 class Navbar extends StatefulWidget {
   final String title;
@@ -20,8 +19,10 @@ class Navbar extends StatefulWidget {
     super.key,
     child,
     title,
-    navIndex,
-  }) : navIndex = navIndex ?? 0, title = title ?? "", child = child ?? const Text("Error");
+    navIndex,})
+      : navIndex = navIndex ?? 0,
+        title = title ?? "",
+        child = child ?? const Text("Error");
 
   @override
   State<StatefulWidget> createState() => NavbarState();
@@ -51,12 +52,12 @@ class NavbarState extends State<Navbar> {
 
   @override
   Widget build(BuildContext context) {
-     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
+     return StreamBuilder<UserModel?>(
+      stream: AppUser.instance.appUserChanges(),
       builder: (BuildContext context, snapshot) {
         return Scaffold(
           body: _child,
-          bottomNavigationBar: snapshot.hasData ? BottomNavigationBar(
+          bottomNavigationBar: AppUser.instance.userModel != null ? BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             backgroundColor: AppColors.primary,
             selectedItemColor: Colors.white,

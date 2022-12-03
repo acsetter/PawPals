@@ -20,8 +20,8 @@ class LocationService {
   /// a geoHash of the users location as a OurLocation Object.
   /// When location is turned off returns OurLocation object with the
   /// latitude and longitude of uncw to use. HQ for Paw Pals
-  static getLocation() async {
-    Location location = new Location();
+  static Future<OurLocation> getLocation() async {
+    Location location = Location();
 
     MyGeoHash myGeoHash = MyGeoHash();
     bool _serviceEnabled;
@@ -62,10 +62,10 @@ class LocationService {
 
     String? hash = myGeoHash.geoHashForLocation(
         GeoPoint(_locationData.latitude!, _locationData.longitude!));
-    Get.snackbar('Location Services: ON\nTap To Go To Settings', 'Using Users Location',
-            snackPosition: SnackPosition.BOTTOM,
-            duration: const Duration(seconds: 5),
-            onTap: (snack) => Geolocator.openLocationSettings());
+    // Get.snackbar('Location Services: ON\nTap To Go To Settings', 'Using Users Location',
+    //         snackPosition: SnackPosition.BOTTOM,
+    //         duration: const Duration(seconds: 5),
+    //         onTap: (snack) => Geolocator.openLocationSettings());
 
     return OurLocation(
         latitude: _locationData.latitude,
@@ -93,10 +93,10 @@ class LocationService {
       postModel.longitude ??= userLocation.longitude;
 
       postModelDistance = await getDistance(
-          userLatitude: userLocation.latitude,
-          userLongitude: userLocation.longitude,
-          postLatitude: postModel.latitude,
-          postLongitude: postModel.longitude);
+          latA: userLocation.latitude!,
+          longA: userLocation.longitude!,
+          latB: postModel.latitude!,
+          longB: postModel.longitude!);
       if (postModelDistance <= searchRadius) {
         newPostModelList.add(postModel);
       }
@@ -107,25 +107,23 @@ class LocationService {
 
   /// function to get the distance between two pairs of coordinates
   /// returns distance in miles
-  static getDistance(
-      {userLatitude, userLongitude, postLatitude, postLongitude}) {
-    /// function to compute distance
-    double calculateDistance({userLat, userLong, postLat, postLong}) {
-      var p = 0.017453292519943295;
-      var a = 0.5 -
-          cos((postLat - userLat) * p) / 2 +
-          cos(userLat * p) *
-              cos(postLat * p) *
-              (1 - cos((postLong - userLong) * p)) /
-              2;
-      return 12742 * asin(sqrt(a));
-    }
+  static getDistance({
+    required double latA,
+    required double longA,
+    required double latB,
+    required double longB
+  }) {
+    // 1m = 1/1609.344mi
+    return Geolocator.distanceBetween(latA, longA, latB, longB) * (1/1609.344);
+  }
 
-    return calculateDistance(
-        userLat: userLatitude,
-        userLong: userLongitude,
-        postLat: postLatitude,
-        postLong: postLongitude);
+  static Future<double> getLiveDistance({
+    required double latB,
+    required double longB
+  }) async {
+    return await getLocation().then((curr) =>
+        getDistance(latA: curr.latitude!, longA: curr.longitude!,
+            latB: latB, longB: longB));
   }
 }
 
@@ -135,6 +133,9 @@ class OurLocation {
   double? longitude;
   double? latitude;
   String? geoHash;
-  OurLocation(
-      {required this.longitude, required this.latitude, required this.geoHash});
+  OurLocation({
+    required this.longitude,
+    required this.latitude,
+    required this.geoHash
+  });
 }
