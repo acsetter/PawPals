@@ -6,7 +6,7 @@ import 'package:paw_pals/screens/profile/profile_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/controllers/app_user.dart';
 import 'package:paw_pals/models/post_model.dart';
-import 'package:paw_pals/widgets/Post/DetailedPost.dart';
+import 'package:paw_pals/widgets/Post/detailed_post.dart';
 import 'package:paw_pals/utils/app_log.dart';
 import 'package:paw_pals/constants/app_types.dart';
 

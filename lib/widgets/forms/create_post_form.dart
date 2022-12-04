@@ -12,7 +12,7 @@ import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/screens/profile/profile_screen.dart';
 import 'package:paw_pals/widgets/app_image.dart';
-import 'package:paw_pals/widgets/buttons/contained_button.dart';
+import 'package:paw_pals/widgets/app_button.dart';
 import 'package:paw_pals/widgets/fields/our_text_field.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/forms/_form_validation.dart';
@@ -270,7 +270,8 @@ class CreatePostFormState extends State<CreatePostForm> with FormValidation {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    ContainedButton(
+                    AppButton(
+                      appButtonType: AppButtonType.contained,
                       icon: AppIcons.user,
                       onPressed: () {
                         // if statement that validates the text fields and makes sure that the user

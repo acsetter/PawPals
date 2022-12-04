@@ -3,13 +3,13 @@ import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:paw_pals/widgets/buttons/contained_button.dart';
 import 'package:paw_pals/widgets/fields/our_text_field.dart';
 import 'package:paw_pals/widgets/forms/_form_validation.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/services/auth_service.dart';
 import 'package:paw_pals/screens/home_screen.dart';
+import 'package:paw_pals/widgets/app_button.dart';
 
 typedef Func = void Function();
 /// Form for user-login. A login request including an email and password is
@@ -66,7 +66,8 @@ class LoginFormState extends State<LoginForm> with FormValidation {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      ContainedButton(
+                      AppButton(
+                        appButtonType: AppButtonType.contained,
                         icon: AppIcons.login,
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {

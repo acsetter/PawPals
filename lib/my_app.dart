@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+
 import 'package:paw_pals/constants/app_theme.dart';
 import 'package:paw_pals/screens/home_screen.dart';
 import 'package:paw_pals/screens/login_screen.dart';
@@ -11,18 +12,17 @@ import 'package:paw_pals/widgets/wrappers/navbar.dart';
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Test App',
+      title: 'PawPals',
       home: const AuthWrapper(home: HomeScreen(), login: LoginScreen()),
       locale: const Locale("en", "US"),
       builder: (context, child) {
         return Overlay(
           initialEntries: [
-            OverlayEntry(
-                builder: (context) => Navbar(child: child)
-            )
+            OverlayEntry(builder: (context) => Navbar(child: child))
           ],
         );
       },

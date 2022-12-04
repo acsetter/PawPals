@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:paw_pals/constants/app_theme.dart';
 import 'package:paw_pals/screens/login_screen.dart';
 import 'package:paw_pals/utils/app_localizations.dart';
-import 'package:paw_pals/widgets/buttons/contained_button.dart';
+import 'package:paw_pals/widgets/app_button.dart';
 
 /// Black-box system testing for login screen using
 /// https://pub.dev/packages/firebase_auth_mocks
@@ -38,7 +38,7 @@ void main() async {
 
     await tester.enterText(find.widgetWithText(TextFormField, "Email"), "foo@bar.com");
     await tester.enterText(find.widgetWithText(TextFormField, "Password"), "Abc-1234");
-    await tester.tap(find.widgetWithText(ContainedButton, "Login"));
+    await tester.tap(find.widgetWithText(AppButton, "Login"));
     await tester.pumpAndSettle();
 
     expect(find.text("Login"), findsNothing, reason: "User should be successfully logged in.");
@@ -106,7 +106,7 @@ void main() async {
 
     await tester.enterText(find.widgetWithText(TextFormField, "Email"), "foo@bar.com");
     await tester.enterText(find.widgetWithText(TextFormField, "Password"), "Abc-1234");
-    await tester.tap(find.widgetWithText(ContainedButton, "Login"));
+    await tester.tap(find.widgetWithText(AppButton, "Login"));
 
     for (int i = 0; i < 5; i++) {
       // another janky solution to timers causing test issues:
@@ -147,7 +147,7 @@ void main() async {
 
     await tester.enterText(find.widgetWithText(TextFormField, "Email"), "foo@bar.com");
     await tester.enterText(find.widgetWithText(TextFormField, "Password"), "Abc-1234");
-    await tester.tap(find.widgetWithText(ContainedButton, "Login"));
+    await tester.tap(find.widgetWithText(AppButton, "Login"));
 
     for (int i = 0; i < 5; i++) {
       await tester.pump(const Duration(seconds: 1));
