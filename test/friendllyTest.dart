@@ -21,58 +21,25 @@ void main() {
     await Firebase.initializeApp();
   });
 
-// Pet Friendly Text is on Widget
+
   testWidgets('PetFriendlyFinder', (WidgetTester tester) async {
     await tester.pumpWidget(const GetMaterialApp(
       home: FeedScreen(), // look on FeedScreen
       localizationsDelegates: [AppLocalizations.delegate],
     ));
+
     await tester.pump(const Duration(seconds: 5)); // create widget
     var posts = find.byType(Draggable); // find screen card
     var name = find.descendant(of: posts, matching: find.byType(Text));
     await tester.tap(name); // tap on text name
     await tester.pumpAndSettle();
-    expect(find.text("Pet Friendly"), findsAtLeastNWidgets(1)); // find at least 1 widget with text "pet friendly"
-  });
 
-  // Test if widget with Kid Friendly Text is on Feed Screen
-  testWidgets('KidFriendlyFinder', (WidgetTester tester) async {
-    await tester.pumpWidget(const GetMaterialApp(
-      home: FeedScreen(),
-      localizationsDelegates: [AppLocalizations.delegate],
-    ));
-    await tester.pump(const Duration(seconds: 5));
-    var posts = find.byType(Draggable);
-    var name = find.descendant(of: posts, matching: find.byType(Text));
-    await tester.tap(name);
-    await tester.pumpAndSettle();
-    expect(find.text("Kid Friendly"), findsAtLeastNWidgets(1)); // find at least 1 widget with text "kid friendly"
-  });
+    // Pet Friendly Text is on Widget
+    final petFriendlyFinder = find.text("Pet Friendly");
+    expect(petFriendlyFinder, findsAtLeastNWidgets(1)); // find at least 1 widget with text "pet friendly"
 
-  // Test if widget with female gender icon is on Liked Post Screen
-  testWidgets('KidFriendlyFinder', (WidgetTester tester) async {
-    await tester.pumpWidget(const GetMaterialApp(
-      home: FeedScreen(),
-      localizationsDelegates: [AppLocalizations.delegate],
-    ));
-    await tester.pump(const Duration(seconds: 5));
-    var posts = find.byType(Draggable);
-    var name = find.descendant(of: posts, matching: find.byType(Text));
-    await tester.tap(name);
-    await tester.pumpAndSettle();
-    expect(find.text("Kid Friendly"), findsAtLeastNWidgets(1)); // find at least 1 widget with text "kid friendly"
+    // Kid Friendly Text is on Widget
+    final kidFriendlyFinder = find.text("Kid Friendly");
+    expect(kidFriendlyFinder, findsAtLeastNWidgets(1)); // find at least 1 widget with text "kid friendly"
   });
-
-  testWidgets('tap post', (WidgetTester tester) async {
-    await tester.pumpWidget(const GetMaterialApp(
-      home: FeedScreen(),
-      localizationsDelegates: [AppLocalizations.delegate],
-    ));
-    await tester.pump(Duration(seconds: 100));
-    var posts = find.byType(Draggable);
-    var name = find.descendant(of: posts, matching: find.byType(Text));
-    await tester.tap(name);
-    await tester.pumpAndSettle();
-  });
-
 }
