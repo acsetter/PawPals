@@ -21,8 +21,8 @@ void main() {
     await Firebase.initializeApp();
   });
 
-
-  testWidgets('PetFriendlyFinder', (WidgetTester tester) async {
+  // find friendly text labels on post
+  testWidgets('FriendlyFinder', (WidgetTester tester) async {
     await tester.pumpWidget(const GetMaterialApp(
       home: FeedScreen(), // look on FeedScreen
       localizationsDelegates: [AppLocalizations.delegate],
