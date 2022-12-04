@@ -56,7 +56,7 @@ class DetailedPost extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    String uname = post.username ?? "owner";
+    String uname = post.username ?? "Owner";
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
