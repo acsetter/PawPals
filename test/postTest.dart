@@ -23,18 +23,15 @@ void main() {
     await Firebase.initializeApp();
   });
 
-// Find detailed post widget on Feed Screen
-  testWidgets("Detailed Post Feed Screen Test", (tester) async {
+// Find post widget on Feed Screen
+  testWidgets("Post on Feed Screen Test", (tester) async {
     await tester.pumpWidget(const GetMaterialApp(
       home: FeedScreen(),
       localizationsDelegates: [AppLocalizations.delegate],
     ));
 
     await tester.pump(const Duration(seconds: 5)); // create widget
-    var posts = find.byType(Draggable); // find screen cards
-    var name = find.descendant(of: posts, matching: find.byType(Text));
-    await tester.tap(name); // tap name on post
-    await tester.pumpAndSettle();
+    find.byType(Draggable); // find screen cards
 
     //Pet Image on Widget
     final petPhotoFinder = find.byType(CachedNetworkImageProvider);
@@ -48,17 +45,7 @@ void main() {
     final petAgeFinder = find.byType(Text);
     expect(petAgeFinder, findsAtLeastNWidgets(1));
 
-    // Female Icon on Widget
-    final femalePetFinder = find.byIcon(Icons.female);
-    expect(femalePetFinder, findsAtLeastNWidgets(1));
 
-    // Male Icon on Widget
-    final malePetFinder = find.byIcon(Icons.male);
-    expect(malePetFinder, findsAtLeastNWidgets(1));
-
-    // Pet Description on Widget
-    final petDescription = find.byType(Text);
-    expect(petDescription, findsAtLeastNWidgets(1));
   }
   );
 }
