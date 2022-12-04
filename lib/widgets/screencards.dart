@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:paw_pals/constants/app_data.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:paw_pals/screens/post/post_screen.dart';
@@ -68,7 +67,7 @@ class ScreenCards extends StatelessWidget {
                           onTap: () {
                             Get.to(() => PostScreen(post: post));
                           },
-                          child: Text('${post.petName}, ${post.petAge}',
+                          child: Text('${post.petName}, ${post.petAge}, ${post.petGender?.name}',
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6!
@@ -77,14 +76,6 @@ class ScreenCards extends StatelessWidget {
                                     fontWeight: FontWeight.w300,
                                   )),
                         ),
-                        Text('${post.postDescription}\n',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal,
-                                )),
                         /*Row(
                   children: [
                     Container(

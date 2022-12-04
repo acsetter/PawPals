@@ -32,26 +32,20 @@ class _LikedPostBuilderState extends State<LikedPostBuilder> {
       onRefresh: refresh,
       child: CustomScrollView(
         scrollDirection: Axis.vertical,
-        physics: const BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         slivers: [
-          const SliverToBoxAdapter(
-            // This is a quick fix and acts as an anchor.
-            // Otherwise, pull down to refresh will not work.
-            child: Text(""),
-          ),
-          SliverFillRemaining(
-            hasScrollBody: true,
-            child: FutureBuilder(
-              future: likedPostsFuture,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListGrid(post: snapshot.data!);
-                }
+          FutureBuilder(
+            future: likedPostsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListGrid(posts: snapshot.data!);
+              }
 
-                return const Center(child: CircularProgressIndicator());
-              },
-            ),
-          )
+              return const SliverToBoxAdapter(
+                  child: Center(child: CircularProgressIndicator())
+              );
+            },
+          ),
         ],
       ),
     );
