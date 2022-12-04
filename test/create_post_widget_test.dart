@@ -8,6 +8,8 @@ import 'package:paw_pals/widgets/buttons/contained_button.dart';
 
 
 /// Morgan Widget Testing - Create Post
+/// Should test a create post by entering valid and invalid text
+/// within the text fields and attempt to submit the form.
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -62,7 +64,8 @@ void main() {
     expect(kidPetFriendlyCheckbox, findsWidgets);
     await tester.tap(submitBtn);
     await tester.pumpAndSettle();
-    expect(find.text("Invalid pet name"), findsNothing, reason: "Pet Name field submitted as 'Sweet Pea 1012032'");
+    expect(find.text("Invalid pet name"), findsNothing,
+        reason: "Pet Name field submitted as 'Sweet Pea 1012032'");
 
 
     // Invalid pet age submission:
@@ -74,7 +77,8 @@ void main() {
     expect(kidPetFriendlyCheckbox, findsWidgets);
     await tester.tap(submitBtn);
     await tester.pumpAndSettle();
-    expect(find.text("is not a valid number"), findsNothing, reason: "Pet Age field submitted as 'sprinkles'");
+    expect(find.text("is not a valid number"), findsNothing,
+        reason: "Pet Age field submitted as 'sprinkles'");
 
   });
 }

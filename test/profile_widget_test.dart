@@ -10,6 +10,7 @@ import 'package:paw_pals/widgets/list_of_posts.dart';
 
 
 /// Morgan Widget Testing - Profile Screen
+/// Should simply find defined widgets on the profile screen.
 
 void main() {
 
@@ -28,7 +29,7 @@ void main() {
       localizationsDelegates: [AppLocalizations.delegate],
     ));
 
-    final profilePhotoFinder = find.ancestor(
+    final profilePhotoFinder = find.descendant(
         of: find.byType(AppImage), matching: find.byType(Column));
     expect(profilePhotoFinder, findsWidgets);
 

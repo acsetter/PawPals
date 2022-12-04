@@ -9,6 +9,8 @@ import 'package:paw_pals/widgets/buttons/contained_button.dart';
 
 
 /// Morgan Widget Testing - Edit Profile
+/// Should find widgets on the edit profile screen and attempt
+/// to enter both valid and invalid text and submit the form.
 
 void main() {
 
@@ -40,8 +42,10 @@ void main() {
     await tester.pump();
     await tester.pumpAndSettle();
     await tester.pump(const Duration(seconds: 3));
-    expect(find.text("Please enter your first name."), findsWidgets, reason: "First name field was submitted blank.");
-    expect(find.text("Please enter your last name."), findsWidgets, reason: "Last name field was submitted blank.");
+    expect(find.text("Please enter your first name."), findsWidgets,
+        reason: "First name field was submitted blank.");
+    expect(find.text("Please enter your last name."), findsWidgets,
+        reason: "Last name field was submitted blank.");
 
 
     // Invalid first name submission:
@@ -53,7 +57,8 @@ void main() {
     await tester.pump();
     await tester.pumpAndSettle();
     await tester.pump(const Duration(seconds: 3));
-    expect(find.text("Name must only contain letters: A-z."), findsWidgets, reason: "First name field submitted as '3420.39'");
+    expect(find.text("Name must only contain letters: A-z."), findsWidgets,
+        reason: "First name field submitted as '3420.39'");
 
     // Invalid last name submission:
     await tester.enterText(firstNameField, "Morgan");
@@ -64,7 +69,8 @@ void main() {
     await tester.pump();
     await tester.pumpAndSettle();
     await tester.pump(const Duration(seconds: 3));
-    expect(find.text("Name must only contain letters: A-z."), findsWidgets, reason: "First name field submitted as '3420.39'");
+    expect(find.text("Name must only contain letters: A-z."), findsWidgets,
+        reason: "First name field submitted as '3420.39'");
 
     // Valid first and last name submission:
     await tester.enterText(firstNameField, "Morgan");
