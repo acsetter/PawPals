@@ -42,6 +42,27 @@ any device. You can hot reload changes within Android Studio by pressing
 the lightning-icon or the refresh-icon in the console while the app is running. Any huge crashes or
 changes made outside the `lib` folder will require a full restart of the app.
 
+## Testing
+As explained [here](https://github.com/UNCW-CSC-450/csc450fa22-project-group-8/issues/66), integration testing
+doesn't seem to be working on Android with multidex enabled, so testing is limited to only Widget tests.
+
+To run all Widget tests, ensure you are in the project's root directory and run:
+```
+flutter test
+```
+Optionally, you can run specific tests by specifying the name of the test file:
+```
+flutter test file_name.dart
+```
+
+#### Testing With Coverage
+There are command line methods available, but they are not well-supported on Windows. 
+For coverage testing in Android Studio, create a new run configuration similar to the following example:
+![image](https://user-images.githubusercontent.com/39916941/205510036-e95acee6-3946-4e63-8b2d-3dc59b9f7965.png)
+Then, run the configuration with coverage by clicking the 'run with coverage' button:
+![image](https://user-images.githubusercontent.com/39916941/205510205-65f0085d-30f0-4528-9ddb-7d995ac25f7d.png)
+
+
 ## Team Members
 * [Morgan Glisson](https://github.com/morganglis)
 * [Aaron Csetter](https://github.com/acsetter)
