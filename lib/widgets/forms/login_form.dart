@@ -1,4 +1,5 @@
 // Following along: https://docs.flutter.dev/cookbook/forms/text-field-changes
+import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,8 +15,9 @@ typedef Func = void Function();
 /// Form for user-login. A login request including an email and password is
 /// sent on submission of this form.
 class LoginForm extends StatefulWidget {
+  final MockFirebaseAuth? testAuth;
 
-  const LoginForm({super.key});
+  const LoginForm({super.key, this.testAuth});
 
   @override
   State<LoginForm> createState() => LoginFormState();
@@ -27,6 +29,8 @@ class LoginFormState extends State<LoginForm> with FormValidation {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  MockFirebaseAuth? get _testAuth => super.widget.testAuth;
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +73,7 @@ class LoginFormState extends State<LoginForm> with FormValidation {
                             AuthService.signIn(
                               email: emailController.text.trim(),
                               password: passwordController.text.trim(),
+                              testAuth: _testAuth
                             ).then((String val) {
                               if (val.isNotEmpty) {
                                 Get.snackbar("Error:", translate('errors.$val'),
