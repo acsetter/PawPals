@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/services/firestore_service.dart';
@@ -30,11 +31,12 @@ class AuthService {
   ///  - Thrown if the password is invalid for the given email, or the account
   ///    corresponding to the email does not have a password set.
   static Future<String> signIn(
-      {required String email, required String password}) async {
+      {required String email, required String password, MockFirebaseAuth? testAuth}) async {
     try {
-      await _auth.signInWithEmailAndPassword(
+      FirebaseAuth auth = testAuth ?? _auth;
+      await auth.signInWithEmailAndPassword(
           email: email, password: password);
-      Logger.log('Logged in as: ${FirebaseAuth.instance.currentUser?.email ?? "error getting email"}');
+      Logger.log('Logged in as: ${auth.currentUser?.email ?? "error getting email"}');
       return "";
     } on FirebaseAuthException catch (e) {
       Logger.log('${e.code}: ${e.message}', isError: true);
