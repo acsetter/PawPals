@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:paw_pals/constants/app_data.dart';
+import 'package:paw_pals/screens/profile/profile_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/widgets/app_image.dart';
 import 'package:paw_pals/constants/app_icons.dart';
@@ -96,7 +97,7 @@ class EditProfileState extends State<EditProfile> with FormValidation {
                                   last: lastNameController.text.trim()),
                                 file: fileController.value)
                               .then((didComplete) => didComplete
-                                ? Get.back()
+                                ? Get.offAll(() => const ProfileScreen())
                                 // Returns a snackbar with an error message if user could not be updated.
                                 : Get.snackbar(
                                 'Error: unable to update profile',

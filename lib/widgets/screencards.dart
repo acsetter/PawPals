@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:paw_pals/screens/post/post_screen.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:paw_pals/widgets/Post/detailed_post.dart';
 
 class ScreenCards extends StatelessWidget {
   final PostModel post;
@@ -65,7 +65,7 @@ class ScreenCards extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {
-                            Get.to(() => PostScreen(post: post));
+                            Get.to(() => DetailedPost(post: post));
                           },
                           child: Text('${post.petName}, ${post.petAge}, ${post.petGender?.name}',
                               style: Theme.of(context)
