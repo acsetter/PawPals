@@ -4,7 +4,7 @@ import 'package:paw_pals/constants/app_colors.dart';
 import 'package:paw_pals/constants/app_info.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/models/pref_model.dart';
-import 'package:paw_pals/screens/Feed/feed_screen.dart';
+import 'package:paw_pals/screens/feed_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 
 class PreferenceForm extends StatefulWidget {

@@ -12,7 +12,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:paw_pals/SavannahFirebase.dart';
 import 'package:paw_pals/screens/post/liked_post_screen.dart';
 import 'package:paw_pals/utils/app_localizations.dart';
-import 'package:paw_pals/widgets/buttons/contained_button.dart';
+import 'package:paw_pals/widgets/app_button.dart';
 
 
 void main() {
@@ -36,7 +36,7 @@ void main() {
     var posts = find.byType(CachedNetworkImageProvider); // find by photo
     await tester.tap(posts);
     await tester.pumpAndSettle();
-    final unlikeButton = find.byType(ContainedButton);
+    final unlikeButton = find.byType(AppButton);
     await tester.tap(unlikeButton); //tap unlike button
     await tester.pumpAndSettle();
     expect(find.text("Unlike"), findsAtLeastNWidgets(1));

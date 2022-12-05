@@ -7,7 +7,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 class ScreenCards extends StatelessWidget {
   final PostModel post;
 
-  ScreenCards({
+  const ScreenCards({
     Key? key,
     required this.post,
   }) : super(key: key);
@@ -41,7 +41,7 @@ class ScreenCards extends StatelessWidget {
                           color: Colors.grey.withOpacity(1.0),
                           spreadRadius: 4,
                           blurRadius: 4,
-                          offset: Offset(3, 3),
+                          offset: const Offset(3, 3),
                         )
                       ]),
                 ),

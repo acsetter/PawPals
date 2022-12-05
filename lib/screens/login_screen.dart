@@ -1,7 +1,7 @@
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:paw_pals/screens/recovery/recovery_screen.dart';
+import 'package:paw_pals/screens/recovery_screen.dart';
 
 import 'package:paw_pals/screens/sign_up_screen.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';

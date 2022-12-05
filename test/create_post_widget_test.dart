@@ -4,7 +4,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/screens/post/create_post_screen.dart';
 import 'package:paw_pals/utils/app_localizations.dart';
-import 'package:paw_pals/widgets/buttons/contained_button.dart';
+import 'package:paw_pals/widgets/app_button.dart';
 
 
 /// Morgan Widget Testing - Create Post
@@ -37,7 +37,7 @@ void main() {
           (widget) => widget is Checkbox,
     );
 
-    final submitBtn = find.byType(ContainedButton);
+    final submitBtn = find.byType(AppButton);
 
     // Blank form submission:
     await tester.enterText(petNameField, "");

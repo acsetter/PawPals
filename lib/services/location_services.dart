@@ -1,9 +1,6 @@
-import 'dart:math';
-import 'package:flutter/material.dart';
 import 'package:flutter_geo_hash/geohash.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:location/location.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/models/pref_model.dart';
@@ -24,16 +21,16 @@ class LocationService {
     Location location = Location();
 
     MyGeoHash myGeoHash = MyGeoHash();
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData locationData;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
         String? hash =
-            myGeoHash.geoHashForLocation(GeoPoint(34.2261, -77.8718));
+            myGeoHash.geoHashForLocation(const GeoPoint(34.2261, -77.8718));
         Get.snackbar('Location Services: OFF\nTap To Go To Settings', 'Using Paw Pals HQ Location: UNCW',
             snackPosition: SnackPosition.BOTTOM,
             duration: const Duration(seconds: 5),
@@ -43,12 +40,12 @@ class LocationService {
       }
     }
 // 34.2261, -77.8718
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
         String? hash =
-            myGeoHash.geoHashForLocation(GeoPoint(34.2261, -77.8718));
+            myGeoHash.geoHashForLocation(const GeoPoint(34.2261, -77.8718));
         Get.snackbar('Location Services: OFF\nTap To Go To Settings', 'Using Paw Pals HQ Location: UNCW',
             snackPosition: SnackPosition.BOTTOM,
             duration: const Duration(seconds: 5),
@@ -58,18 +55,18 @@ class LocationService {
       }
     }
 
-    _locationData = await location.getLocation();
+    locationData = await location.getLocation();
 
     String? hash = myGeoHash.geoHashForLocation(
-        GeoPoint(_locationData.latitude!, _locationData.longitude!));
+        GeoPoint(locationData.latitude!, locationData.longitude!));
     // Get.snackbar('Location Services: ON\nTap To Go To Settings', 'Using Users Location',
     //         snackPosition: SnackPosition.BOTTOM,
     //         duration: const Duration(seconds: 5),
     //         onTap: (snack) => Geolocator.openLocationSettings());
 
     return OurLocation(
-        latitude: _locationData.latitude,
-        longitude: _locationData.longitude,
+        latitude: locationData.latitude,
+        longitude: locationData.longitude,
         geoHash: hash);
   }
 

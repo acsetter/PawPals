@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:paw_pals/models/user_model.dart';
 import 'package:paw_pals/utils/app_log.dart';
 import 'package:paw_pals/services/firestore_service.dart';
-import 'package:paw_pals/models/post_model.dart';
 
 /// The data-controller for the user of the app.
 /// This class is a singleton accessed by calling `AppUser.instance`.
@@ -27,7 +26,6 @@ class AppUser extends ChangeNotifier {
   UserModel? _userModel;
   StreamSubscription<User?>? _authSub;
   StreamSubscription<UserModel?>? _firestoreSub;
-  StreamSubscription<List<PostModel>?>? _userPostsSub;
 
   AppUser._() {
     _updateUser();

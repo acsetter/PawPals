@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paw_pals/screens/Feed/feed_screen.dart';
+import 'package:paw_pals/screens/feed_screen.dart';
 
 /// The app's home screen. User should be directed here if authenticated
 /// and the contents should be the app's primary content (in this case a feed).

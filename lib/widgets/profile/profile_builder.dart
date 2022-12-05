@@ -64,7 +64,7 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.only(right: 5),
+            padding: const EdgeInsets.only(right: 5),
             child: Icon(AppIcons.username.icon,
               color: Theme.of(context).colorScheme.primary,
               size: 22,
@@ -104,7 +104,6 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    ScrollPhysics physics = const BouncingScrollPhysics();
     return RefreshIndicator(
         onRefresh: refresh,
         child: CustomScrollView(

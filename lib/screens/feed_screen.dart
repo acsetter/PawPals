@@ -72,7 +72,7 @@ class _FeedScreenState extends State<FeedScreen> {
                           return Column(
                             children: [
                               Draggable(
-                                key: Key("draggablewidget"),
+                                key: const Key("draggablewidget"),
                                 feedback: ScreenCards(post: state.posts[0]),
                                 childWhenDragging: ScreenCards(post: state.posts[1]),
                                 onDragEnd: (drag) {
