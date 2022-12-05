@@ -1,3 +1,4 @@
+import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paw_pals/screens/recovery/recovery_screen.dart';
@@ -10,8 +11,9 @@ import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
 import 'package:paw_pals/constants/app_data.dart';
 
 class LoginScreen extends StatelessWidget {
+  final MockFirebaseAuth? testAuth;
 
-  const LoginScreen({super.key});
+  const LoginScreen({super.key, this.testAuth});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class LoginScreen extends StatelessWidget {
                 width: 160,
                 height: 160,
               ),
-              const LoginForm(),
+              LoginForm(testAuth: testAuth,),
               FieldWrapper(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
