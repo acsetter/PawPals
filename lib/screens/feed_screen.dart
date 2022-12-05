@@ -38,6 +38,7 @@ class _FeedScreenState extends State<FeedScreen> {
       }
 
       var likedPosts = AppUser.instance.userModel?.likedPosts;
+      likedPosts ??= await FirestoreService.getUser().then((userModel) => userModel?.likedPosts);
       if (likedPosts != null &&
           likedPosts.any((pid) => pid == posts?[i].postId)) {
         posts.removeAt(i);
@@ -72,7 +73,7 @@ class _FeedScreenState extends State<FeedScreen> {
                           return Column(
                             children: [
                               Draggable(
-                                key: Key("draggablewidget"),
+                                key: const Key("draggablewidget"),
                                 feedback: ScreenCards(post: state.posts[0]),
                                 childWhenDragging: ScreenCards(post: state.posts[1]),
                                 onDragEnd: (drag) {

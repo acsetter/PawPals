@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:paw_pals/widgets/buttons/contained_button.dart';
+import 'package:paw_pals/widgets/app_button.dart';
 import 'package:paw_pals/widgets/fields/our_text_field.dart';
 import 'package:paw_pals/widgets/forms/_form_validation.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
@@ -55,7 +55,8 @@ class EmailFormState extends State<EmailForm> with FormValidation {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      ContainedButton(
+                      AppButton(
+                        appButtonType: AppButtonType.contained,
                         icon: AppIcons.send,
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {

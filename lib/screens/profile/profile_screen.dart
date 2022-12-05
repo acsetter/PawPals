@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:paw_pals/widgets/profile/profile_builder.dart';
-import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/widgets/bars/our_app_bar_profile.dart';
 
 
@@ -9,7 +8,6 @@ import 'package:paw_pals/widgets/bars/our_app_bar_profile.dart';
 /// depending on if the profile uid matches the uid of the current user.
 class ProfileScreen extends StatelessWidget {
   final String? uid;
-
 
   const ProfileScreen({
     super.key,
@@ -34,7 +32,7 @@ class ProfileScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: OurAppBar.build("Profile"),
+      appBar: AppBar(title: const Text("Profile")),
       body: ProfileBuilder(uid: uid!),
     );
   }

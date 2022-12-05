@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:paw_pals/controllers/app_user.dart';
 import 'package:paw_pals/widgets/Post/liked_post_builder.dart';
-import 'package:paw_pals/widgets/bars/our_app_bar.dart';
 import 'package:paw_pals/models/user_model.dart';
 
 /// The screen that displays the logged-in user's list of liked posts.
@@ -12,7 +11,7 @@ class LikedPostScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: OurAppBar.build("Liked Posts"),
+      appBar: AppBar(title: const Text("Liked Posts")),
       // get the UserModel of the logged-in user via AppUser singleton
       body: StreamBuilder<UserModel?>(
         stream: AppUser.instance.appUserChanges(),

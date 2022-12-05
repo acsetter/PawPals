@@ -5,7 +5,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:paw_pals/morganmockfirebase.dart';
 import 'package:paw_pals/screens/profile/edit_profile_screen.dart';
 import 'package:paw_pals/utils/app_localizations.dart';
-import 'package:paw_pals/widgets/buttons/contained_button.dart';
+import 'package:paw_pals/widgets/app_button.dart';
 
 
 /// Morgan Widget Testing - Edit Profile
@@ -31,7 +31,7 @@ void main() {
 
     final firstNameField = find.ancestor(of: find.text("First Name"), matching: find.byType(TextFormField));
     final lastNameField = find.ancestor(of: find.text("Last Name"), matching: find.byType(TextFormField));
-    final submitBtn = find.byType(ContainedButton);
+    final submitBtn = find.byType(AppButton);
 
     // Blank form submission:
     await tester.enterText(firstNameField, "");

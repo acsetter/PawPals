@@ -5,7 +5,7 @@ import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/controllers/file_controller.dart';
 import 'package:paw_pals/services/storage_service.dart';
-import 'package:paw_pals/widgets/buttons/app_button.dart';
+import 'package:paw_pals/widgets/app_button.dart';
 
 Future<T?> showImageDialog<T>({
   required BuildContext context,

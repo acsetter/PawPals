@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:paw_pals/constants/app_data.dart';
+import 'package:paw_pals/screens/profile/profile_screen.dart';
 import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/widgets/app_image.dart';
 import 'package:paw_pals/constants/app_icons.dart';
@@ -8,7 +10,7 @@ import 'package:paw_pals/constants/app_info.dart';
 import 'package:paw_pals/controllers/app_user.dart';
 import 'package:paw_pals/controllers/file_controller.dart';
 import 'package:paw_pals/models/user_model.dart';
-import 'package:paw_pals/widgets/buttons/contained_button.dart';
+import 'package:paw_pals/widgets/app_button.dart';
 import 'package:paw_pals/widgets/fields/our_text_field.dart';
 import 'package:paw_pals/widgets/forms/_form_validation.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
@@ -81,7 +83,8 @@ class EditProfileState extends State<EditProfile> with FormValidation {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      ContainedButton(
+                      AppButton(
+                        appButtonType: AppButtonType.contained,
                         icon: AppIcons.edit,
                         onPressed: () {
                           // If all forms are valid, the instance of the user will be updated
@@ -94,7 +97,7 @@ class EditProfileState extends State<EditProfile> with FormValidation {
                                   last: lastNameController.text.trim()),
                                 file: fileController.value)
                               .then((didComplete) => didComplete
-                                ? Get.back()
+                                ? Get.offAll(() => const ProfileScreen())
                                 // Returns a snackbar with an error message if user could not be updated.
                                 : Get.snackbar(
                                 'Error: unable to update profile',

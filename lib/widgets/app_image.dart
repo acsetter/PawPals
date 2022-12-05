@@ -64,21 +64,26 @@ class AppImageState extends State<AppImage> {
   }
 
   Widget _editIcon(BuildContext context) {
+    // maintain intended ratios
+    double containerSize = (50 * (_width/180)).roundToDouble();
+    double padSize = (5 * (_width/180)).roundToDouble();
+    double iconSize = (30 * (_width/180)).roundToDouble();
+
     return Opacity(
       opacity: 0.5,
       child: Container(
-          padding: const EdgeInsets.fromLTRB(0, 0, 5, 5),
+          padding: EdgeInsets.fromLTRB(0, 0, padSize, padSize),
           alignment: Alignment.bottomRight,
           child: Container(
-            height: 50,
-            width: 50,
+            height: containerSize,
+            width: containerSize,
             decoration: const BoxDecoration(
                 color: Colors.black,
                 shape: BoxShape.circle
             ),
             child: Icon(
               AppIcons.addPhoto.icon,
-              size: 30,
+              size: iconSize,
               color: Colors.white,
             ),
           )

@@ -8,7 +8,7 @@ import 'package:paw_pals/services/firestore_service.dart';
 import 'package:paw_pals/constants/app_data.dart';
 import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/widgets/app_image.dart';
-import 'package:paw_pals/widgets/buttons/app_button.dart';
+import 'package:paw_pals/widgets/app_button.dart';
 import 'package:paw_pals/widgets/list_of_posts.dart';
 import 'package:paw_pals/widgets/wrappers/field_wrapper.dart';
 import 'package:paw_pals/widgets/wrappers/form_wrapper.dart';
@@ -64,7 +64,7 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.only(right: 5),
+            padding: const EdgeInsets.only(right: 5),
             child: Icon(AppIcons.username.icon,
               color: Theme.of(context).colorScheme.primary,
               size: 22,
@@ -104,7 +104,6 @@ class _ProfileBuilderState extends State<ProfileBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    ScrollPhysics physics = const BouncingScrollPhysics();
     return RefreshIndicator(
         onRefresh: refresh,
         child: CustomScrollView(

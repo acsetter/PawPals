@@ -57,7 +57,7 @@ class AppData {
       postDescription: "Please update your preferences to\nSee more pets!",
       petName: "You're Out of Pets!",
       petAge: 0,
-      petPhotoUrl: 'assets/images/profile_man.jpg',
+      petPhotoUrl: 'https://user-images.githubusercontent.com/39916941/205536665-f66549d2-57eb-425e-8468-3998a6e7ea04.png',
       latitude: 35.0414,
       longitude: -78.8713
     ),
@@ -67,7 +67,7 @@ class AppData {
       postDescription: "end of list",
       petName: "null",
       petAge: 0,
-      petPhotoUrl: 'assets/images/profile_man.jpg',
+      petPhotoUrl: 'https://user-images.githubusercontent.com/39916941/205536665-f66549d2-57eb-425e-8468-3998a6e7ea04.png',
       latitude: 33.9071,
       longitude: -78.0284
     ),

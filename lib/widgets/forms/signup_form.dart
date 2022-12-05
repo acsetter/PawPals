@@ -5,7 +5,7 @@ import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/constants/app_info.dart';
 import 'package:paw_pals/screens/home_screen.dart';
 import 'package:paw_pals/services/auth_service.dart';
-import 'package:paw_pals/widgets/buttons/contained_button.dart';
+import 'package:paw_pals/widgets/app_button.dart';
 import 'package:paw_pals/widgets/fields/new_password_field.dart';
 import 'package:paw_pals/widgets/fields/our_text_field.dart';
 import 'package:paw_pals/widgets/forms/_form_validation.dart';
@@ -75,7 +75,8 @@ class SignUpFormState extends State<SignUpForm> with FormValidation {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                ContainedButton(
+                AppButton(
+                  appButtonType: AppButtonType.contained,
                   icon: AppIcons.signUp,
                   onPressed: () {
                     //TODO: Interface with database for sign up here.

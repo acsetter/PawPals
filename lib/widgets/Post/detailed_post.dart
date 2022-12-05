@@ -9,7 +9,7 @@ import 'package:paw_pals/models/post_model.dart';
 import 'package:paw_pals/screens/profile/profile_screen.dart';
 import 'package:paw_pals/services/location_services.dart';
 import 'package:paw_pals/utils/app_utils.dart';
-import 'package:paw_pals/widgets/buttons/app_button.dart';
+import 'package:paw_pals/widgets/app_button.dart';
 import 'package:paw_pals/constants/app_icons.dart';
 import 'package:paw_pals/utils/app_log.dart';
 
