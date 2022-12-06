@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:paw_pals/services/auth_service.dart';
 
 import 'package:paw_pals/utils/app_log.dart';
@@ -9,6 +10,10 @@ import 'package:paw_pals/my_app.dart';
 /// Main entry point into the application.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
   Logger.log('Initialize Firebase service plugins...');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

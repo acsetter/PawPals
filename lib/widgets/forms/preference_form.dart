@@ -241,8 +241,7 @@ class _PreferenceFormState extends State<PreferenceForm> {
                           isPetFriendly: _petFriendlySelection,
                           isKidFriendly: _kidFriendlySelection))
                       .then((val) {
-                    Get.appUpdate();
-                    Get.offAll(const FeedScreen());
+                    Get.offAll(() => const FeedScreen());
                   });
                 },
                 child: const Text("Save"))

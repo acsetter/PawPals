@@ -89,7 +89,7 @@ mixin FormValidation<T extends StatefulWidget> on State<T> {
     if (value == null || value.isEmpty) {
       return ("No pet name");
     }
-    if (!RegExpressions.alpha.hasMatch(value)) {
+    if (!RegExpressions.name.hasMatch(value)) {
       return ("Invalid pet name");
     }
 

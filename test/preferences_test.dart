@@ -6,7 +6,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:paw_pals/constants/app_types.dart';
 import 'package:paw_pals/utils/app_localizations.dart';
 import 'package:paw_pals/widgets/forms/preference_form.dart';
-import 'package:paw_pals/widgets/johnathanmockfirebase.dart';
+import 'package:paw_pals/widgets/testing/mock_firebase.dart';
 
 /// Johnathan Widget Testing - Preferences Testing
 /// This should test the Preferences to make sure it is
@@ -21,7 +21,7 @@ void main() {
 
   TestWidgetsFlutterBinding.ensureInitialized();
   testWidgets("Preferences Tests", (tester) async {
-    await tester.pumpWidget(GetMaterialApp(
+    await tester.pumpWidget(const GetMaterialApp(
       home: Scaffold(
         body: PreferenceForm(),
       ),

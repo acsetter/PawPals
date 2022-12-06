@@ -27,25 +27,26 @@ class _FeedScreenState extends State<FeedScreen> {
   final String screenTitle = "Feed";
 
   Future<List<PostModel>> fetchPosts() async {
-    List<PostModel>? posts = await FirestoreService.getPreferences()
-        .then((prefModel) => FirestoreService.getFeedPosts(prefModel));
-    posts ??= AppData.post;
+    List<PostModel> posts = await FirestoreService.getPreferences()
+        .then((prefModel) => FirestoreService.getFeedPosts(prefModel)) ?? AppData.post;
     posts.add(AppData.post[0]);
     posts.add(AppData.post[1]);
-    for(var i =0; i< posts.length; i++) {
-      if (posts[i].uid == FirebaseAuth.instance.currentUser?.uid) {
-        posts.removeAt(i);
-      }
+    var uid = FirebaseAuth.instance.currentUser?.uid;
+    var likedPosts = await FirestoreService.getUser()
+        .then((userModel) => userModel?.likedPosts);
 
-      var likedPosts = AppUser.instance.userModel?.likedPosts;
-      likedPosts ??= await FirestoreService.getUser().then((userModel) => userModel?.likedPosts);
-      if (likedPosts != null &&
-          likedPosts.any((pid) => pid == posts?[i].postId)) {
-        posts.removeAt(i);
+    List<PostModel> returnedPosts = [];
+
+    for (PostModel post in posts) {
+      if (post.uid != uid && !likedPosts!.any((pid) => pid == post.postId)) {
+        returnedPosts.add(post);
       }
     }
 
-    return posts;
+    returnedPosts.add(AppData.post[0]);
+    returnedPosts.add(AppData.post[1]);
+
+    return returnedPosts;
   }
 
   @override

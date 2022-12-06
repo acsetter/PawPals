@@ -100,7 +100,9 @@ class AppImageState extends State<AppImage> {
 
   @override
   Widget build(BuildContext context) {
-    listeners.forEach((listener) => _controller?.addListener(listener));
+    for (var listener in listeners) {
+      _controller?.addListener(listener);
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -151,7 +153,9 @@ class AppImageState extends State<AppImage> {
 
   @override
   void dispose() {
-    listeners.forEach((listener) => _controller?.removeListener(listener));
+    for (var listener in listeners) {
+      _controller?.removeListener(listener);
+    }
     _controller?.dispose();
     super.dispose();
   }
