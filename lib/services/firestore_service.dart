@@ -385,8 +385,8 @@ class FirestoreService {
     return LocationService.updatePostListWithSearchRadius(
       oldPostModelList: await _posts
       // .where("uid", isNotEqualTo: _uid)
-      .where("isKidFriendly", isEqualTo: prefModel?.isKidFriendly)
-      .where("isPetFriendly", isEqualTo: prefModel?.isPetFriendly)
+      .where("isKidFriendly", isEqualTo: prefModel?.isKidFriendly == true ? true : null)
+      .where("isPetFriendly", isEqualTo: prefModel?.isPetFriendly == true ? true : null)
       .where("petAge", isGreaterThanOrEqualTo: prefModel?.minAge ?? AppInfo.minPetAge)
       .where("petAge", isLessThanOrEqualTo: prefModel?.maxAge ?? AppInfo.maxPetAge)
       .where("petGender", isEqualTo: prefModel?.petGender?.name)
@@ -397,8 +397,7 @@ class FirestoreService {
       .get()
       .then(
         (value) => List<PostModel>.from(value.docs.map((snapshot) => snapshot.data())),
-        // must print to get link for creating index:
-        onError: (e) => print(e.toString())), 
+        onError: (e) => Logger.log(e.toString())),
       userPreferenceModel: prefModel);
     
   }

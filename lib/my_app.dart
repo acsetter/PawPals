@@ -14,22 +14,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'PawPals',
-      home: const AuthWrapper(home: HomeScreen(), login: LoginScreen()),
-      locale: const Locale("en", "US"),
-      builder: (context, child) {
-        return Overlay(
-          initialEntries: [
-            OverlayEntry(builder: (context) => Navbar(child: child))
-          ],
-        );
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
       },
-      localizationsDelegates: const [
-        AppLocalizations.delegate
-      ],
-      theme: AppTheme.light()
+      child: GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'PawPals',
+          home: const AuthWrapper(home: HomeScreen(), login: LoginScreen()),
+          locale: const Locale("en", "US"),
+          builder: (context, child) {
+            return Overlay(
+              initialEntries: [
+                OverlayEntry(builder: (context) => Navbar(child: child))
+              ],
+            );
+          },
+          localizationsDelegates: const [
+            AppLocalizations.delegate
+          ],
+          theme: AppTheme.light()
+      )
     );
   }
 }

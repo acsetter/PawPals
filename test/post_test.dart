@@ -10,7 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:paw_pals/SavannahFirebase.dart';
+import 'package:paw_pals/widgets/testing/mock_firebase.dart';
 import 'package:paw_pals/screens/feed_screen.dart';
 import 'package:paw_pals/utils/app_localizations.dart';
 

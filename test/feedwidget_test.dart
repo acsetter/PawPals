@@ -6,11 +6,10 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:paw_pals/mockFirebase.dart';
+import 'package:paw_pals/widgets/testing/mock_firebase.dart';
 import 'package:paw_pals/screens/feed_screen.dart';
 import 'package:paw_pals/utils/app_localizations.dart';
 
@@ -59,7 +58,7 @@ void main() {
       localizationsDelegates: [AppLocalizations.delegate],
     ));
     await tester.pump(const Duration(seconds: 100));
-    var posts = find.byType(Draggable);
+    // var posts = find.byType(Draggable);
     await tester.dragFrom(const Offset(0.0, 0.0), const Offset(0.0, 201.0));
     await tester.pumpAndSettle();
     expect(find.byType(SnackBarAction), find.text("    Like!"));
@@ -71,7 +70,7 @@ void main() {
       localizationsDelegates: [AppLocalizations.delegate],
     ));
     await tester.pump(const Duration(seconds: 100));
-    var posts = find.byType(Draggable);
+    // var posts = find.byType(Draggable);
     await tester.dragFrom(const Offset(0.0, 0.0), const Offset(0.0, -201.0));
     await tester.pumpAndSettle();
     expect(find.byType(SnackBarAction), find.text("Dislike"));
