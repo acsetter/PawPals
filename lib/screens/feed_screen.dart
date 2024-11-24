@@ -68,7 +68,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   body: BlocBuilder<SwipeBlock, SwipeState>(
                       builder: (context, state) {
                         if(state is SwipeLoading){
-                          return const Center(child: CircularProgressIndicator(),);
+                          return const Center(child: CircularProgressIndicator());
                         }
                         else if (state is SwipeLoaded){
                           return Column(
@@ -78,7 +78,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                 feedback: ScreenCards(post: state.posts[0]),
                                 childWhenDragging: ScreenCards(post: state.posts[1]),
                                 onDragEnd: (drag) {
-                                  if(state.posts.length == 2){
+                                  if(state.posts.length == 2) {
                                     showFloatingEndSnackBar(context);
                                   }
                                   // ignore: unnecessary_null_comparison

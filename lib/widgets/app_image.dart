@@ -159,5 +159,4 @@ class AppImageState extends State<AppImage> {
     _controller?.dispose();
     super.dispose();
   }
-
 }

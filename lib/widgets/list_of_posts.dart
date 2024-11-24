@@ -103,8 +103,8 @@ class MyCardForDisplay extends StatelessWidget {
             children: [
               CachedNetworkImage(
                 fit: BoxFit.cover,
-                width: 160,
-                height: 160,
+                width: 165,
+                height: 165,
                 imageUrl: post.petPhotoUrl!,
               ),
               Padding(
